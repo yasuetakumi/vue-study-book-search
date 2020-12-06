@@ -20,6 +20,8 @@ Vue.use(VCurrencyField, {
   allowNegative: true
 });
 
+axios.defaults.withCredentials = true;
+axios.defaults.crossDomain = true;
 Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
