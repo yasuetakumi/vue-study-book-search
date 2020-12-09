@@ -1,7 +1,7 @@
 <template>
   <v-main>
     <v-card
-      :loading="loading"
+      :loading="isLoading"
       class="login-card"
       max-width="374"
       style="top:50%"
@@ -46,8 +46,7 @@ export default {
   data: () => ({
     email: "",
     password: "",
-    remember: false,
-    loading: false
+    remember: false
   }),
 
   computed: mapState({
