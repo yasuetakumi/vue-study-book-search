@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- @TODO: Modify and use v-slots -->
     <v-navigation-drawer v-model="drawer" app>
       <v-list-item>
         <v-list-item-content>
@@ -126,12 +127,6 @@ export default {
     ...mapActions({
       setLocale: "global/setLocale"
     })
-    // goTo(route) {
-    //   if (this.$router.currentRoute.name !== route.name) {
-    //     console.log(route.name);
-    //     this.$router.push(route);
-    //   }
-    // }
   },
   created() {}
 };

@@ -29,7 +29,7 @@ const state = () => ({
       icon: "mdi-account-group-outline"
     }
   ],
-  activeNavMenu: "dashboard"
+  activeNavMenu: "dashboard" // @TODO: correct this
 });
 
 const getters = {};
