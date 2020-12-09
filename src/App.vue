@@ -1,21 +1,21 @@
 <template>
   <v-app id="inspire">
-    <router-view></router-view>
+    <loading-page v-if="isLoadingPage"></loading-page>
+    <router-view v-else></router-view>
   </v-app>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import LoadingPage from "./views/layouts/LoadingPage.vue";
 export default {
   data: () => ({}),
-  created() {
-    const api = process.env.VUE_APP_API_DOMAIN + "/api/auth-check";
-    this.axios
-      .get(api, {
-        headers: { crossDomain: true, "Content-Type": "application/json" }
-      })
-      .then(response => {
-        console.log(response);
-      });
+  computed: mapState({
+    isLoadingPage: state => state.global.isLoadingPage
+  }),
+  created() {},
+  components: {
+    "loading-page": LoadingPage
   }
 };
 </script>

@@ -22,6 +22,7 @@ Vue.use(VCurrencyField, {
 
 axios.defaults.withCredentials = true;
 axios.defaults.crossDomain = true;
+axios.defaults.baseURL = process.env.VUE_APP_API_ENDPOINT;
 Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;

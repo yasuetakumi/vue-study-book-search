@@ -27,6 +27,7 @@
         <v-text-field
           label="Password"
           v-model="password"
+          type="password"
           placeholder=""
           outlined
           required
@@ -40,34 +41,27 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data: () => ({
     email: "",
     password: "",
+    remember: false,
     loading: false
   }),
 
+  computed: mapState({
+    isLoading: state => state.auth.isLoading
+  }),
+
   methods: {
-    async login() {
-      this.loading = true;
-      let loginApi = process.env.VUE_APP_API_DOMAIN + "/api/login";
-      try {
-        const res = await this.axios.post(loginApi, {
-          email: this.email,
-          password: this.password,
-          remember: false
-        });
-        if (res.data.status) {
-          this.$router.push(this.$route.query.redirect);
-        } else {
-          // show error
-        }
-        this.loading = false;
-        console.log(res.data);
-      } catch (err) {
-        this.loading = false;
-        console.log(err);
-      }
+    login() {
+      let credentials = {
+        email: this.email,
+        password: this.password,
+        remember: this.remember
+      };
+      this.$store.dispatch("auth/login", credentials);
     }
   }
 };

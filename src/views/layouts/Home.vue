@@ -68,30 +68,31 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       drawer: true,
-      accountMenus: [
-        {
-          title: "Logout",
-          icon: "mdi-logout",
-          action: async () => {
-            let loginApi = process.env.VUE_APP_API_DOMAIN + "/api/logout";
-            try {
-              const res = await this.axios.get(loginApi);
-              if (res.status) {
-                this.$router.push({ name: "login" });
-              } else {
-                // show error
-              }
-              console.log(res.data);
-            } catch (err) {
-              console.log(err);
-            }
-          }
-        }
-      ],
+      // accountMenus: [
+      //   {
+      //     title: "Logout",
+      //     icon: "mdi-logout",
+      //     action: async () => {
+      //       let loginApi = process.env.VUE_APP_API_DOMAIN + "/api/logout";
+      //       try {
+      //         const res = await this.axios.get(loginApi);
+      //         if (res.status) {
+      //           this.$router.push({ name: "login" });
+      //         } else {
+      //           // show error
+      //         }
+      //         console.log(res.data);
+      //       } catch (err) {
+      //         console.log(err);
+      //       }
+      //     }
+      //   }
+      // ],
       langugages: [
         { title: "English", icon: "mdi-logout", action: "random" },
         { title: "Japanese", icon: "mdi-logout", action: "random" }
@@ -103,6 +104,9 @@ export default {
       mini: true
     };
   },
+  computed: mapState({
+    accountMenus: store => store.global.accountMenus
+  }),
   methods: {},
   created() {}
 };

@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "../store";
 import Home from "../views/layouts/Home";
 import Login from "../views/layouts/Login";
 import ErrorNotFound from "../views/layouts/ErrorNotFound";
@@ -31,7 +32,16 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: Login
+    component: Login,
+    beforeEnter: async (to, from, next) => {
+      await store.dispatch("auth/checkAuth");
+      const isAuthenticated = store.state.auth.isAuthenticated;
+      if (isAuthenticated) {
+        next({ name: "home" });
+      } else {
+        next();
+      }
+    }
   },
   {
     path: "/404",
@@ -42,6 +52,11 @@ const routes = [
     path: "/500",
     name: "errorUnexpected",
     component: ErrorUnexpected
+  },
+  {
+    name: "catchAll",
+    path: "*",
+    redirect: { name: "home" }
   }
 ];
 
@@ -52,10 +67,9 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    const api = process.env.VUE_APP_API_DOMAIN + "/api/auth-check";
-    const isAuthenticated = await Vue.axios.get(api);
-    console.log(isAuthenticated);
-    if (!isAuthenticated.data.status) {
+    await store.dispatch("auth/checkAuth");
+    const isAuthenticated = store.state.auth.isAuthenticated;
+    if (!isAuthenticated) {
       next({
         name: "login",
         query: { redirect: to.fullPath }
