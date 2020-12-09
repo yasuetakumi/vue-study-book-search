@@ -7,7 +7,7 @@
 
 <script>
 import { mapState } from "vuex";
-import LoadingPage from "./views/layouts/LoadingPage.vue";
+import LoadingPage from "./components/LoadingPage.vue";
 export default {
   data: () => ({}),
   computed: mapState({

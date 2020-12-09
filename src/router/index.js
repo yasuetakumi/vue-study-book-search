@@ -1,11 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "../store";
-import Home from "../views/layouts/Home";
-import Login from "../views/layouts/Login";
-import ErrorNotFound from "../views/layouts/ErrorNotFound";
-import ErrorUnexpected from "../views/layouts/ErrorUnexpected";
-import About from "../views/About.vue";
+import Login from "../views/auth/Login";
+import Home from "../views/main/Home";
+import Dashboard from "../views/main/Dashboard";
+import Users from "../views/main/Users";
+import ErrorNotFound from "../views/error/ErrorNotFound";
+import ErrorUnexpected from "../views/error/ErrorUnexpected";
 
 Vue.use(VueRouter);
 
@@ -19,13 +20,14 @@ const routes = [
     },
     children: [
       {
-        path: "/dashboard",
-        name: "dashboard"
+        path: "dashboard",
+        name: "dashboard",
+        component: Dashboard
       },
       {
-        path: "/about",
-        name: "about",
-        component: About
+        path: "users",
+        name: "users",
+        component: Users
       }
     ]
   },
