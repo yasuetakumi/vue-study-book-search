@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "../store";
 import Login from "../views/auth/Login";
-import Home from "../views/main/Home";
+import AppBase from "../views/main/layouts/AppBase";
 import Dashboard from "../views/main/Dashboard";
 import Users from "../views/main/Users";
 import ErrorNotFound from "../views/error/ErrorNotFound";
@@ -14,9 +14,10 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Home,
+    component: AppBase,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      main: true
     },
     children: [
       {
@@ -68,6 +69,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  if (to.matched.some(record => record.meta.main)) {
+    store.commit("global/setActiveNavMenu", to.name);
+  }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     await store.dispatch("auth/checkAuth");
     const isAuthenticated = store.state.auth.isAuthenticated;

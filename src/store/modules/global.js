@@ -29,7 +29,8 @@ const state = () => ({
       icon: "mdi-account-group-outline"
     }
   ],
-  activeNavMenu: "dashboard" // @TODO: correct this
+  activeNavMenu: "dashboard", // @TODO: correct this
+  drawerOpen: true
 });
 
 const getters = {};
@@ -42,6 +43,9 @@ const actions = {
 };
 
 const mutations = {
+  toggleDrawer(state) {
+    state.drawerOpen = !state.drawerOpen;
+  },
   setLocale(state, locale) {
     state.locale = locale;
   },
