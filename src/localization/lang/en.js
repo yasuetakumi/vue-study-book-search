@@ -12,6 +12,11 @@ const en = {
       logout: "Logout",
       register: "Register"
     },
+    user: {
+      firstName: "First Name",
+      lastName: "Last Name",
+      fullName: "Fullname"
+    },
     role: {
       role: "Role",
       admin: "Administrator",

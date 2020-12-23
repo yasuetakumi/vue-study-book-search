@@ -12,6 +12,11 @@ const ja = {
       logout: "ログアウト",
       register: "登録"
     },
+    user: {
+      firstName: "First Name",
+      lastName: "Last Name",
+      fullName: "Fullname"
+    },
     role: {
       role: "役割",
       admin: "管理者",

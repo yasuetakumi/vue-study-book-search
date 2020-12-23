@@ -49,9 +49,16 @@ export default {
         this.$store.commit("global/setActiveNavMenu", route);
       }
     },
+    drawerOpen: {
+      get() {
+        return this.$store.state.global.drawerOpen;
+      },
+      set(drawer) {
+        this.$store.commit("global/toggleDrawer", drawer);
+      }
+    },
     ...mapState({
-      navLeftMenus: store => store.global.navLeftMenus,
-      drawerOpen: store => store.global.drawerOpen
+      navLeftMenus: store => store.global.navLeftMenus
     })
   },
   created() {}

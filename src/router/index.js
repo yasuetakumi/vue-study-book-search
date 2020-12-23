@@ -1,12 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import store from "../store";
-import Login from "../views/auth/Login";
-import AppBase from "../views/main/layouts/AppBase";
-import Dashboard from "../views/main/Dashboard";
-import Users from "../views/main/Users";
-import ErrorNotFound from "../views/error/ErrorNotFound";
-import ErrorUnexpected from "../views/error/ErrorUnexpected";
+import store from "@/store";
+import AppBase from "@views/main/layouts/AppBase";
+import Dashboard from "@views/main/Dashboard";
+import users from "./users";
+import errors from "./errors";
+import auth from "./auth";
 
 Vue.use(VueRouter);
 
@@ -25,37 +24,11 @@ const routes = [
         name: "dashboard",
         component: Dashboard
       },
-      {
-        path: "users",
-        name: "users",
-        component: Users
-      }
+      ...users
     ]
   },
-  {
-    path: "/login",
-    name: "login",
-    component: Login,
-    beforeEnter: async (to, from, next) => {
-      await store.dispatch("auth/checkAuth");
-      const isAuthenticated = store.state.auth.isAuthenticated;
-      if (isAuthenticated) {
-        next({ name: "home" });
-      } else {
-        next();
-      }
-    }
-  },
-  {
-    path: "/404",
-    name: "errorNotFound",
-    component: ErrorNotFound
-  },
-  {
-    path: "/500",
-    name: "errorUnexpected",
-    component: ErrorUnexpected
-  },
+  ...auth,
+  ...errors,
   {
     name: "catchAll",
     path: "*",

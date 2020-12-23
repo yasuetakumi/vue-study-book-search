@@ -1,6 +1,6 @@
 <template>
   <v-app-bar flat app>
-    <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon @click="toggleDrawer(!drawerOpen)"></v-app-bar-nav-icon>
     <v-spacer></v-spacer>
 
     <v-menu offset-y>
@@ -53,7 +53,8 @@ export default {
     ...mapState({
       accountMenus: store => store.global.accountMenus,
       locale: store => store.global.locale,
-      languages: store => store.global.languages
+      languages: store => store.global.languages,
+      drawerOpen: store => store.global.drawerOpen
     })
   },
   methods: {

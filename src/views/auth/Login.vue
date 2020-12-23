@@ -15,7 +15,7 @@
           <v-card-subtitle>{{
             $t("general.auth.signInMessage")
           }}</v-card-subtitle>
-          <v-form class="ma-3">
+          <v-form class="ma-3" @submit.prevent="login">
             <v-text-field
               :label="$t('general.auth.email')"
               v-model="email"
@@ -31,12 +31,12 @@
               outlined
               required
             ></v-text-field>
+            <v-card-actions>
+              <v-btn block class="pa-2" color="primary" type="submit">{{
+                $t("general.auth.login")
+              }}</v-btn>
+            </v-card-actions>
           </v-form>
-          <v-card-actions>
-            <v-btn block class="pa-2" color="primary" @click="login">{{
-              $t("general.auth.login")
-            }}</v-btn>
-          </v-card-actions>
         </v-card>
       </v-container>
       <v-container>

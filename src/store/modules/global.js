@@ -1,5 +1,5 @@
 import store from "../index";
-import i18n, { availableLangs } from "../../localization";
+import i18n, { availableLangs } from "@/localization";
 
 const state = () => ({
   locale: "ja",
@@ -43,8 +43,8 @@ const actions = {
 };
 
 const mutations = {
-  toggleDrawer(state) {
-    state.drawerOpen = !state.drawerOpen;
+  toggleDrawer(state, drawerOpen) {
+    state.drawerOpen = drawerOpen;
   },
   setLocale(state, locale) {
     state.locale = locale;

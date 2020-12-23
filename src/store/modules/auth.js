@@ -1,5 +1,5 @@
-import auth from "../../services/auth";
-import router from "../../router";
+import auth from "@services/auth";
+import router from "@router";
 
 const state = () => ({
   isLoading: false,

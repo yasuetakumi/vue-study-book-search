@@ -15,7 +15,7 @@ export default {
   }),
   created() {},
   components: {
-    "loading-page": LoadingPage
+    LoadingPage
   }
 };
 </script>
