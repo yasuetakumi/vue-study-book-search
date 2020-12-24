@@ -21,6 +21,7 @@ pipelines:
             - pipe: atlassian/ssh-run:0.2.2
               variables:
                 SSH_USER: $SSH_USER
+                SSH_KEY: $MY_SSH_KEY
                 SERVER: $SSH_HOST
                 COMMAND: 'cd gruneasia2.info/public_html/spa-starter-vue2 && npm install && npm run dev'
                 PORT: $SSH_PORT
