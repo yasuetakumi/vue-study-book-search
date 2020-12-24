@@ -19,7 +19,7 @@ const state = () => ({
     {
       id: "dashboard",
       label: "general.nav.dashboard",
-      route: "dashboard",
+      route: { name: "dashboard" },
       icon: "mdi-home-city",
       hasChildren: false
     },
@@ -65,9 +65,6 @@ const mutations = {
   },
   setLoadingPage(state, isLoading) {
     state.loadingPage = isLoading;
-  },
-  setActiveNavMenu(state, route) {
-    state.activeNavMenu = route;
   }
 };
 

@@ -7,20 +7,20 @@
     </v-skeleton-loader>
     <v-sheet
       v-if="!loadingComponent"
-      elevation="5"
+      elevation="1"
       min-height="70vh"
       width="100%"
-      :rounded="'xl'"
+      :rounded="'sm'"
     >
       <v-container class="px-10">
-        <input-group :title="$t('general.auth.email')">
+        <input-group required :title="$t('general.auth.email')">
           <v-text-field outlined v-model="email"></v-text-field>
         </input-group>
-        <input-group :title="$t('general.user.fullName')">
+        <input-group required :title="$t('general.user.fullName')">
           <v-text-field outlined v-model="displayName"></v-text-field>
         </input-group>
-        <input-group :title="$t('general.auth.password')">
-          <v-text-field outlined v-model="password"></v-text-field>
+        <input-group required :title="$t('general.auth.password')">
+          <password-input outlined v-model="password"></password-input>
         </input-group>
         <v-btn @click="submit">SUBMIT</v-btn>
       </v-container>
@@ -30,6 +30,7 @@
 <script>
 import InputGroup from "@/components/InputGroup.vue";
 import { store, show, update } from "@services/crud";
+import PasswordInput from "../../../components/PasswordInput.vue";
 export default {
   data() {
     return {
@@ -76,7 +77,8 @@ export default {
     }
   },
   components: {
-    InputGroup
+    InputGroup,
+    PasswordInput
   }
 };
 </script>
