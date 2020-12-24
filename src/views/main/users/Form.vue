@@ -13,16 +13,33 @@
       :rounded="'sm'"
     >
       <v-container class="px-10">
-        <input-group required :title="$t('general.auth.email')">
-          <v-text-field outlined v-model="email"></v-text-field>
-        </input-group>
-        <input-group required :title="$t('general.user.fullName')">
-          <v-text-field outlined v-model="displayName"></v-text-field>
-        </input-group>
-        <input-group required :title="$t('general.auth.password')">
-          <password-input outlined v-model="password"></password-input>
-        </input-group>
-        <v-btn @click="submit">SUBMIT</v-btn>
+        <v-form ref="userForm" @submit.prevent="submit">
+          <input-group required :title="$t('general.auth.email')">
+            <v-text-field
+              :rules="rules.email"
+              outlined
+              v-model="email"
+            ></v-text-field>
+          </input-group>
+          <input-group required :title="$t('general.user.fullName')">
+            <v-text-field
+              :rules="rules.name"
+              outlined
+              v-model="displayName"
+            ></v-text-field>
+          </input-group>
+          <input-group required :title="$t('general.auth.password')">
+            <password-input
+              :rules="rules.password"
+              outlined
+              v-model="password"
+            ></password-input>
+          </input-group>
+          <input-group optional :title="$t('general.user.profPic')">
+            <image-input accept="image/*" v-model="profPic"></image-input>
+          </input-group>
+          <v-btn type="submit">SUBMIT</v-btn>
+        </v-form>
       </v-container>
     </v-sheet>
   </div>
@@ -31,30 +48,48 @@
 import InputGroup from "@/components/InputGroup.vue";
 import { store, show, update } from "@services/crud";
 import PasswordInput from "../../../components/PasswordInput.vue";
+import ImageInput from "../../../components/ImageInput.vue";
 export default {
   data() {
     return {
+      rules: {
+        name: [v => !!v || "Name is required"],
+        password: [v => !!v || "Password is required"],
+        email: [
+          v => !!v || "E-mail is required",
+          v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+        ]
+      },
       editPage: false,
       submitUrl: "",
       loadingComponent: false,
       id: null,
       email: "",
       displayName: "",
-      password: ""
+      password: "",
+      profPic: null
     };
   },
   methods: {
     async submit() {
-      let payload = {
-        email: this.email,
-        display_name: this.displayName,
-        password: this.password
-      };
-      const res = this.editPage
-        ? await update(this.url, payload)
-        : await store(this.url, payload);
-      if (res) {
-        console.log(res);
+      console.log(this.profPic);
+      if (this.$refs.userForm.validate()) {
+        let options = {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        };
+        let payload = new FormData();
+        payload.append("email", this.email);
+        payload.append("display_name", this.displayName);
+        payload.append("password", this.password);
+        payload.append("prof_pic", this.profPic);
+        const res = this.editPage
+          ? await update(this.url, payload, options)
+          : await store(this.url, payload, options);
+        if (res) {
+          console.log(res);
+        }
       }
     }
   },
@@ -78,7 +113,8 @@ export default {
   },
   components: {
     InputGroup,
-    PasswordInput
+    PasswordInput,
+    ImageInput
   }
 };
 </script>
