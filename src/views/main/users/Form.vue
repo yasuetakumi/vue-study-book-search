@@ -1,9 +1,12 @@
 <template>
   <div>
-    <v-skeleton-loader v-if="loading" type="card-avatar, article, actions">
+    <v-skeleton-loader
+      v-if="loadingComponent"
+      type="card-avatar, article, actions"
+    >
     </v-skeleton-loader>
     <v-sheet
-      v-if="!loading"
+      v-if="!loadingComponent"
       elevation="5"
       min-height="70vh"
       width="100%"
@@ -32,7 +35,7 @@ export default {
     return {
       editPage: false,
       submitUrl: "",
-      loading: true,
+      loadingComponent: false,
       id: null,
       email: "",
       displayName: "",
@@ -56,7 +59,7 @@ export default {
   },
   async created() {
     if (this.$route.meta.editPage) {
-      this.loading = true;
+      this.loadingComponent = true;
       const id = this.$route.params.id;
       this.id = id;
       this.url = `users/${id}`;
@@ -67,7 +70,7 @@ export default {
         this.displayName = display_name;
         this.password = password;
       }
-      this.loading = false;
+      this.loadingComponent = false;
     } else {
       this.url = "users";
     }

@@ -1,21 +1,16 @@
 <template>
   <v-app id="inspire">
-    <loading-page v-if="isLoadingPage"></loading-page>
-    <router-view v-else></router-view>
+    <v-progress-linear indeterminate v-if="loadingPage"></v-progress-linear>
+    <router-view></router-view>
   </v-app>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import LoadingPage from "./components/LoadingPage.vue";
 export default {
   data: () => ({}),
   computed: mapState({
-    isLoadingPage: state => state.global.isLoadingPage
-  }),
-  created() {},
-  components: {
-    LoadingPage
-  }
+    loadingPage: state => state.global.loadingPage
+  })
 };
 </script>

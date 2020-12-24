@@ -1,23 +1,31 @@
 <template>
-  <div>
-    <v-data-table
-      :headers="headers"
-      :items="users"
-      :options.sync="options"
-      :server-items-length="totalUsers"
-      :loading="loading"
-      class="elevation-1"
-    >
-      <template v-slot:item.action="{ item }">
-        <v-btn color="primary" class="mx-2" @click="editUser(item.id)">
-          <v-icon>mdi-account-edit</v-icon>
-        </v-btn>
-        <v-btn color="error" class="mx-2" @click="deleteUser(item.id)">
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-      </template>
-    </v-data-table>
-  </div>
+  <v-data-table
+    :headers="headers"
+    :items="users"
+    :options.sync="options"
+    :server-items-length="totalUsers"
+    :loading="loading"
+    class="elevation-1"
+  >
+    <template v-slot:item.action="{ item }">
+      <v-btn
+        :disabled="loading"
+        color="primary"
+        class="mx-2"
+        @click="editUser(item.id)"
+      >
+        <v-icon>mdi-account-edit</v-icon>
+      </v-btn>
+      <v-btn
+        :disabled="loading"
+        color="error"
+        class="mx-2"
+        @click="deleteUser(item.id)"
+      >
+        <v-icon>mdi-delete</v-icon>
+      </v-btn>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
@@ -25,8 +33,6 @@ import { destroy, getAll } from "@services/crud";
 export default {
   data() {
     return {
-      props: [],
-
       totalUsers: 0,
       users: [],
       loading: true,
@@ -79,11 +85,13 @@ export default {
       this.loading = false;
     },
     deleteUser: async function(id) {
+      this.loading = true;
       let url = `users/${id}`;
       const res = await destroy(url);
       if (res) {
         this.getAllUsers();
       }
+      this.loading = false;
     },
     editUser: function(id) {
       this.$router.push({ name: "users.edit", params: { id } });
