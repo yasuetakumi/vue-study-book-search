@@ -9,7 +9,6 @@ pipelines:
           script:
             - apt-get update
             - apt-get -y install sshpass
-            - git ftp init --user $FTP_USERNAME_TEST --passwd $FTP_PASSWORD_TEST $FTP_HOST_PATH_TEST
             - sshpass -p "$FTP_PASSWORD_TEST" rsync -v -e "ssh -p $SSH_PORT" -arz --exclude='.git/' * $SSH_USER@$SSH_HOST:gruneasia2.info/public_html/spa-starter-vue2
       # - step:
       #     caches:
