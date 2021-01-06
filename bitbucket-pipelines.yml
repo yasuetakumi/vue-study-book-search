@@ -2,14 +2,14 @@ image: atlassian/default-image:latest
 
 pipelines:
   branches:
-    release/test_deploy:
-      - step:
-          caches:
-            - composer
-          script:
-            - apt-get update
-            - apt-get -y install sshpass
-            - sshpass -p "$FTP_PASSWORD_TEST" rsync -v -e "ssh -p $SSH_PORT" -arz --exclude='.git/' * $SSH_USER@$SSH_HOST:gruneasia2.info/public_html/spa-starter-vue2
+    # release/test_deploy:
+    #   - step:
+    #       caches:
+    #         - composer
+    #       script:
+    #         - apt-get update
+    #         - apt-get -y install sshpass
+    #         - sshpass -p "$FTP_PASSWORD_TEST" rsync -v -e "ssh -p $SSH_PORT" -arz --exclude-from=deployment-exclude-list.txt * $SSH_USER@$SSH_HOST:gruneasia2.info/public_html/spa-starter-vue2
       # - step:
       #     caches:
       #       - composer
@@ -40,7 +40,7 @@ pipelines:
             - apt-get update
             - apt-get -qq install git-ftp
             - git ftp push --user $FTP_USERNAME_TEST --passwd $FTP_PASSWORD_TEST $FTP_HOST_PATH_TEST
-    test_deploy_init: #please create this branch first time before start test_deploy.
+    release/test_deploy_init: #please create this branch first time before start test_deploy.
       - step:
           caches:
             - composer
