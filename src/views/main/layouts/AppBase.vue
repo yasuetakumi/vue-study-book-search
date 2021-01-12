@@ -6,7 +6,7 @@
     <v-main>
       <v-progress-linear v-if="loadingPage" indeterminate></v-progress-linear>
       <v-container class="py-8 px-6 mb-10" fluid>
-        <router-view></router-view>
+        <router-view :key="$route.path"></router-view>
       </v-container>
       <base-footer></base-footer>
     </v-main>
