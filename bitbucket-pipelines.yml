@@ -2,26 +2,49 @@ image: atlassian/default-image:latest
 
 pipelines:
   branches:
-    release/test_deploy:
+    # release/test_deploy:
+    #   - step:
+    #       caches:
+    #         - composer
+    #       script:
+    #         - apt-get update
+    #         - apt-get -y install sshpass
+    #         - sshpass -p "$FTP_PASSWORD_TEST" rsync -v -e "ssh -p $SSH_PORT" -arz --exclude-from=deployment-exclude-list.txt * $SSH_USER@$SSH_HOST:gruneasia2.info/public_html/spa-starter-vue2
+      # - step:
+      #     caches:
+      #       - composer
+      #     script:
+      #       - pipe: atlassian/rsync-deploy:0.3.1
+      #         variables:
+      #           USER: $SSH_USER
+      #           SERVER: $SSH_HOST
+      #           REMOTE_PATH: 'gruneasia2.info/public_html/spa-starter-vue2'
+      #           LOCAL_PATH: '.'
+      #           EXTRA_ARGS: '-p udw30cfw --exclude-from=deployment-exclude-list.txt'
+      #           DEBUG: 'true'
+      #           SSH_PORT: $SSH_PORT
+      # - step:
+      #     script:
+      #       - pipe: atlassian/ssh-run:0.2.2
+      #         variables:
+      #           SSH_USER: $SSH_USER
+      #           SSH_KEY: $MY_SSH_KEY
+      #           SERVER: $SSH_HOST
+      #           COMMAND: 'cd gruneasia2.info/public_html/spa-starter-vue2 && npm install && npm run dev'
+      #           PORT: $SSH_PORT
+    release/test_deploy_ftp:
       - step:
           caches:
             - composer
           script:
-            - pipe: atlassian/rsync-deploy:0.3.1
-              variables:
-                USER: $SSH_USER
-                SERVER: $SSH_HOST
-                REMOTE_PATH: 'gruneasia2.info/public_html/spa-starter-vue2'
-                LOCAL_PATH: '.'
-                EXTRA_ARGS: '-p udw30cfw --exclude-from=deployment-exclude-list.txt'
-                DEBUG: 'true'
-                SSH_PORT: $SSH_PORT
+            - apt-get update
+            - apt-get -qq install git-ftp
+            - git ftp push --user $FTP_USERNAME_TEST --passwd $FTP_PASSWORD_TEST $FTP_HOST_PATH_TEST
+    release/test_deploy_init: #please create this branch first time before start test_deploy.
       - step:
+          caches:
+            - composer
           script:
-            - pipe: atlassian/ssh-run:0.2.2
-              variables:
-                SSH_USER: $SSH_USER
-                SSH_KEY: $MY_SSH_KEY
-                SERVER: $SSH_HOST
-                COMMAND: 'cd gruneasia2.info/public_html/spa-starter-vue2 && npm install && npm run dev'
-                PORT: $SSH_PORT
+            - apt-get update
+            - apt-get -qq install git-ftp
+            - git ftp init --user $FTP_USERNAME_TEST --passwd $FTP_PASSWORD_TEST $FTP_HOST_PATH_TEST
