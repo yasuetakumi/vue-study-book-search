@@ -4,11 +4,7 @@
       <v-container class="d-flex justify-center">
         <v-card :loading="isLoading" width="374">
           <template slot="progress">
-            <v-progress-linear
-              color="deep-purple"
-              height="10"
-              indeterminate
-            ></v-progress-linear>
+            <v-progress-linear height="10" indeterminate></v-progress-linear>
           </template>
 
           <v-card-title>{{ $t("general.auth.welcome") }}</v-card-title>

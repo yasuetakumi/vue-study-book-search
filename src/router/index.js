@@ -42,9 +42,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (to.matched.some(record => record.meta.main)) {
-    store.commit("global/setActiveNavMenu", to.name);
-  }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     await store.dispatch("auth/checkAuth");
     const isAuthenticated = store.state.auth.isAuthenticated;

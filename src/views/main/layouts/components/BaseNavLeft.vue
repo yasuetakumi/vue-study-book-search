@@ -14,20 +14,42 @@
     <v-divider></v-divider>
 
     <v-list dense nav>
-      <v-list-item-group v-model="activeNavMenu">
-        <v-list-item
-          v-for="menu in navLeftMenus"
-          :key="menu.title"
-          :value="menu.route"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ menu.icon }}</v-icon>
-          </v-list-item-icon>
+      <v-list-item-group>
+        <template v-for="menu in navLeftMenus">
+          <v-list-item v-if="!menu.hasChildren" :key="menu.id" :to="menu.route">
+            <v-list-item-icon>
+              <v-icon>{{ menu.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ $t(menu.label) }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ $t(menu.label) }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+          <v-list-group v-else :key="menu.id">
+            <template v-slot:activator>
+              <v-list-item-icon>
+                <v-icon>{{ menu.icon }}</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>{{ $t(menu.label) }}</v-list-item-title>
+              </v-list-item-content>
+            </template>
+
+            <v-list-item
+              v-for="submenu in menu.children"
+              :key="submenu.title"
+              :to="submenu.route"
+              exact
+            >
+              <v-list-item-icon>
+                <v-icon>{{ submenu.icon }}</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>{{ $t(submenu.label) }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+        </template>
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
@@ -37,18 +59,6 @@
 import { mapState } from "vuex";
 export default {
   computed: {
-    activeNavMenu: {
-      get() {
-        return this.$store.state.global.activeNavMenu;
-      },
-      set(route) {
-        if (this.$router.currentRoute.name !== route.name) {
-          console.log(route.name);
-          this.$router.push({ name: route });
-        }
-        this.$store.commit("global/setActiveNavMenu", route);
-      }
-    },
     drawerOpen: {
       get() {
         return this.$store.state.global.drawerOpen;

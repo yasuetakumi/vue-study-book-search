@@ -4,7 +4,7 @@ import i18n, { availableLangs } from "@/localization";
 const state = () => ({
   locale: "ja",
   languages: availableLangs,
-  isLoadingPage: false,
+  loadingPage: false,
   accountMenus: [
     {
       id: "logout",
@@ -19,17 +19,31 @@ const state = () => ({
     {
       id: "dashboard",
       label: "general.nav.dashboard",
-      route: "dashboard",
-      icon: "mdi-home-city"
+      route: { name: "dashboard" },
+      icon: "mdi-home-city",
+      hasChildren: false
     },
     {
       id: "users",
       label: "general.nav.users",
-      route: "users",
-      icon: "mdi-account-group-outline"
+      icon: "mdi-account-group-outline",
+      hasChildren: true,
+      children: [
+        {
+          id: "users.datatable",
+          label: "general.crud.list",
+          route: { name: "users" },
+          hasChildren: false
+        },
+        {
+          id: "users.form",
+          label: "general.crud.createNew",
+          route: { name: "users.create" },
+          hasChildren: false
+        }
+      ]
     }
   ],
-  activeNavMenu: "dashboard", // @TODO: correct this
   drawerOpen: true
 });
 
@@ -50,10 +64,7 @@ const mutations = {
     state.locale = locale;
   },
   setLoadingPage(state, isLoading) {
-    state.isLoadingPage = isLoading;
-  },
-  setActiveNavMenu(state, route) {
-    state.activeNavMenu = route;
+    state.loadingPage = isLoading;
   }
 };
 

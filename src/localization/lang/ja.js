@@ -15,7 +15,8 @@ const ja = {
     user: {
       firstName: "First Name",
       lastName: "Last Name",
-      fullName: "Fullname"
+      fullName: "Fullname",
+      profPic: "Profile Picture"
     },
     role: {
       role: "役割",
