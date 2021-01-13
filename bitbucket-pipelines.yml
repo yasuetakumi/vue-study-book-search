@@ -65,7 +65,7 @@ pipelines:
           artifacts: # Share files to after step.
             - dist/**
       - step:
-          name: Deploy to XServer by FTP: First time
+          name: Deploy to XServer by FTP (First time)
           script:
             - git config git-ftp.syncroot dist
             - git ftp init --user $FTP_USERNAME_TEST --passwd $FTP_PASSWORD_TEST $FTP_HOST_PATH_TEST
