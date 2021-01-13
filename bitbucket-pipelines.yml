@@ -49,7 +49,7 @@ pipelines:
           script:
             - apt-get update
             - apt-get -qq install git-ftp
-            - git config git-ftp.syncroot dist
+            - git config git-ftp.syncroot dist/
             - git ftp push --user $FTP_USERNAME_TEST --passwd $FTP_PASSWORD_TEST $FTP_HOST_PATH_TEST
     release/test_deploy_init: #please create this branch first time before start test_deploy.
       - step:
@@ -67,5 +67,5 @@ pipelines:
           script:
             - apt-get update
             - apt-get -qq install git-ftp
-            - git config git-ftp.syncroot dist
+            - git config git-ftp.syncroot dist/
             - git ftp init --user $FTP_USERNAME_TEST --passwd $FTP_PASSWORD_TEST $FTP_HOST_PATH_TEST
