@@ -35,6 +35,7 @@ pipelines:
       #           PORT: $SSH_PORT
     release/test_deploy_ftp:
       - step:
+          name: Yarn run build
           caches:
             - node
           script:
@@ -43,15 +44,28 @@ pipelines:
             - node
             - yarn
             - yarn run build
+          artifacts: # Share files to after step.
+            - dist/**
       - step:
+          name: Deploy to XServer by FTP
           script:
             - git config git-ftp.syncroot dist
             - git ftp push --user $FTP_USERNAME_TEST --passwd $FTP_PASSWORD_TEST $FTP_HOST_PATH_TEST
     release/test_deploy_init: #please create this branch first time before start test_deploy.
       - step:
+          name: Yarn run build
           caches:
-            - composer
+            - node
           script:
             - apt-get update
             - apt-get -qq install git-ftp
+            - node
+            - yarn
+            - yarn run build
+          artifacts: # Share files to after step.
+            - dist/**
+      - step:
+          name: Deploy to XServer by FTP: First time
+          script:
+            - git config git-ftp.syncroot dist
             - git ftp init --user $FTP_USERNAME_TEST --passwd $FTP_PASSWORD_TEST $FTP_HOST_PATH_TEST
