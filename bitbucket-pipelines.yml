@@ -73,6 +73,5 @@ pipelines:
             - git config git-ftp.user $FTP_USERNAME_TEST
             - git config git-ftp.password $FTP_PASSWORD_TEST
             - git config git-ftp.url $FTP_HOST_PATH_TEST
-            - git config git-ftp.syncroot dist/
             - ls dist
-            - git ftp init -s deploy || git ftp push -s deploy
+            - git ftp init --syncroot dist/ -s deploy || git ftp push --syncroot dist/ -s deploy
