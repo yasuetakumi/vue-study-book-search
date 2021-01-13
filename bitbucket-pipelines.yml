@@ -73,6 +73,6 @@ pipelines:
             - git config git-ftp.user $FTP_USERNAME_TEST
             - git config git-ftp.password $FTP_PASSWORD_TEST
             - git config git-ftp.url $FTP_HOST_PATH_TEST
-            - git config git-ftp.syncroot dist/
+            - git config git-ftp.syncroot dist/ # .git-ftp-include file is necessary because dist directory is ignored by .gitignore
             - ls dist
             - git ftp init -s deploy || git ftp push -s deploy
