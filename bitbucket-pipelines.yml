@@ -40,6 +40,7 @@ pipelines:
             - apt-get update
             - apt-get -qq install git-ftp
             - npm install -g yarn
+            - npm install
             - yarn install
             - yarn build
             - git config git-ftp.syncroot dist
