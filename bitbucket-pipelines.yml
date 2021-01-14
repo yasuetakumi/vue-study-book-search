@@ -10,8 +10,7 @@ pipelines:
           script:
             - node
             - yarn
-            - rm .env && echo "VUE_APP_API_ENDPOINT='https://spa-starter-laravel6.gruneasia2.info/api'" >> .env
-            - cat .env
+            - rm .env && cp .env.test_on_xserver .env && cat .env
             - yarn run build
             - ls dist
           artifacts: # Share files to after step.
