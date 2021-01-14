@@ -3,20 +3,20 @@ const ja = {
   general: {
     auth: {
       welcome: "ようこそ",
-      signInMessage: "アカウントにサインインします",
+      signInMessage: "アカウントにサインイン",
       email: "メールアドレス",
       password: "パスワード",
-      showPassword: "Show Password",
+      showPassword: "パスワード表示",
       rememberMe: "ログイン状態を保持する",
       login: "ログイン",
       logout: "ログアウト",
       register: "登録"
     },
     user: {
-      firstName: "First Name",
-      lastName: "Last Name",
-      fullName: "Fullname",
-      profPic: "Profile Picture"
+      firstName: "姓",
+      lastName: "名",
+      fullName: "名前",
+      profPic: "プロフィール画像"
     },
     role: {
       role: "役割",
@@ -42,8 +42,8 @@ const ja = {
       action: "編集"
     },
     nav: {
-      projectName: "Vue スターターキット",
-      grune: "グルーネ",
+      projectName: "SPA-Vue2スターターキット",
+      grune: "Grune",
       dashboard: "ダッシュボード",
       users: "ユーザー"
     }
