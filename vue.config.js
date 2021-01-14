@@ -10,6 +10,7 @@ module.exports = {
         "@services": path.resolve("src/services"),
         "@router": path.resolve("src/router")
       }
-    }
+    },
+    devtool: 'source-map' // for debug on web browser
   }
 };

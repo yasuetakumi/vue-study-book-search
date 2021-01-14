@@ -24,6 +24,16 @@ Vue.use(VCurrencyField, {
 axios.defaults.withCredentials = true;
 axios.defaults.crossDomain = true;
 axios.defaults.baseURL = process.env.VUE_APP_API_ENDPOINT;
+
+// Append Auth information if use basic auth.
+// console.debug(axios.defaults.baseURL);
+// console.debug(process.env.VUE_APP_API_ENDPOINT_BASICAUTH_NAME);
+if( process.env.VUE_APP_API_ENDPOINT_BASICAUTH_NAME != null){
+  let username = process.env.VUE_APP_API_ENDPOINT_BASICAUTH_NAME;
+  let password = process.env.VUE_APP_API_ENDPOINT_BASICAUTH_PASS;
+  axios.defaults.headers.common['Authorization'] = 'Basic '+ btoa(username + ':' + password);
+}
+
 Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
