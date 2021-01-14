@@ -12,6 +12,16 @@ export const getAll = async function(url, options) {
     throw new Error(err);
   }
 };
+export const getForm = async function(url) {
+  try {
+    const res = await Vue.axios.get(url);
+    if (res.status) {
+      return res.data;
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
 
 export const show = async function(url) {
   try {
@@ -39,8 +49,9 @@ export const store = async function(url, payload) {
 
 export const update = async function(url, payload) {
   try {
-    const res = await Vue.axios.put(url, payload);
+    const res = await Vue.axios.post(url, payload);
     if (res.status) {
+      console.log(res);
       return res.data;
     }
   } catch (err) {

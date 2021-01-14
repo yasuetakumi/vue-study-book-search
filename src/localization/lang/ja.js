@@ -27,6 +27,9 @@ const ja = {
       required: "必須",
       optional: "任意"
     },
+    demo: {
+      dummyMeetings: "Dummy Meetings"
+    },
     crud: {
       createNew: "新規作成",
       list: "一覧",
@@ -40,6 +43,9 @@ const ja = {
       createdAt: "作成日",
       updatedAt: "更新日",
       action: "編集"
+    },
+    time: {
+      date: "Date"
     },
     nav: {
       projectName: "Vue スターターキット",

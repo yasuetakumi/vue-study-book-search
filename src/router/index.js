@@ -4,6 +4,7 @@ import store from "@/store";
 import AppBase from "@views/main/layouts/AppBase";
 import Dashboard from "@views/main/Dashboard";
 import users from "./users";
+import dummyMeetings from "./dummy-meetings";
 import errors from "./errors";
 import auth from "./auth";
 
@@ -24,7 +25,8 @@ const routes = [
         name: "dashboard",
         component: Dashboard
       },
-      ...users
+      ...users,
+      ...dummyMeetings
     ]
   },
   ...auth,

@@ -18,25 +18,22 @@
             <v-text-field
               :rules="rules.email"
               outlined
-              v-model="email"
+              v-model="item.email"
             ></v-text-field>
           </input-group>
           <input-group required :title="$t('general.user.fullName')">
             <v-text-field
               :rules="rules.name"
               outlined
-              v-model="displayName"
+              v-model="item.displayName"
             ></v-text-field>
           </input-group>
           <input-group required :title="$t('general.auth.password')">
             <password-input
               :rules="rules.password"
               outlined
-              v-model="password"
+              v-model="item.password"
             ></password-input>
-          </input-group>
-          <input-group optional :title="$t('general.user.profPic')">
-            <image-input accept="image/*" v-model="profPic"></image-input>
           </input-group>
           <v-btn type="submit">SUBMIT</v-btn>
         </v-form>
@@ -46,9 +43,8 @@
 </template>
 <script>
 import InputGroup from "@/components/InputGroup.vue";
-import { store, show, update } from "@services/crud";
+import { store, getForm, update } from "@services/crud";
 import PasswordInput from "../../../components/PasswordInput.vue";
-import ImageInput from "../../../components/ImageInput.vue";
 export default {
   data() {
     return {
@@ -60,19 +56,20 @@ export default {
           v => /.+@.+\..+/.test(v) || "E-mail must be valid"
         ]
       },
+      item: {
+        id: null,
+        email: "",
+        displayName: "",
+        password: ""
+      },
+      formData: {},
       editPage: false,
       submitUrl: "",
-      loadingComponent: false,
-      id: null,
-      email: "",
-      displayName: "",
-      password: "",
-      profPic: null
+      loadingComponent: false
     };
   },
   methods: {
     async submit() {
-      console.log(this.profPic);
       if (this.$refs.userForm.validate()) {
         let options = {
           headers: {
@@ -80,13 +77,12 @@ export default {
           }
         };
         let payload = new FormData();
-        payload.append("email", this.email);
-        payload.append("display_name", this.displayName);
-        payload.append("password", this.password);
-        payload.append("prof_pic", this.profPic);
+        payload.append("email", this.item.email);
+        payload.append("display_name", this.item.displayName);
+        payload.append("password", this.item.password);
         const res = this.editPage
-          ? await update(this.url, payload, options)
-          : await store(this.url, payload, options);
+          ? await update(this.submitUrl, payload, options)
+          : await store(this.submitUrl, payload, options);
         if (res) {
           console.log(res);
         }
@@ -94,27 +90,31 @@ export default {
     }
   },
   async created() {
-    if (this.$route.meta.editPage) {
-      this.loadingComponent = true;
-      const id = this.$route.params.id;
-      this.id = id;
-      this.url = `users/${id}`;
-      const res = await show(this.url);
-      if (res) {
-        let { email, display_name, password } = res;
-        this.email = email;
-        this.displayName = display_name;
-        this.password = password;
+    this.loadingComponent = true;
+    try {
+      const form = await getForm(this.$route.path);
+      console.log(form);
+      if (this.$route.meta.editPage) {
+        this.editPage = true;
+        let { formData, submitUrl, item } = form;
+        let { user_role_id: userRole, display_name: displayName, email } = item;
+        this.item = { ...this.item, userRole, displayName, email };
+        this.formData = formData;
+        this.submitUrl = submitUrl;
+      } else {
+        let { formData, submitUrl } = form;
+        this.formData = formData;
+        this.submitUrl = submitUrl;
       }
-      this.loadingComponent = false;
-    } else {
-      this.url = "users";
+    } catch (err) {
+      console.log("error");
     }
+    console.log(this.submitUrl);
+    this.loadingComponent = false;
   },
   components: {
     InputGroup,
-    PasswordInput,
-    ImageInput
+    PasswordInput
   }
 };
 </script>

@@ -42,6 +42,26 @@ const state = () => ({
           hasChildren: false
         }
       ]
+    },
+    {
+      id: "dummy-meetings",
+      label: "general.demo.dummyMeetings",
+      icon: "mdi-account-group-outline",
+      hasChildren: true,
+      children: [
+        {
+          id: "dummy-meetings.datatable",
+          label: "general.crud.list",
+          route: { name: "dummy-meetings" },
+          hasChildren: false
+        },
+        {
+          id: "dummy-meetings.form",
+          label: "general.crud.createNew",
+          route: { name: "dummy-meetings.create" },
+          hasChildren: false
+        }
+      ]
     }
   ],
   drawerOpen: true

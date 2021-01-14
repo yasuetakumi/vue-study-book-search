@@ -27,6 +27,9 @@ const en = {
       required: "Required",
       optional: "Optional"
     },
+    demo: {
+      dummyMeetings: "Dummy Meetings"
+    },
     crud: {
       createNew: "Create New",
       list: "List",
@@ -40,6 +43,9 @@ const en = {
       createdAt: "Created at",
       updatedAt: "Updated at",
       action: "Action"
+    },
+    time: {
+      date: "Date"
     },
     nav: {
       projectName: "Vue Starter Kit",

@@ -1,0 +1,117 @@
+<template>
+  <v-data-table
+    :headers="headers"
+    :items="meetings"
+    :options.sync="options"
+    :server-items-length="totalMeetings"
+    :loading="loading"
+    class="elevation-1"
+  >
+    <template v-slot:item.action="{ item }">
+      <v-btn
+        :disabled="loading"
+        color="primary"
+        class="mx-2"
+        @click="editMeeting(item.id)"
+      >
+        <v-icon>mdi-account-edit</v-icon>
+      </v-btn>
+      <v-btn
+        :disabled="loading"
+        color="error"
+        class="mx-2"
+        @click="deleteMeeting(item.id)"
+      >
+        <v-icon>mdi-delete</v-icon>
+      </v-btn>
+    </template>
+  </v-data-table>
+</template>
+
+<script>
+import { destroy, getAll } from "@services/crud";
+export default {
+  data() {
+    return {
+      totalMeetings: 0,
+      meetings: [],
+      loading: true,
+      options: {},
+      headers: [
+        {
+          text: "ID",
+          value: "id"
+        },
+        {
+          text: "Title",
+          value: "title"
+        },
+        {
+          text: "Customer",
+          value: "customer"
+        },
+        {
+          text: "Date",
+          value: "meeting_date"
+        },
+        {
+          text: "Location Image",
+          value: "location_image_url"
+        },
+        {
+          text: "Action",
+          value: "action"
+        }
+      ]
+    };
+  },
+  watch: {
+    options: {
+      handler() {
+        this.getAllMeetings();
+      },
+      deep: true
+    }
+  },
+  mounted() {
+    this.getAllMeetings();
+  },
+  methods: {
+    getAllMeetings: async function() {
+      let url = "dummy-meetings";
+      this.loading = true;
+      const { itemsPerPage, page, sortBy, sortDesc } = this.options;
+      const meetings = await getAll(url, {
+        itemsPerPage,
+        page,
+        sortBy,
+        sortDesc
+      });
+      this.meetings = meetings.data;
+      this.totalMeetings = meetings.total;
+      this.loading = false;
+    },
+    deleteMeeting: async function(id) {
+      this.loading = true;
+      let url = `dummy-meetings/${id}`;
+      const res = await destroy(url);
+      if (res) {
+        this.getAllMeetings();
+      }
+      this.loading = false;
+    },
+    editMeeting: function(id) {
+      this.$router.push({ name: "dummy-meetings.edit", params: { id } });
+    }
+  }
+};
+</script>
+<style lang="scss">
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
+  font-weight: bold !important;
+  font-size: 18px !important;
+}
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+  font-size: 14px !important;
+}
+</style>
