@@ -22,7 +22,7 @@ Vue.use(VCurrencyField, {
 });
 
 // Automatically append CSRF token.
-axios.defaults.xsrfHeaderName = 'X-CSRF-Token';
+axios.defaults.xsrfHeaderName = 'X-XSRF-Token';
 axios.defaults.withCredentials = true;
 axios.defaults.crossDomain = true;
 
