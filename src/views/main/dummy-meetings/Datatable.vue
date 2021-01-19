@@ -1,12 +1,34 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="meetings"
+    :items="displayedMeetings"
     :options.sync="options"
     :server-items-length="totalMeetings"
     :loading="loading"
     class="elevation-1"
   >
+    <template v-slot:body.prepend>
+      <tr>
+        <td>
+          <v-text-field v-model="activeFilters.title"></v-text-field>
+        </td>
+        <td>
+          <v-select
+            :items="formData.customers"
+            v-model="activeFilters.customer"
+          >
+          </v-select>
+        </td>
+        <td>
+          <v-select
+            :items="formData.attendees"
+            v-model="activeFilters.attendee"
+          >
+          </v-select>
+        </td>
+        <td colspan="4"></td>
+      </tr>
+    </template>
     <template v-slot:item.action="{ item }">
       <v-btn
         :disabled="loading"
@@ -30,18 +52,26 @@
 
 <script>
 import { destroy, getAll } from "@services/crud";
+
+//reusable tool
+let convArrToObj = function(arr, keyBy = "value") {
+  return arr.reduce(function(obj, next) {
+    let { [keyBy]: index, ...rest } = next;
+    obj[index] = rest;
+    return obj;
+  }, {});
+};
+
 export default {
   data() {
     return {
+      formData: {},
       totalMeetings: 0,
       meetings: [],
       loading: true,
       options: {},
+      activeFilters: {},
       headers: [
-        {
-          text: "ID",
-          value: "id"
-        },
         {
           text: "Title",
           value: "title"
@@ -51,12 +81,12 @@ export default {
           value: "customer"
         },
         {
-          text: "Date",
-          value: "meeting_date"
+          text: "Attendee",
+          value: "attendee"
         },
         {
-          text: "Location Image",
-          value: "location_image_url"
+          text: "Date",
+          value: "meeting_date"
         },
         {
           text: "Action",
@@ -71,6 +101,28 @@ export default {
         this.getAllMeetings();
       },
       deep: true
+    },
+    activeFilters: {
+      handler() {
+        this.getAllMeetings();
+      },
+      deep: true
+    }
+  },
+  computed: {
+    displayedMeetings() {
+      return this.meetings.map(meeting => ({
+        ...meeting,
+        customer: this.keyedFormData.customers[meeting.customer].text,
+        attendee: this.keyedFormData.attendees[meeting.attendee].text
+      }));
+    },
+    keyedFormData() {
+      let obj = {};
+      for (const [key, value] of Object.entries(this.formData)) {
+        obj[key] = convArrToObj(value);
+      }
+      return obj;
     }
   },
   mounted() {
@@ -81,14 +133,16 @@ export default {
       let url = "dummy-meetings";
       this.loading = true;
       const { itemsPerPage, page, sortBy, sortDesc } = this.options;
-      const meetings = await getAll(url, {
+      const res = await getAll(url, {
         itemsPerPage,
         page,
         sortBy,
-        sortDesc
+        sortDesc,
+        ...this.activeFilters
       });
-      this.meetings = meetings.data;
-      this.totalMeetings = meetings.total;
+      this.meetings = res.meetings.data;
+      this.totalMeetings = res.meetings.total;
+      this.formData = res.formData;
       this.loading = false;
     },
     deleteMeeting: async function(id) {

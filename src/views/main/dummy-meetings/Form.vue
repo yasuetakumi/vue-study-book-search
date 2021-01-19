@@ -23,6 +23,17 @@
               :items="formData.customers"
             ></v-select>
           </input-group>
+          <input-group required :title="'Attendee'">
+            <v-radio-group v-model="item.attendee" row>
+              <v-radio
+                v-for="attendee in formData.attendees"
+                :key="attendee.value"
+                :label="attendee.text"
+                :value="attendee.value"
+              >
+              </v-radio>
+            </v-radio-group>
+          </input-group>
           <input-group required :title="$t('general.time.date')">
             <v-menu
               v-model="item.date.menu"
@@ -73,6 +84,7 @@ export default {
           val: new Date().toISOString().substr(0, 10),
           menu: false
         },
+        attendee: 0,
         locImage: null
       },
       formData: {},
@@ -92,6 +104,7 @@ export default {
         let payload = new FormData();
         payload.append("title", this.item.title);
         payload.append("customer", this.item.customer);
+        payload.append("attendee", this.item.attendee);
         payload.append("meeting_date", this.item.date.val);
         if (this.item.locImage) {
           payload.append("location_image", this.item.locImage);
