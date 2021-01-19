@@ -14,6 +14,7 @@
         </td>
         <td>
           <v-select
+            clearable
             :items="formData.customers"
             v-model="activeFilters.customer"
           >
@@ -21,6 +22,7 @@
         </td>
         <td>
           <v-select
+            clearable
             :items="formData.attendees"
             v-model="activeFilters.attendee"
           >

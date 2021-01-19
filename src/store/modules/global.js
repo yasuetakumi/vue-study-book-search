@@ -5,6 +5,12 @@ const state = () => ({
   locale: "ja",
   languages: availableLangs,
   loadingPage: false,
+  notification: {
+    text: "",
+    isOpen: false,
+    color: "success",
+    multiLine: false
+  },
   accountMenus: [
     {
       id: "logout",
@@ -85,6 +91,12 @@ const mutations = {
   },
   setLoadingPage(state, isLoading) {
     state.loadingPage = isLoading;
+  },
+  setNotification(state, notif) {
+    state.notification = notif;
+  },
+  closeNotification(state) {
+    state.notification.isOpen = false;
   }
 };
 

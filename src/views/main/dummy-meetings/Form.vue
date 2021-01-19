@@ -35,6 +35,7 @@
             </v-radio-group>
           </input-group>
           <input-group required :title="$t('general.time.date')">
+            <!-- can be generalized but might overconstrained thus I will let it as it is -->
             <v-menu
               v-model="item.date.menu"
               :close-on-content-click="false"
@@ -46,7 +47,6 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="item.date.val"
-                  label="Picker without buttons"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
