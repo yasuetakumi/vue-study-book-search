@@ -46,6 +46,7 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
+                  clearable
                   v-model="item.date.val"
                   prepend-icon="mdi-calendar"
                   readonly
@@ -69,9 +70,9 @@
   </div>
 </template>
 <script>
-import InputGroup from "@/components/InputGroup.vue";
 import { store, getForm, update } from "@services/crud";
-import ImageInput from "../../../components/ImageInput.vue";
+import InputGroup from "@components/InputGroup.vue";
+import ImageInput from "@components/ImageInput.vue";
 export default {
   data() {
     return {

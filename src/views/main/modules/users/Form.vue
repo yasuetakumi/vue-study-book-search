@@ -42,9 +42,9 @@
   </div>
 </template>
 <script>
-import InputGroup from "@/components/InputGroup.vue";
 import { store, getForm, update } from "@services/crud";
-import PasswordInput from "../../../components/PasswordInput.vue";
+import InputGroup from "@components/InputGroup.vue";
+import PasswordInput from "@components/PasswordInput.vue";
 export default {
   data() {
     return {

@@ -1,5 +1,5 @@
-import Form from "@views/main/dummy-meetings/Form";
-import Datatable from "@views/main/dummy-meetings/Datatable";
+import Form from "@views/main/modules/dummy-meetings/Form";
+import Datatable from "@views/main/modules/dummy-meetings/Datatable";
 
 const dummyMeetings = [
   {
