@@ -71,7 +71,16 @@ export default {
       totalMeetings: 0,
       meetings: [],
       loading: true,
-      options: {},
+      options: {
+        groupBy: [],
+        groupDesc: [],
+        itemsPerPage: 10,
+        multiSort: false,
+        mustSort: false,
+        page: 1,
+        sortBy: [],
+        sortDesc: []
+      },
       activeFilters: {},
       headers: [
         {
@@ -132,29 +141,43 @@ export default {
   },
   methods: {
     getAllMeetings: async function() {
-      let url = "dummy-meetings";
-      this.loading = true;
-      const { itemsPerPage, page, sortBy, sortDesc } = this.options;
-      const res = await getAll(url, {
-        itemsPerPage,
-        page,
-        sortBy,
-        sortDesc,
-        ...this.activeFilters
-      });
-      this.meetings = res.meetings.data;
-      this.totalMeetings = res.meetings.total;
-      this.formData = res.formData;
-      this.loading = false;
+      try {
+        let url = "dummy-meetings";
+        this.loading = true;
+        const { itemsPerPage, page, sortBy, sortDesc } = this.options;
+        const res = await getAll(url, {
+          itemsPerPage,
+          page,
+          sortBy,
+          sortDesc,
+          ...this.activeFilters
+        });
+        this.meetings = res.meetings.data;
+        this.totalMeetings = res.meetings.total;
+        this.formData = res.formData;
+      } catch (err) {
+        if (err.isHandled) {
+          // Do nothing
+        }
+      } finally {
+        this.loading = false;
+      }
     },
     deleteMeeting: async function(id) {
       this.loading = true;
-      let url = `dummy-meetings/${id}`;
-      const res = await destroy(url);
-      if (res) {
-        this.getAllMeetings();
+      try {
+        let url = `dummy-meetings/${id}`;
+        const res = await destroy(url);
+        if (res) {
+          this.getAllMeetings();
+        }
+      } catch (err) {
+        if (err.isHandled) {
+          // Do nothing
+        }
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
     },
     editMeeting: function(id) {
       this.$router.push({ name: "dummy-meetings.edit", params: { id } });
