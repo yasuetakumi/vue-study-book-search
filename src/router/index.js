@@ -2,8 +2,9 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store";
 import AppBase from "@views/main/layouts/AppBase";
-import Dashboard from "@views/main/Dashboard";
-import users from "./users";
+import Dashboard from "@views/main/modules/Dashboard";
+import users from "./modules/users";
+import dummyMeetings from "./modules/dummy-meetings";
 import errors from "./errors";
 import auth from "./auth";
 
@@ -24,7 +25,8 @@ const routes = [
         name: "dashboard",
         component: Dashboard
       },
-      ...users
+      ...users,
+      ...dummyMeetings
     ]
   },
   ...auth,

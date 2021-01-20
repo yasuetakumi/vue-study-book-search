@@ -8,7 +8,8 @@ module.exports = {
         "@": path.resolve("src"),
         "@views": path.resolve("src/views"),
         "@services": path.resolve("src/services"),
-        "@router": path.resolve("src/router")
+        "@router": path.resolve("src/router"),
+        "@components": path.resolve("src/views/_components")
       }
     },
     devtool: 'source-map' // for debug on web browser

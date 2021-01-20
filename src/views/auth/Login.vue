@@ -49,7 +49,7 @@
 
 <script>
 import { mapState } from "vuex";
-import LocaleSelector from "../../components/LocaleSelector.vue";
+import LocaleSelector from "@components/LocaleSelector.vue";
 export default {
   components: { LocaleSelector },
   data: () => ({
