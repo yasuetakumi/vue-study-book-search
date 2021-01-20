@@ -8,12 +8,6 @@ import vuetify from "./plugins/vuetify";
 import "@/plugins/axios.js";
 import "@/plugins/v-currency-field.js";
 
-/* About csrf token specification of Laravel6
-  - X-CSRF-TOKEN: Specified token on html tag. It is priority than X-XSRF-TOKEN.
-  - X-XSRF-TOKEN: Automatically set from cookie-value by axios. Laravel refer it if there is no X-CSRF-TOKEN.
-      -> Normally, we don't have to specify token because it is appended automatically by axios.
-*/
-
 Vue.config.productionTip = false;
 
 new Vue({
