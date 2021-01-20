@@ -1,5 +1,5 @@
-import Form from "@views/main/modules/users/Form";
-import Datatable from "@views/main/modules/users/Datatable";
+import Form from "@views/main/users/Form";
+import Datatable from "@views/main/users/Datatable";
 
 const users = [
   {

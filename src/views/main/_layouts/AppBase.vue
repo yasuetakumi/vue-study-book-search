@@ -4,7 +4,7 @@
     <base-app-bar></base-app-bar>
 
     <v-main>
-      <notification-snackbar></notification-snackbar>
+      <base-notification-snackbar></base-notification-snackbar>
       <v-progress-linear v-if="loadingPage" indeterminate></v-progress-linear>
       <v-container class="py-8 px-6 mb-10" fluid>
         <router-view :key="$route.path"></router-view>
@@ -16,10 +16,10 @@
 
 <script>
 import { mapState } from "vuex";
-import BaseAppBar from "./components/BaseAppBar.vue";
-import BaseFooter from "./components/BaseFooter";
-import BaseNavLeft from "./components/BaseNavLeft.vue";
-import NotificationSnackbar from "./components/NotificationSnackbar.vue";
+import BaseAppBar from "./BaseAppBar.vue";
+import BaseFooter from "./BaseFooter";
+import BaseNavLeft from "./BaseNavLeft.vue";
+import BaseNotificationSnackbar from "./BaseNotificationSnackbar.vue";
 export default {
   computed: mapState({
     loadingPage: state => state.global.loadingPage
@@ -28,7 +28,7 @@ export default {
     BaseFooter,
     BaseNavLeft,
     BaseAppBar,
-    NotificationSnackbar
+    BaseNotificationSnackbar
   }
 };
 </script>
