@@ -11,6 +11,7 @@ module.exports = {
         "@router": path.resolve("src/router"),
         "@components": path.resolve("src/views/_components")
       }
-    }
+    },
+    devtool: 'source-map' // for debug on web browser
   }
 };

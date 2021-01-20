@@ -3,7 +3,7 @@
     <v-app-bar-nav-icon @click="toggleDrawer(!drawerOpen)"></v-app-bar-nav-icon>
     <v-spacer></v-spacer>
 
-    <v-menu offset-y>
+    <v-menu offset-y class="mx-3">
       <template v-slot:activator="{ on, attrs }">
         <v-btn :elevation="1" small v-bind="attrs" v-on="on">
           {{ $t("localeLabel") }}
