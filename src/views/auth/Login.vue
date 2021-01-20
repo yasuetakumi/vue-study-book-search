@@ -15,7 +15,7 @@
             <v-text-field
               :label="$t('general.auth.email')"
               v-model="email"
-              placeholder=""
+              placeholder="$t('general.placeholder.email')"
               outlined
               required
             ></v-text-field>

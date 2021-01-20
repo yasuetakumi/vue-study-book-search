@@ -1,3 +1,7 @@
+/*
+ * [Vuei18n feature] In vue file, you can refer from like $t('general.auth.email')
+ *     - Defined in node_modules/vue-i18n/types/index.d.ts > VueI18n class
+*/
 const en = {
   localeLabel: "English",
   general: {
@@ -46,6 +50,12 @@ const en = {
       grune: "Grune",
       dashboard: "Dashboard",
       users: "Users"
+    },
+    placeholder: {
+      email: "sample@email.com",
+      firstName: "Abdul",
+      lastName: "Ali",
+      fullName: "Abdul Ali",
     }
   }
 };

@@ -17,6 +17,7 @@
           <input-group required :title="$t('general.auth.email')">
             <v-text-field
               :rules="rules.email"
+              placeholder="$t('general.placeholder.email')"
               outlined
               v-model="email"
             ></v-text-field>
@@ -24,6 +25,7 @@
           <input-group required :title="$t('general.user.fullName')">
             <v-text-field
               :rules="rules.name"
+              placeholder="$t('general.placeholder.fullName')"
               outlined
               v-model="displayName"
             ></v-text-field>
