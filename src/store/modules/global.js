@@ -5,6 +5,12 @@ const state = () => ({
   locale: "ja",
   languages: availableLangs,
   loadingPage: false,
+  notification: {
+    text: "",
+    isOpen: false,
+    color: "success",
+    multiLine: false
+  },
   accountMenus: [
     {
       id: "logout",
@@ -42,6 +48,26 @@ const state = () => ({
           hasChildren: false
         }
       ]
+    },
+    {
+      id: "dummy-meetings",
+      label: "general.demo.dummyMeetings",
+      icon: "mdi-account-group-outline",
+      hasChildren: true,
+      children: [
+        {
+          id: "dummy-meetings.datatable",
+          label: "general.crud.list",
+          route: { name: "dummy-meetings" },
+          hasChildren: false
+        },
+        {
+          id: "dummy-meetings.form",
+          label: "general.crud.createNew",
+          route: { name: "dummy-meetings.create" },
+          hasChildren: false
+        }
+      ]
     }
   ],
   drawerOpen: true
@@ -65,6 +91,12 @@ const mutations = {
   },
   setLoadingPage(state, isLoading) {
     state.loadingPage = isLoading;
+  },
+  setNotification(state, notif) {
+    state.notification = notif;
+  },
+  closeNotification(state) {
+    state.notification.isOpen = false;
   }
 };
 

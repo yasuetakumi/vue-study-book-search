@@ -15,7 +15,7 @@
             <v-text-field
               :label="$t('general.auth.email')"
               v-model="email"
-              placeholder=""
+              placeholder="$t('general.placeholder.email')"
               outlined
               required
             ></v-text-field>
@@ -49,7 +49,7 @@
 
 <script>
 import { mapState } from "vuex";
-import LocaleSelector from "../../components/LocaleSelector.vue";
+import LocaleSelector from "@components/LocaleSelector.vue";
 export default {
   components: { LocaleSelector },
   data: () => ({
