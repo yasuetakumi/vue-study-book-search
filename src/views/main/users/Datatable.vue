@@ -14,6 +14,8 @@
           <v-select
             clearable
             :items="formData.userRoles"
+            item-text="label"
+            item-value="id"
             v-model="activeFilters.userRole"
           >
           </v-select>
@@ -66,7 +68,16 @@ export default {
       totalUsers: 0,
       users: [],
       loading: true,
-      options: {},
+      options: {
+        groupBy: [],
+        groupDesc: [],
+        itemsPerPage: 10,
+        multiSort: false,
+        mustSort: false,
+        page: 1,
+        sortBy: [],
+        sortDesc: []
+      },
       activeFilters: {},
       headers: [
         {
@@ -110,7 +121,6 @@ export default {
   watch: {
     options: {
       handler() {
-        console.log(this.options);
         this.getAllUsers();
       },
       deep: true
@@ -127,31 +137,41 @@ export default {
   },
   methods: {
     getAllUsers: async function() {
-      let url = "users";
-      this.loading = true;
-      const { itemsPerPage, page, sortBy, sortDesc } = this.options;
-      const res = await getAll(url, {
-        itemsPerPage,
-        page,
-        sortBy,
-        sortDesc,
-        ...this.activeFilters
-      });
-      console.log(res);
-      this.users = res.users.data;
-      this.totalUsers = res.users.total;
-      this.formData = res.formData;
-      console.log(this.keyedFormData);
-      this.loading = false;
+      try {
+        let url = "users";
+        this.loading = true;
+        const { itemsPerPage, page, sortBy, sortDesc } = this.options;
+        const res = await getAll(url, {
+          itemsPerPage,
+          page,
+          sortBy,
+          sortDesc,
+          ...this.activeFilters
+        });
+        this.users = res.users.data;
+        this.totalUsers = res.users.total;
+        this.formData = res.formData;
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.loading = false;
+      }
     },
     deleteUser: async function(id) {
-      this.loading = true;
-      let url = `users/${id}`;
-      const res = await destroy(url);
-      if (res) {
-        this.getAllUsers();
+      try {
+        this.loading = true;
+        let url = `users/${id}`;
+        const res = await destroy(url);
+        if (res) {
+          this.getAllUsers();
+        }
+      } catch (err) {
+        if (err.isHandled) {
+          //
+        }
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
     },
     editUser: function(id) {
       this.$router.push({ name: "users.edit", params: { id } });
