@@ -33,35 +33,29 @@
     <template v-slot:item.action="{ item }">
       <v-btn
         :disabled="loading"
-        color="primary"
-        class="mx-2"
+        color="cyan darken-2"
+        class="mx-2 white--text"
         @click="editUser(item.id)"
       >
         <v-icon>mdi-account-edit</v-icon>
       </v-btn>
-      <v-btn
+      <g-action-button
         :disabled="loading"
-        color="error"
-        class="mx-2"
-        @click="deleteUser(item.id)"
-      >
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
+        :onConfirm="deleteUser(item.id)"
+        :btnClass="['white--text']"
+        color="grey darken-2"
+      ></g-action-button>
     </template>
   </v-data-table>
 </template>
 
 <script>
-//reusable tool
-let convArrToObj = function(arr, keyBy = "value") {
-  return arr.reduce(function(obj, next) {
-    let { [keyBy]: index, ...rest } = next;
-    obj[index] = rest;
-    return obj;
-  }, {});
-};
 import { destroy, getAll } from "@services/crud";
+import { convArrToObj } from "@helpers";
+import GActionButton from "../../_components/GActionButton.vue";
+
 export default {
+  components: { GActionButton },
   data() {
     return {
       formData: {},
@@ -157,21 +151,25 @@ export default {
         this.loading = false;
       }
     },
-    deleteUser: async function(id) {
-      try {
-        this.loading = true;
-        let url = `users/${id}`;
-        const res = await destroy(url);
-        if (res) {
-          this.getAllUsers();
+    deleteUser: function(id) {
+      let cb = async function() {
+        try {
+          this.loading = true;
+          let url = `users/${id}`;
+          const res = await destroy(url);
+          if (res) {
+            this.getAllUsers();
+          }
+        } catch (err) {
+          if (err.isHandled) {
+            //
+          }
+        } finally {
+          this.loading = false;
         }
-      } catch (err) {
-        if (err.isHandled) {
-          //
-        }
-      } finally {
-        this.loading = false;
-      }
+      };
+
+      return cb.bind(this);
     },
     editUser: function(id) {
       this.$router.push({ name: "users.edit", params: { id } });

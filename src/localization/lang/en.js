@@ -1,7 +1,7 @@
 /*
  * [Vuei18n feature] In vue file, you can refer from like $t('general.auth.email')
  *     - Defined in node_modules/vue-i18n/types/index.d.ts > VueI18n class
-*/
+ */
 const en = {
   localeLabel: "English",
   general: {
@@ -29,7 +29,8 @@ const en = {
     },
     validation: {
       required: "Required",
-      optional: "Optional"
+      optional: "Optional",
+      confirm: "Confirm"
     },
     demo: {
       dummyMeetings: "Dummy Meetings"
@@ -61,7 +62,11 @@ const en = {
       email: "sample@email.com",
       firstName: "Abdul",
       lastName: "Ali",
-      fullName: "Abdul Ali",
+      fullName: "Abdul Ali"
+    },
+    alert: {
+      youSure: "Are you sure?",
+      confirmDelete: "Once the item is deleted, we cannot get it back for you."
     }
   }
 };

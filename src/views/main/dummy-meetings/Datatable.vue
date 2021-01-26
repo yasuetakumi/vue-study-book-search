@@ -34,37 +34,29 @@
     <template v-slot:item.action="{ item }">
       <v-btn
         :disabled="loading"
-        color="primary"
-        class="mx-2"
+        color="cyan darken-2"
+        class="mx-2 white--text"
         @click="editMeeting(item.id)"
       >
         <v-icon>mdi-account-edit</v-icon>
       </v-btn>
-      <v-btn
+      <g-action-button
         :disabled="loading"
-        color="error"
-        class="mx-2"
-        @click="deleteMeeting(item.id)"
-      >
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
+        :onConfirm="deleteMeeting(item.id)"
+        :btnClass="['white--text']"
+        color="grey darken-2"
+      ></g-action-button>
     </template>
   </v-data-table>
 </template>
 
 <script>
 import { destroy, getAll } from "@services/crud";
-
-//reusable tool
-let convArrToObj = function(arr, keyBy = "value") {
-  return arr.reduce(function(obj, next) {
-    let { [keyBy]: index, ...rest } = next;
-    obj[index] = rest;
-    return obj;
-  }, {});
-};
+import { convArrToObj } from "@helpers";
+import GActionButton from "../../_components/GActionButton.vue";
 
 export default {
+  components: { GActionButton },
   data() {
     return {
       formData: {},
@@ -163,21 +155,24 @@ export default {
         this.loading = false;
       }
     },
-    deleteMeeting: async function(id) {
-      this.loading = true;
-      try {
-        let url = `dummy-meetings/${id}`;
-        const res = await destroy(url);
-        if (res) {
-          this.getAllMeetings();
+    deleteMeeting: function(id) {
+      let cb = async function() {
+        this.loading = true;
+        try {
+          let url = `dummy-meetings/${id}`;
+          const res = await destroy(url);
+          if (res) {
+            this.getAllMeetings();
+          }
+        } catch (err) {
+          if (err.isHandled) {
+            // Do nothing
+          }
+        } finally {
+          this.loading = false;
         }
-      } catch (err) {
-        if (err.isHandled) {
-          // Do nothing
-        }
-      } finally {
-        this.loading = false;
-      }
+      };
+      return cb.bind(this);
     },
     editMeeting: function(id) {
       this.$router.push({ name: "dummy-meetings.edit", params: { id } });
