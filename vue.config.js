@@ -12,6 +12,6 @@ module.exports = {
         "@components": path.resolve("src/views/_components")
       }
     },
-    devtool: 'source-map' // for debug on web browser
+    devtool: "source-map" // for debug on web browser
   }
 };
