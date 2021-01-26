@@ -14,29 +14,29 @@
     >
       <v-container class="px-10">
         <v-form ref="userForm" @submit.prevent="submit">
-          <input-group required :title="$t('general.auth.email')">
+          <g-input-group required :title="$t('general.auth.email')">
             <v-text-field
               :rules="rules.email"
               :placeholder="$t('general.placeholder.email')"
               outlined
               v-model="item.email"
             ></v-text-field>
-          </input-group>
-          <input-group required :title="$t('general.user.fullName')">
+          </g-input-group>
+          <g-input-group required :title="$t('general.user.fullName')">
             <v-text-field
               :rules="rules.name"
               :placeholder="$t('general.placeholder.fullName')"
               outlined
               v-model="item.displayName"
             ></v-text-field>
-          </input-group>
-          <input-group required :title="$t('general.auth.password')">
-            <password-input
+          </g-input-group>
+          <g-input-group required :title="$t('general.auth.password')">
+            <g-password-input
               :rules="rules.password"
               outlined
               v-model="item.password"
-            ></password-input>
-          </input-group>
+            ></g-password-input>
+          </g-input-group>
           <v-btn type="submit">SUBMIT</v-btn>
         </v-form>
       </v-container>
@@ -45,8 +45,8 @@
 </template>
 <script>
 import { store, getForm, update } from "@services/crud";
-import InputGroup from "@components/InputGroup.vue";
-import PasswordInput from "@components/PasswordInput.vue";
+import GInputGroup from "@components/form_input/GInputGroup.vue";
+import GPasswordInput from "@components/form_input/GPasswordInput.vue";
 export default {
   data() {
     return {
@@ -116,8 +116,8 @@ export default {
     this.loadingComponent = false;
   },
   components: {
-    InputGroup,
-    PasswordInput
+    GInputGroup,
+    GPasswordInput
   }
 };
 </script>
