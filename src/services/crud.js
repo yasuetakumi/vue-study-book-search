@@ -1,6 +1,6 @@
 import Vue from "vue";
 import { pushNotif } from "@/helpers";
-import handleApiError from "@/plugins/axios";
+import { handleApiError } from "@/plugins/axios";
 
 export const getAll = async function(url, options) {
   try {
