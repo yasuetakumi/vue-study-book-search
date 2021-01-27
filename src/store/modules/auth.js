@@ -41,6 +41,7 @@ const actions = {
       const res = await auth.logout();
       if (res.status) {
         commit("logout");
+        router.push({ name: "login" });
       } else {
         // show error
       }
@@ -78,7 +79,6 @@ const mutations = {
   logout(state) {
     state.isAuthenticated = false;
     state.username = "";
-    router.push({ name: "login" });
   },
 
   setLoading(state, isLoading) {

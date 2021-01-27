@@ -86,7 +86,7 @@ export default {
           ? await update(this.submitUrl, payload, options)
           : await store(this.submitUrl, payload, options);
         if (res) {
-          console.log(res);
+          this.$router.push({ name: "users" });
         }
       }
     }
