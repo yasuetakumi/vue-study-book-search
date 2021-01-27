@@ -1,8 +1,10 @@
 <template>
   <v-app-bar flat app>
-    <v-icon @click="toggleDrawer(!drawerOpen)">
-      {{ drawerOpen ? "mdi-chevron-left" : "mdi-menu" }}
-    </v-icon>
+    <v-btn icon @click="toggleDrawer(!drawerOpen)">
+      <v-icon>
+        {{ drawerOpen ? "mdi-chevron-left" : "mdi-menu" }}
+      </v-icon>
+    </v-btn>
     <v-spacer></v-spacer>
 
     <v-menu offset-y class="mx-3">

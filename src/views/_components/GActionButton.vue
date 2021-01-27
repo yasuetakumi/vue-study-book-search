@@ -59,9 +59,6 @@ export default {
       this.isOpen = false;
       this.onConfirm();
     }
-  },
-  created() {
-    console.log(this.$attrs);
   }
 };
 </script>

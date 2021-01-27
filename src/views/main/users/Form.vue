@@ -86,7 +86,7 @@ export default {
           ? await update(this.submitUrl, payload, options)
           : await store(this.submitUrl, payload, options);
         if (res) {
-          console.log(res);
+          this.$router.push({ name: "users" });
         }
       }
     }
@@ -95,7 +95,6 @@ export default {
     this.loadingComponent = true;
     try {
       const form = await getForm(this.$route.path);
-      console.log(form);
       if (this.$route.meta.editPage) {
         this.editPage = true;
         let { formData, submitUrl, item } = form;
@@ -110,9 +109,7 @@ export default {
       }
     } catch (err) {
       console.log(err);
-      console.log("error");
     }
-    console.log(this.submitUrl);
     this.loadingComponent = false;
   },
   components: {
