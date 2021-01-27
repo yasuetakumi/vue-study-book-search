@@ -39,10 +39,7 @@
           </g-input-group>
 
           <g-input-group optional :title="'Image Location'">
-            <g-image-input
-              accept="image/*"
-              v-model="item.locImage"
-            ></g-image-input>
+            <g-image-input v-model="item.locImage"></g-image-input>
           </g-input-group>
           <v-btn type="submit">SUBMIT</v-btn>
         </v-form>
@@ -53,8 +50,10 @@
 <script>
 import { store, getForm, update } from "@services/crud";
 import GInputGroup from "@components/form_input/GInputGroup.vue";
-import GImageInput from "@components/form_input/GImageInput.vue";
 import GDatePicker from "../../_components/form_input/GDatePicker.vue";
+import GImageInput, {
+  imageInitial
+} from "../../_components/form_input/GImageInput.vue";
 export default {
   data() {
     return {
@@ -66,7 +65,7 @@ export default {
         date: new Date().toISOString().substr(0, 10),
         dateMulti: [],
         attendee: 0,
-        locImage: null
+        locImage: imageInitial()
       },
       formData: {},
       editPage: false,
@@ -86,9 +85,13 @@ export default {
         payload.append("title", this.item.title);
         payload.append("customer", this.item.customer);
         payload.append("attendee", this.item.attendee);
-        payload.append("meeting_date", this.item.date.val);
-        if (this.item.locImage) {
-          payload.append("location_image", this.item.locImage);
+        payload.append("meeting_date", this.item.date);
+        payload.append(
+          "location_image_modified",
+          this.item.locImage.isModified ? 1 : 0
+        );
+        if (this.item.locImage.file) {
+          payload.append("location_image", this.item.locImage.file);
         }
         const res = this.editPage
           ? await update(this.submitUrl, payload, options)
@@ -105,7 +108,16 @@ export default {
     if (this.$route.meta.editPage) {
       this.editPage = true;
       let { formData, submitUrl, item } = form;
-      this.item = { ...this.item, ...item };
+      this.item = {
+        ...this.item,
+        title: item.title,
+        customer: item.customer,
+        attendee: item.attendee,
+        date: item.meeting_date
+      };
+      if (item.location_image_url) {
+        this.item.locImage.url = item.location_image_url;
+      }
       this.formData = formData;
       this.submitUrl = submitUrl;
     } else {
@@ -117,8 +129,8 @@ export default {
   },
   components: {
     GInputGroup,
-    GImageInput,
-    GDatePicker
+    GDatePicker,
+    GImageInput
   }
 };
 </script>
