@@ -5,7 +5,7 @@ const cookieAuth = {
     try {
       const csrfCookie = await Vue.axios.get("sanctum/csrf-cookie");
       if (csrfCookie) {
-        const login = await Vue.axios.post("/login", credentials);
+        const login = await Vue.axios.post("/user/login", credentials);
         if (login.data.status) {
           return {
             status: true,
@@ -25,8 +25,9 @@ const cookieAuth = {
 
   async logout() {
     try {
-      const res = await Vue.axios.get("/logout");
+      const res = await Vue.axios.get("/user/logout");
       if (res.status) {
+        console.log(res);
         return {
           status: true
         };
