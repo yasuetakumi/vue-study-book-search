@@ -35,9 +35,17 @@
             </v-radio-group>
           </g-input-group>
           <g-input-group required :title="$t('general.time.date')">
-            <g-date-picker v-model="item.date"></g-date-picker>
+            <g-date-picker
+              v-model="item.date"
+              dp-color="green"
+              tf-outlined
+            ></g-date-picker>
           </g-input-group>
 
+          <g-input-group required :title="$t('general.time.time')">
+            <g-time-picker v-model="item.time" tp-color="green" tf-outlined>
+            </g-time-picker>
+          </g-input-group>
           <g-input-group optional :title="'Image Location'">
             <g-image-input v-model="item.locImage"></g-image-input>
           </g-input-group>
@@ -51,6 +59,7 @@
 import { store, getForm, update } from "@services/crud";
 import GInputGroup from "@components/form_input/GInputGroup.vue";
 import GDatePicker from "../../_components/form_input/GDatePicker.vue";
+import GTimePicker from "../../_components/form_input/GTimePicker.vue";
 import GImageInput, {
   imageInitial
 } from "../../_components/form_input/GImageInput.vue";
@@ -64,6 +73,7 @@ export default {
         customer: "",
         date: new Date().toISOString().substr(0, 10),
         dateMulti: [],
+        time: null,
         attendee: 0,
         locImage: imageInitial()
       },
@@ -130,7 +140,9 @@ export default {
   components: {
     GInputGroup,
     GDatePicker,
-    GImageInput
+    GImageInput,
+    GTimePicker
   }
 };
 </script>
+, GInputGroup
