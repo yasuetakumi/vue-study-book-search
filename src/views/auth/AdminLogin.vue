@@ -65,6 +65,7 @@ import LocaleSelector from "@components/LocaleSelector.vue";
 export default {
   components: { LocaleSelector },
   data: () => ({
+    showAlert: false,
     email: "",
     password: "",
     remember: false,

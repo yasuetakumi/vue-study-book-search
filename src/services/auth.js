@@ -1,5 +1,8 @@
 import Vue from "vue";
 
+/*
+ * A cookie based auth using native laravel session
+ */
 const cookieAuth = {
   async login(credentials, guard) {
     let loginEndpoint = guard !== "" ? `${guard}/login` : "login";

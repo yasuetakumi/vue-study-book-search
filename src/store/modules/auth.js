@@ -10,6 +10,17 @@ const defaultAuthInfo = function() {
   };
 };
 
+export const guards = {
+  default: {
+    loginRoute: "login",
+    homeRoute: "home"
+  },
+  admin: {
+    loginRoute: "adminLogin",
+    homeRoute: "adminHome"
+  }
+};
+
 const state = () => ({
   isLoading: false,
   info: defaultAuthInfo(),
@@ -20,6 +31,8 @@ const getters = {};
 
 const actions = {
   async login({ commit }, { credentials, guard = "" }) {
+    let homeRoute =
+      guard === "" ? guards.default.homeRoute : guards[guard].homeRoute;
     try {
       commit("setLoading", true);
       const authInfo = await auth.login(credentials, guard);
@@ -29,7 +42,7 @@ const actions = {
         if (typeof redirect !== "undefined") {
           router.push(redirect);
         } else {
-          router.push({ name: "home" });
+          router.push({ name: homeRoute });
         }
       } else {
         commit("setErrorLoginMessage", authInfo.messages);
@@ -42,11 +55,14 @@ const actions = {
   },
 
   async logout({ commit, state }) {
+    let guard = state.info.guard;
+    let loginRoute =
+      guard === "" ? guards.default.loginRoute : guards[guard].loginRoute;
     try {
-      const res = await auth.logout(state.info.guard);
+      const res = await auth.logout(guard);
       if (res.status) {
         commit("logout");
-        router.push({ name: "login" });
+        router.push({ name: loginRoute });
       } else {
         // show error
       }

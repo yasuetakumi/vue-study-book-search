@@ -13,6 +13,7 @@ const ja = {
       showPassword: "パスワード表示",
       rememberMe: "ログイン状態を保持する",
       login: "ログイン",
+      adminLogin: "Admin Login",
       logout: "ログアウト",
       register: "登録"
     },

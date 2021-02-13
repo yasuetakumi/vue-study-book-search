@@ -13,6 +13,7 @@ const en = {
       showPassword: "Show Password",
       rememberMe: "Remember Me",
       login: "Login",
+      adminLogin: "Admin Login",
       logout: "Logout",
       register: "Register"
     },

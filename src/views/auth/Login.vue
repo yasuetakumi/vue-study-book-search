@@ -16,6 +16,7 @@
               :label="$t('general.auth.email')"
               v-model="email"
               :placeholder="$t('general.placeholder.email')"
+              :rules="emailRules"
               outlined
               required
             ></v-text-field>
@@ -24,6 +25,7 @@
               v-model="password"
               type="password"
               placeholder=""
+              :rules="passwordRules"
               outlined
               required
             ></v-text-field>
@@ -55,7 +57,15 @@ export default {
   data: () => ({
     email: "",
     password: "",
-    remember: false
+    remember: false,
+    emailRules: [
+      v => !!v || "E-mail is required",
+      v =>
+        /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+          v
+        ) || "E-mail must be valid"
+    ],
+    passwordRules: [v => !!v || "Password is required"]
   }),
 
   computed: mapState({
