@@ -91,7 +91,8 @@ export default {
         remember: this.remember,
         rememberMe: this.rememberMe
       };
-      this.$store.dispatch("auth/login", credentials);
+      let guard = "admin";
+      this.$store.dispatch("auth/login", { credentials, guard });
     }
   }
 };

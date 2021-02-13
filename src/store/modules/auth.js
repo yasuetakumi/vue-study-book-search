@@ -1,25 +1,30 @@
 import auth from "@services/auth";
 import router from "@router";
 
+const defaultAuthInfo = function() {
+  return {
+    status: false,
+    guard: "",
+    username: "",
+    role: ""
+  };
+};
+
 const state = () => ({
   isLoading: false,
-  isAuthenticated: false,
-  username: "",
+  info: defaultAuthInfo(),
   errorLoginMessage: ""
 });
 
 const getters = {};
 
 const actions = {
-  async login({ commit }, credentials) {
+  async login({ commit }, { credentials, guard = "" }) {
     try {
       commit("setLoading", true);
-      const res = await auth.login(credentials);
-      if (res.status) {
-        let user = {
-          username: res.username
-        };
-        commit("login", user);
+      const authInfo = await auth.login(credentials, guard);
+      if (authInfo.status) {
+        commit("login", authInfo);
         let redirect = router.currentRoute.query.redirect;
         if (typeof redirect !== "undefined") {
           router.push(redirect);
@@ -27,7 +32,7 @@ const actions = {
           router.push({ name: "home" });
         }
       } else {
-        commit("setErrorLoginMessage", res.messages);
+        commit("setErrorLoginMessage", authInfo.messages);
       }
     } catch (err) {
       console.log(err);
@@ -36,9 +41,9 @@ const actions = {
     }
   },
 
-  async logout({ commit }) {
+  async logout({ commit, state }) {
     try {
-      const res = await auth.logout();
+      const res = await auth.logout(state.info.guard);
       if (res.status) {
         commit("logout");
         router.push({ name: "login" });
@@ -51,15 +56,13 @@ const actions = {
   },
 
   async checkAuth({ state, commit }) {
-    if (!state.isAuthenticated) {
+    if (!state.info.status) {
       commit("global/setLoadingPage", true, { root: true });
       try {
-        const res = await auth.checkAuth();
-        if (res.data.status) {
-          let user = {
-            username: res.data.username
-          };
-          commit("login", user);
+        const authInfo = await auth.checkAuth();
+        console.log(authInfo);
+        if (authInfo.status) {
+          commit("login", authInfo);
         }
       } catch (err) {
         console.log(err);
@@ -71,14 +74,17 @@ const actions = {
 };
 
 const mutations = {
-  login(state, { username }) {
-    state.isAuthenticated = true;
-    state.username = username;
+  login(state, { status, guard, username, role }) {
+    state.info.status = status;
+    state.info.username = username;
+    state.info.guard = guard;
+    state.info.role = role;
   },
 
   logout(state) {
-    state.isAuthenticated = false;
-    state.username = "";
+    let guard = state.info.guard;
+    state.info = defaultAuthInfo();
+    state.info.guard = guard;
   },
 
   setLoading(state, isLoading) {

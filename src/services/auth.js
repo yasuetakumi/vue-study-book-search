@@ -1,16 +1,14 @@
 import Vue from "vue";
 
 const cookieAuth = {
-  async login(credentials) {
+  async login(credentials, guard) {
+    let loginEndpoint = guard !== "" ? `${guard}/login` : "login";
     try {
       const csrfCookie = await Vue.axios.get("sanctum/csrf-cookie");
       if (csrfCookie) {
-        const login = await Vue.axios.post("/user/login", credentials);
+        const login = await Vue.axios.post(loginEndpoint, credentials);
         if (login.data.status) {
-          return {
-            status: true,
-            username: login.data.username
-          };
+          return login.data;
         } else {
           throw new Error("Failed to login");
         }
@@ -23,9 +21,10 @@ const cookieAuth = {
     }
   },
 
-  async logout() {
+  async logout(guard) {
+    let logoutEndpoint = guard !== "" ? `${guard}/logout` : "logout";
     try {
-      const res = await Vue.axios.get("/user/logout");
+      const res = await Vue.axios.get(logoutEndpoint);
       if (res.status) {
         console.log(res);
         return {
@@ -45,8 +44,16 @@ const cookieAuth = {
     }
   },
 
-  checkAuth() {
-    return Vue.axios.get("/auth-check");
+  async checkAuth() {
+    try {
+      const res = await Vue.axios.get("/auth-check");
+      return res.data;
+    } catch (err) {
+      return {
+        status: false,
+        message: err.message
+      };
+    }
   }
 };
 

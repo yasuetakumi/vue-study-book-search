@@ -69,7 +69,7 @@ export default {
         password: this.password,
         remember: this.remember
       };
-      this.$store.dispatch("auth/login", credentials);
+      this.$store.dispatch("auth/login", { credentials });
     }
   }
 };
