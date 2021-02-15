@@ -14,16 +14,16 @@
     >
       <v-container class="px-10">
         <v-form ref="meetingForm" @submit.prevent="submit">
-          <input-group required :title="'Title'">
+          <g-input-group required :title="'Title'">
             <v-text-field outlined v-model="item.title"></v-text-field>
-          </input-group>
-          <input-group required :title="'Customer'">
+          </g-input-group>
+          <g-input-group required :title="'Customer'">
             <v-select
               v-model="item.customer"
               :items="formData.customers"
             ></v-select>
-          </input-group>
-          <input-group required :title="'Attendee'">
+          </g-input-group>
+          <g-input-group required :title="'Attendee'">
             <v-radio-group v-model="item.attendee" row>
               <v-radio
                 v-for="attendee in formData.attendees"
@@ -33,36 +33,14 @@
               >
               </v-radio>
             </v-radio-group>
-          </input-group>
-          <input-group required :title="$t('general.time.date')">
-            <!-- can be generalized but might overconstrained thus I will let it as it is -->
-            <v-menu
-              v-model="item.date.menu"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  clearable
-                  v-model="item.date.val"
-                  prepend-icon="mdi-calendar"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="item.date.val"
-                @input="item.date.menu = false"
-              ></v-date-picker>
-            </v-menu>
-          </input-group>
-          <input-group optional :title="'Image Location'">
-            <image-input accept="image/*" v-model="item.locImage"></image-input>
-          </input-group>
+          </g-input-group>
+          <g-input-group required :title="$t('general.time.date')">
+            <g-date-picker v-model="item.date"></g-date-picker>
+          </g-input-group>
+
+          <g-input-group optional :title="'Image Location'">
+            <g-image-input v-model="item.locImage"></g-image-input>
+          </g-input-group>
           <v-btn type="submit">SUBMIT</v-btn>
         </v-form>
       </v-container>
@@ -71,8 +49,11 @@
 </template>
 <script>
 import { store, getForm, update } from "@services/crud";
-import InputGroup from "@components/InputGroup.vue";
-import ImageInput from "@components/ImageInput.vue";
+import GInputGroup from "@components/form_input/GInputGroup.vue";
+import GDatePicker from "../../_components/form_input/GDatePicker.vue";
+import GImageInput, {
+  imageInitial
+} from "../../_components/form_input/GImageInput.vue";
 export default {
   data() {
     return {
@@ -81,12 +62,10 @@ export default {
         id: null,
         title: "",
         customer: "",
-        date: {
-          val: new Date().toISOString().substr(0, 10),
-          menu: false
-        },
+        date: new Date().toISOString().substr(0, 10),
+        dateMulti: [],
         attendee: 0,
-        locImage: null
+        locImage: imageInitial()
       },
       formData: {},
       editPage: false,
@@ -106,15 +85,19 @@ export default {
         payload.append("title", this.item.title);
         payload.append("customer", this.item.customer);
         payload.append("attendee", this.item.attendee);
-        payload.append("meeting_date", this.item.date.val);
-        if (this.item.locImage) {
-          payload.append("location_image", this.item.locImage);
+        payload.append("meeting_date", this.item.date);
+        payload.append(
+          "location_image_modified",
+          this.item.locImage.isModified ? 1 : 0
+        );
+        if (this.item.locImage.file) {
+          payload.append("location_image", this.item.locImage.file);
         }
         const res = this.editPage
           ? await update(this.submitUrl, payload, options)
           : await store(this.submitUrl, payload, options);
         if (res) {
-          console.log(res);
+          this.$router.push({ name: "dummy-meetings" });
         }
       }
     }
@@ -125,7 +108,16 @@ export default {
     if (this.$route.meta.editPage) {
       this.editPage = true;
       let { formData, submitUrl, item } = form;
-      this.item = { ...this.item, ...item };
+      this.item = {
+        ...this.item,
+        title: item.title,
+        customer: item.customer,
+        attendee: item.attendee,
+        date: item.meeting_date
+      };
+      if (item.location_image_url) {
+        this.item.locImage.url = item.location_image_url;
+      }
       this.formData = formData;
       this.submitUrl = submitUrl;
     } else {
@@ -136,8 +128,9 @@ export default {
     this.loadingComponent = false;
   },
   components: {
-    InputGroup,
-    ImageInput
+    GInputGroup,
+    GDatePicker,
+    GImageInput
   }
 };
 </script>

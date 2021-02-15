@@ -1,15 +1,6 @@
 import Vue from "vue";
-import vuexStore from "@/store";
-
-const pushNotif = function(msg, type) {
-  let notif = {
-    text: msg,
-    isOpen: true,
-    color: type,
-    multiLine: true
-  };
-  vuexStore.commit("global/setNotification", notif);
-};
+import { pushNotif } from "@/helpers";
+import { handleApiError } from "@/plugins/axios";
 
 export const getAll = async function(url, options) {
   try {
@@ -19,10 +10,10 @@ export const getAll = async function(url, options) {
       return res.data.data;
     }
   } catch (err) {
-    console.log(err);
-    throw new Error(err);
+    throw handleApiError(err);
   }
 };
+
 export const getForm = async function(url) {
   try {
     const res = await Vue.axios.get(url);
@@ -30,7 +21,7 @@ export const getForm = async function(url) {
       return res.data.data;
     }
   } catch (err) {
-    throw new Error(err);
+    throw handleApiError(err, true);
   }
 };
 
@@ -41,8 +32,7 @@ export const show = async function(url) {
       return res.data.data;
     }
   } catch (err) {
-    console.log(err);
-    throw new Error(err);
+    throw handleApiError(err);
   }
 };
 
@@ -51,14 +41,10 @@ export const store = async function(url, payload) {
     const res = await Vue.axios.post(url, payload);
     if (res.status) {
       pushNotif(res.data.message, "success");
-      return res.data.data;
+      return res.data.data || true;
     }
   } catch (err) {
-    if (err.response.data) {
-      pushNotif(err.response.data.message, "error");
-    } else {
-      throw new Error(err);
-    }
+    throw handleApiError(err, true);
   }
 };
 
@@ -67,14 +53,10 @@ export const update = async function(url, payload) {
     const res = await Vue.axios.post(url, payload);
     if (res.status) {
       pushNotif(res.data.message, "success");
-      return res.data.data;
+      return res.data.data || true;
     }
   } catch (err) {
-    if (err.response.data) {
-      pushNotif(err.response.data.message, "error");
-    } else {
-      throw new Error(err);
-    }
+    throw handleApiError(err, true);
   }
 };
 
@@ -86,10 +68,6 @@ export const destroy = async function(url) {
       return true;
     }
   } catch (err) {
-    if (err.response.data) {
-      pushNotif(err.response.data.message, "error");
-    } else {
-      throw new Error(err);
-    }
+    throw handleApiError(err, true);
   }
 };

@@ -29,7 +29,8 @@ const ja = {
     },
     validation: {
       required: "必須",
-      optional: "任意"
+      optional: "任意",
+      confirm: "Confirm"
     },
     demo: {
       dummyMeetings: "Dummy Meetings"
@@ -62,6 +63,10 @@ const ja = {
       firstName: "山下",
       lastName: "太郎",
       fullName: "山下太郎"
+    },
+    alert: {
+      youSure: "Are you sure?",
+      confirmDelete: "Once the item is deleted, we cannot get it back for you."
     }
   }
 };

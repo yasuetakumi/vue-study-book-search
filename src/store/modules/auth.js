@@ -41,6 +41,7 @@ const actions = {
       const res = await auth.logout();
       if (res.status) {
         commit("logout");
+        router.push({ name: "login" });
       } else {
         // show error
       }
@@ -49,20 +50,22 @@ const actions = {
     }
   },
 
-  async checkAuth({ commit }) {
-    commit("global/setLoadingPage", true, { root: true });
-    try {
-      const res = await auth.checkAuth();
-      if (res.data.status) {
-        let user = {
-          username: res.data.username
-        };
-        commit("login", user);
+  async checkAuth({ state, commit }) {
+    if (!state.isAuthenticated) {
+      commit("global/setLoadingPage", true, { root: true });
+      try {
+        const res = await auth.checkAuth();
+        if (res.data.status) {
+          let user = {
+            username: res.data.username
+          };
+          commit("login", user);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        commit("global/setLoadingPage", false, { root: true });
       }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      commit("global/setLoadingPage", false, { root: true });
     }
   }
 };
@@ -76,7 +79,6 @@ const mutations = {
   logout(state) {
     state.isAuthenticated = false;
     state.username = "";
-    router.push({ name: "login" });
   },
 
   setLoading(state, isLoading) {

@@ -1,6 +1,10 @@
 <template>
   <v-app-bar flat app>
-    <v-app-bar-nav-icon @click="toggleDrawer(!drawerOpen)"></v-app-bar-nav-icon>
+    <v-btn icon @click="toggleDrawer(!drawerOpen)">
+      <v-icon>
+        {{ drawerOpen ? "mdi-chevron-left" : "mdi-menu" }}
+      </v-icon>
+    </v-btn>
     <v-spacer></v-spacer>
 
     <v-menu offset-y class="mx-3">
@@ -34,7 +38,7 @@
           :key="menu.id"
           @click="menu.action"
         >
-          <v-list-item-icon v-if="menu.icon">
+          <v-list-item-icon>
             <v-icon v-text="menu.icon"></v-icon>
           </v-list-item-icon>
           <v-list-item-content>
