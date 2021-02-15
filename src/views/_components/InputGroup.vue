@@ -32,16 +32,15 @@ export default {
 
 <style lang="scss">
 .input-title {
-  font-size: 20px;
+  font-size: 16px;
 }
 .input-title-label {
   font-size: 11px;
   position: relative;
   padding: 2px 10px;
-  border-radius: 10px 15px;
+  border-radius: 4px 10px;
   display: inline-block;
   margin-left: 0px;
-  margin-top: 6px;
 }
 .input-title-label.required {
   color: red;

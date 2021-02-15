@@ -7,6 +7,7 @@ import i18n from "./localization";
 import vuetify from "./plugins/vuetify";
 import "@/plugins/axios.js";
 import "@/plugins/v-currency-field.js";
+import '@/assets/style/global.scss';
 
 Vue.config.productionTip = false;
 

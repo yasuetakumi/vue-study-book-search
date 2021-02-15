@@ -34,7 +34,7 @@
           :key="menu.id"
           @click="menu.action"
         >
-          <v-list-item-icon>
+          <v-list-item-icon v-if="menu.icon">
             <v-icon v-text="menu.icon"></v-icon>
           </v-list-item-icon>
           <v-list-item-content>

@@ -1,0 +1,20 @@
+// global.scss
+
+@charset "utf-8";
+
+.v-application{
+    font-family: "M Plus 1p" !important;
+    
+}
+.v-text-field{
+    padding-top: 4px;
+}
+
+.v-text-field__details{
+    max-height:0;
+}
+
+th span{
+    font-size: 16px;
+    font-weight: normal;
+}
