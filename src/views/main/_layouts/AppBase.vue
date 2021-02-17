@@ -1,7 +1,7 @@
 <template>
   <div>
-    <base-nav-left></base-nav-left>
-    <base-app-bar></base-app-bar>
+    <base-nav-left v-model="drawerOpen"></base-nav-left>
+    <base-app-bar v-model="drawerOpen"></base-app-bar>
 
     <v-main>
       <base-notification-snackbar></base-notification-snackbar>
@@ -21,6 +21,11 @@ import BaseFooter from "./BaseFooter";
 import BaseNavLeft from "./BaseNavLeft.vue";
 import BaseNotificationSnackbar from "./BaseNotificationSnackbar.vue";
 export default {
+  data() {
+    return {
+      drawerOpen: true
+    };
+  },
   computed: mapState({
     loadingPage: state => state.global.loadingPage
   }),

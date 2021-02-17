@@ -3,8 +3,8 @@ import VueRouter from "vue-router";
 import store from "@/store";
 import AppBase from "@views/main/_layouts/AppBase";
 import Dashboard from "@views/main/Dashboard";
-import users from "./modules/users";
-import dummyMeetings from "./modules/dummy-meetings";
+import user from "./modules/user";
+import dummyMeeting from "./modules/dummy-meeting";
 import errors from "./errors";
 import auth from "./auth";
 import { guards as availableGuards } from "@/store/modules/auth";
@@ -27,8 +27,8 @@ const routes = [
         name: "dashboard",
         component: Dashboard
       },
-      ...users,
-      ...dummyMeetings
+      ...user,
+      ...dummyMeeting
     ]
   },
   {
@@ -46,8 +46,8 @@ const routes = [
         name: "dashboard",
         component: Dashboard
       },
-      ...users,
-      ...dummyMeetings
+      ...user,
+      ...dummyMeeting
     ]
   },
   ...auth,
