@@ -3,73 +3,73 @@
  *     - Defined in node_modules/vue-i18n/types/index.d.ts > VueI18n class
  */
 const ja = {
-  localeLabel: "日本語",
+  localeLabel: '日本語',
   general: {
     auth: {
-      welcome: "ようこそ",
-      signInMessage: "アカウントにサインイン",
-      email: "メールアドレス",
-      password: "パスワード",
-      showPassword: "パスワード表示",
-      rememberMe: "ログイン状態を保持する",
-      login: "ログイン",
-      adminLogin: "Admin Login",
-      logout: "ログアウト",
-      register: "登録"
+      welcome: 'ようこそ',
+      signInMessage: 'アカウントにサインイン',
+      email: 'メールアドレス',
+      password: 'パスワード',
+      showPassword: 'パスワード表示',
+      rememberMe: 'ログイン状態を保持する',
+      login: 'ログイン',
+      adminLogin: 'Admin Login',
+      logout: 'ログアウト',
+      register: '登録',
     },
     user: {
-      firstName: "姓",
-      lastName: "名",
-      fullName: "名前",
-      profPic: "プロフィール画像"
+      firstName: '姓',
+      lastName: '名',
+      fullName: '名前',
+      profPic: 'プロフィール画像',
     },
     role: {
-      role: "役割",
-      admin: "管理者",
-      user: "ユーザー"
+      role: '役割',
+      admin: '管理者',
+      user: 'ユーザー',
     },
     validation: {
-      required: "必須",
-      optional: "任意",
-      confirm: "Confirm"
+      required: '必須',
+      optional: '任意',
+      confirm: 'Confirm',
     },
     demo: {
-      dummyMeetings: "Dummy Meetings"
+      dummyMeetings: 'Dummy Meetings',
     },
     crud: {
-      createNew: "新規作成",
-      list: "一覧",
-      add: "新規作成",
-      edit: "編集",
-      update: "更新",
-      change: "変更",
-      delete: "削除",
-      search: "検索",
-      all: "全部",
-      createdAt: "作成日",
-      updatedAt: "更新日",
-      action: "編集"
+      createNew: '新規作成',
+      list: '一覧',
+      add: '新規作成',
+      edit: '編集',
+      update: '更新',
+      change: '変更',
+      delete: '削除',
+      search: '検索',
+      all: '全部',
+      createdAt: '作成日',
+      updatedAt: '更新日',
+      action: '編集',
     },
     time: {
-      date: "Date"
+      date: 'Date',
     },
     nav: {
-      projectName: "SPA-Vue2 starter",
-      grune: "Grune",
-      dashboard: "ダッシュボード",
-      users: "ユーザー"
+      projectName: 'SPA-Vue2 starter',
+      grune: 'Grune',
+      dashboard: 'ダッシュボード',
+      users: 'ユーザー',
     },
     placeholder: {
-      email: "sample@email.com",
-      firstName: "山下",
-      lastName: "太郎",
-      fullName: "山下太郎"
+      email: 'sample@email.com',
+      firstName: '山下',
+      lastName: '太郎',
+      fullName: '山下太郎',
     },
     alert: {
-      youSure: "Are you sure?",
-      confirmDelete: "Once the item is deleted, we cannot get it back for you."
-    }
-  }
+      youSure: 'Are you sure?',
+      confirmDelete: 'Once the item is deleted, we cannot get it back for you.',
+    },
+  },
 };
 
 export default ja;

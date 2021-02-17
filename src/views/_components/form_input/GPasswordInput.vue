@@ -11,7 +11,7 @@
 export default {
   inheritAttrs: false,
   props: {
-    value: String
+    value: String,
   },
   computed: {
     password: {
@@ -19,14 +19,14 @@ export default {
         return this.value;
       },
       set(val) {
-        this.$emit("input", val);
-      }
-    }
+        this.$emit('input', val);
+      },
+    },
   },
   data() {
     return {
-      show: false
+      show: false,
     };
-  }
+  },
 };
 </script>

@@ -1,63 +1,63 @@
-import Vue from "vue";
+import Vue from 'vue';
 
 /*
  * A cookie based auth using native laravel session
  */
 const cookieAuth = {
   async login(credentials, guard) {
-    let loginEndpoint = guard !== "" ? `${guard}/login` : "login";
+    let loginEndpoint = guard !== '' ? `${guard}/login` : 'login';
     try {
-      const csrfCookie = await Vue.axios.get("sanctum/csrf-cookie");
+      const csrfCookie = await Vue.axios.get('sanctum/csrf-cookie');
       if (csrfCookie) {
         const login = await Vue.axios.post(loginEndpoint, credentials);
         if (login.data.status) {
           return login.data;
         } else {
-          throw new Error("Failed to login");
+          throw new Error('Failed to login');
         }
       }
     } catch (err) {
       return {
         status: false,
-        messages: err.message
+        messages: err.message,
       };
     }
   },
 
   async logout(guard) {
-    let logoutEndpoint = guard !== "" ? `${guard}/logout` : "logout";
+    let logoutEndpoint = guard !== '' ? `${guard}/logout` : 'logout';
     try {
       const res = await Vue.axios.get(logoutEndpoint);
       if (res.status) {
         console.log(res);
         return {
-          status: true
+          status: true,
         };
       } else {
         return {
           status: false,
-          message: "Error logging out"
+          message: 'Error logging out',
         };
       }
     } catch (err) {
       return {
         status: false,
-        message: err.message
+        message: err.message,
       };
     }
   },
 
   async checkAuth() {
     try {
-      const res = await Vue.axios.get("/auth-check");
+      const res = await Vue.axios.get('/auth-check');
       return res.data;
     } catch (err) {
       return {
         status: false,
-        message: err.message
+        message: err.message,
       };
     }
-  }
+  },
 };
 
 export default cookieAuth;

@@ -1,15 +1,15 @@
-import i18n, { availableLangs } from "@/localization";
+import i18n, { availableLangs } from '@/localization';
 
 const state = () => ({
   locale: i18n.locale,
   languages: availableLangs,
   loadingPage: false,
   notification: {
-    text: "",
+    text: '',
     isOpen: false,
-    color: "success",
-    multiLine: false
-  }
+    color: 'success',
+    multiLine: false,
+  },
 });
 
 const getters = {};
@@ -17,8 +17,8 @@ const getters = {};
 const actions = {
   setLocale({ commit }, locale) {
     i18n.locale = locale;
-    commit("setLocale", locale);
-  }
+    commit('setLocale', locale);
+  },
 };
 
 const mutations = {
@@ -33,7 +33,7 @@ const mutations = {
   },
   closeNotification(state) {
     state.notification.isOpen = false;
-  }
+  },
 };
 
 export default {
@@ -41,5 +41,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

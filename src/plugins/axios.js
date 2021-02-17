@@ -1,10 +1,10 @@
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import VueRouter from "vue-router";
-import vuexStore from "@/store";
-import vueRouter from "@/router";
-import { pushNotif } from "@/helpers";
+import Vue from 'vue';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+import VueRouter from 'vue-router';
+import vuexStore from '@/store';
+import vueRouter from '@/router';
+import { pushNotif } from '@/helpers';
 const { isNavigationFailure } = VueRouter;
 
 /* About csrf token specification of Laravel6
@@ -15,7 +15,7 @@ const { isNavigationFailure } = VueRouter;
 const config = {
   withCredentials: true,
   crossDomain: true,
-  baseURL: process.env.VUE_APP_API_ENDPOINT
+  baseURL: process.env.VUE_APP_API_ENDPOINT,
 };
 
 let api = axios.create(config);
@@ -23,11 +23,11 @@ api.interceptors.response.use(
   response => response,
   error => {
     if (error.response.status == 401) {
-      vuexStore.commit("auth/logout");
+      vuexStore.commit('auth/logout');
       vueRouter
         .push({
-          name: "login",
-          query: { redirect: vueRouter.currentRoute.fullPath }
+          name: 'login',
+          query: { redirect: vueRouter.currentRoute.fullPath },
         })
         .catch(function(failure) {
           if (isNavigationFailure(failure)) {
@@ -51,7 +51,7 @@ const ApiError = function(err) {
 
 ApiError.prototype.pushErrorToNotif = function(isPushed) {
   if (!this.isHandled && isPushed && this.response.data.message) {
-    pushNotif(this.response.data.message, "error");
+    pushNotif(this.response.data.message, 'error');
     this.isHandled = true;
     return this;
   } else {

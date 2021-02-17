@@ -35,12 +35,7 @@
               </v-list-item-content>
             </template>
 
-            <v-list-item
-              v-for="submenu in menu.children"
-              :key="submenu.title"
-              :to="submenu.route"
-              exact
-            >
+            <v-list-item v-for="submenu in menu.children" :key="submenu.title" :to="submenu.route" exact>
               <v-list-item-icon>
                 <v-icon>{{ submenu.icon }}</v-icon>
               </v-list-item-icon>
@@ -104,7 +99,7 @@ const navLeftMenus = [
       },
     ],
   },
-]
+];
 export default {
   props: {
     value: {
@@ -115,18 +110,18 @@ export default {
   data() {
     return {
       navLeftMenus,
-    }
+    };
   },
   computed: {
     drawerOpen: {
       get() {
-        return this.value
+        return this.value;
       },
       set(val) {
-        this.$emit('input', val)
+        this.$emit('input', val);
       },
     },
   },
   created() {},
-}
+};
 </script>

@@ -13,31 +13,16 @@
           <v-text-field v-model="activeFilters.title"></v-text-field>
         </td>
         <td>
-          <v-select
-            clearable
-            :items="formData.customers"
-            v-model="activeFilters.customer"
-          >
-          </v-select>
+          <v-select clearable :items="formData.customers" v-model="activeFilters.customer"> </v-select>
         </td>
         <td>
-          <v-select
-            clearable
-            :items="formData.attendees"
-            v-model="activeFilters.attendee"
-          >
-          </v-select>
+          <v-select clearable :items="formData.attendees" v-model="activeFilters.attendee"> </v-select>
         </td>
         <td colspan="4"></td>
       </tr>
     </template>
     <template v-slot:item.action="{ item }">
-      <v-btn
-        :disabled="loading"
-        color="cyan darken-2"
-        class="mx-2 white--text"
-        @click="editMeeting(item.id)"
-      >
+      <v-btn :disabled="loading" color="cyan darken-2" class="mx-2 white--text" @click="editMeeting(item.id)">
         <v-icon>mdi-account-edit</v-icon>
       </v-btn>
       <g-action-button
@@ -51,9 +36,9 @@
 </template>
 
 <script>
-import { destroy, getAll } from "@services/crud";
-import { convArrToObj } from "@helpers";
-import GActionButton from "../../_components/GActionButton.vue";
+import { destroy, getAll } from '@services/crud';
+import { convArrToObj } from '@helpers';
+import GActionButton from '../../_components/GActionButton.vue';
 
 export default {
   components: { GActionButton },
@@ -71,31 +56,31 @@ export default {
         mustSort: false,
         page: 1,
         sortBy: [],
-        sortDesc: []
+        sortDesc: [],
       },
       activeFilters: {},
       headers: [
         {
-          text: "Title",
-          value: "title"
+          text: 'Title',
+          value: 'title',
         },
         {
-          text: "Customer",
-          value: "customer"
+          text: 'Customer',
+          value: 'customer',
         },
         {
-          text: "Attendee",
-          value: "attendee"
+          text: 'Attendee',
+          value: 'attendee',
         },
         {
-          text: "Date",
-          value: "meeting_date"
+          text: 'Date',
+          value: 'meeting_date',
         },
         {
-          text: "Action",
-          value: "action"
-        }
-      ]
+          text: 'Action',
+          value: 'action',
+        },
+      ],
     };
   },
   watch: {
@@ -103,21 +88,21 @@ export default {
       handler() {
         this.getAllMeetings();
       },
-      deep: true
+      deep: true,
     },
     activeFilters: {
       handler() {
         this.getAllMeetings();
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   computed: {
     displayedMeetings() {
       return this.meetings.map(meeting => ({
         ...meeting,
         customer: this.keyedFormData.customers[meeting.customer].text,
-        attendee: this.keyedFormData.attendees[meeting.attendee].text
+        attendee: this.keyedFormData.attendees[meeting.attendee].text,
       }));
     },
     keyedFormData() {
@@ -126,7 +111,7 @@ export default {
         obj[key] = convArrToObj(value);
       }
       return obj;
-    }
+    },
   },
   mounted() {
     this.getAllMeetings();
@@ -134,7 +119,7 @@ export default {
   methods: {
     getAllMeetings: async function() {
       try {
-        let url = "dummy-meetings";
+        let url = 'dummy-meetings';
         this.loading = true;
         const { itemsPerPage, page, sortBy, sortDesc } = this.options;
         const res = await getAll(url, {
@@ -142,7 +127,7 @@ export default {
           page,
           sortBy,
           sortDesc,
-          ...this.activeFilters
+          ...this.activeFilters,
         });
         this.meetings = res.meetings.data;
         this.totalMeetings = res.meetings.total;
@@ -175,9 +160,9 @@ export default {
       return cb.bind(this);
     },
     editMeeting: function(id) {
-      this.$router.push({ name: "dummy-meetings.edit", params: { id } });
-    }
-  }
+      this.$router.push({ name: 'dummy-meetings.edit', params: { id } });
+    },
+  },
 };
 </script>
 <style lang="scss">

@@ -7,10 +7,8 @@
             <v-progress-linear height="10" indeterminate></v-progress-linear>
           </template>
 
-          <v-card-title>{{ $t("general.auth.welcome") }}</v-card-title>
-          <v-card-subtitle>{{
-            $t("general.auth.signInMessage")
-          }}</v-card-subtitle>
+          <v-card-title>{{ $t('general.auth.welcome') }}</v-card-title>
+          <v-card-subtitle>{{ $t('general.auth.signInMessage') }}</v-card-subtitle>
           <v-form class="ma-3" @submit.prevent="login">
             <v-text-field
               :label="$t('general.auth.email')"
@@ -35,9 +33,7 @@
               - user@company.com 12345678<br />
             </v-card-text>
             <v-card-actions>
-              <v-btn block class="pa-2" color="primary" type="submit">{{
-                $t("general.auth.login")
-              }}</v-btn>
+              <v-btn block class="pa-2" color="primary" type="submit">{{ $t('general.auth.login') }}</v-btn>
             </v-card-actions>
           </v-form>
         </v-card>
@@ -50,26 +46,26 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import LocaleSelector from "@components/LocaleSelector.vue";
+import { mapState } from 'vuex';
+import LocaleSelector from '@components/LocaleSelector.vue';
 export default {
   components: { LocaleSelector },
   data: () => ({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     remember: false,
     emailRules: [
-      v => !!v || "E-mail is required",
+      v => !!v || 'E-mail is required',
       v =>
         /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
           v
-        ) || "E-mail must be valid"
+        ) || 'E-mail must be valid',
     ],
-    passwordRules: [v => !!v || "Password is required"]
+    passwordRules: [v => !!v || 'Password is required'],
   }),
 
   computed: mapState({
-    isLoading: state => state.auth.isLoading
+    isLoading: state => state.auth.isLoading,
   }),
 
   methods: {
@@ -77,11 +73,11 @@ export default {
       let credentials = {
         email: this.email,
         password: this.password,
-        remember: this.remember
+        remember: this.remember,
       };
-      this.$store.dispatch("auth/login", { credentials });
-    }
-  }
+      this.$store.dispatch('auth/login', { credentials });
+    },
+  },
 };
 </script>
 

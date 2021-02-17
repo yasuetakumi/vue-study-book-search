@@ -17,23 +17,18 @@
         v-on="on"
       ></v-text-field>
     </template>
-    <v-date-picker
-      v-model="inputVal"
-      @input="isOpen = false"
-      v-bind="dpAttrs"
-      :locale="$i18n.locale"
-    ></v-date-picker>
+    <v-date-picker v-model="inputVal" @input="isOpen = false" v-bind="dpAttrs" :locale="$i18n.locale"></v-date-picker>
   </v-menu>
 </template>
 <script>
 export default {
   inheritAttrs: false,
   props: {
-    value: String
+    value: String,
   },
   data() {
     return {
-      isOpen: false
+      isOpen: false,
     };
   },
   computed: {
@@ -42,12 +37,12 @@ export default {
         return this.value;
       },
       set(val) {
-        this.$emit("input", val);
-      }
+        this.$emit('input', val);
+      },
     },
     dpAttrs() {
       return Object.entries(this.$attrs).reduce((acc, [key, val]) => {
-        if (key.substring(0, 2) == "dp") {
+        if (key.substring(0, 2) == 'dp') {
           return { [key.substring(3, key.length)]: val, ...acc };
         } else {
           return acc;
@@ -56,16 +51,16 @@ export default {
     },
     tfAttrs() {
       return Object.entries(this.$attrs).reduce((acc, [key, val]) => {
-        if (key.substring(0, 2) == "tf") {
+        if (key.substring(0, 2) == 'tf') {
           return { [key.substring(3, key.length)]: val, ...acc };
         } else {
           return acc;
         }
       }, {});
-    }
+    },
   },
   mounted() {
     console.log(this.tfAttrs);
-  }
+  },
 };
 </script>

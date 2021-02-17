@@ -1,25 +1,25 @@
-import Form from "@views/main/user/Form";
-import Datatable from "@views/main/user/Datatable";
+import Form from '@views/main/user/Form';
+import Datatable from '@views/main/user/Datatable';
 
 const user = [
   {
-    path: "user",
-    name: "user",
-    component: Datatable
+    path: 'user',
+    name: 'user',
+    component: Datatable,
   },
   {
-    path: "user/create",
-    name: "user.create",
-    component: Form
+    path: 'user/create',
+    name: 'user.create',
+    component: Form,
   },
   {
-    path: "user/:id/edit",
-    name: "user.edit",
+    path: 'user/:id/edit',
+    name: 'user.edit',
     component: Form,
     meta: {
-      editPage: true
-    }
-  }
+      editPage: true,
+    },
+  },
 ];
 
 export default user;
