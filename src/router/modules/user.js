@@ -1,20 +1,20 @@
 import Form from '@views/main/user/Form';
 import Datatable from '@views/main/user/Datatable';
 
-const user = [
+const usersRoutes = [
   {
-    path: 'user',
-    name: 'user',
+    path: 'users',
+    name: 'users',
     component: Datatable,
   },
   {
-    path: 'user/create',
-    name: 'user.create',
+    path: 'users/create',
+    name: 'users.create',
     component: Form,
   },
   {
-    path: 'user/:id/edit',
-    name: 'user.edit',
+    path: 'users/:id/edit',
+    name: 'users.edit',
     component: Form,
     meta: {
       editPage: true,
@@ -22,4 +22,4 @@ const user = [
   },
 ];
 
-export default user;
+export default usersRoutes;

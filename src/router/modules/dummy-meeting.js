@@ -1,20 +1,20 @@
 import Form from '@views/main/dummy-meeting/Form';
 import Datatable from '@views/main/dummy-meeting/Datatable';
 
-const dummyMeetings = [
+const dummyMeetingsRoutes = [
   {
-    path: 'dummy-meeting',
-    name: 'dummy-meeting',
+    path: 'dummy-meetings',
+    name: 'dummy-meetings',
     component: Datatable,
   },
   {
-    path: 'dummy-meeting/create',
-    name: 'dummy-meeting.create',
+    path: 'dummy-meetings/create',
+    name: 'dummy-meetings.create',
     component: Form,
   },
   {
-    path: 'dummy-meeting/:id/edit',
-    name: 'dummy-meeting.edit',
+    path: 'dummy-meetings/:id/edit',
+    name: 'dummy-meetings.edit',
     component: Form,
     meta: {
       editPage: true,
@@ -22,4 +22,4 @@ const dummyMeetings = [
   },
 ];
 
-export default dummyMeetings;
+export default dummyMeetingsRoutes;
