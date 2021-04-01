@@ -17,7 +17,7 @@ export const guards = {
   },
   admin: {
     loginRoute: 'adminLogin',
-    homeRoute: 'adminHome',
+    homeRoute: 'admin_home',
   },
 };
 
