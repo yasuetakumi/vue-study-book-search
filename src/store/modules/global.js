@@ -2,7 +2,7 @@ import store from "../index";
 import i18n, { availableLangs } from "@/localization";
 
 const state = () => ({
-  locale: "ja",
+  locale: i18n.locale,
   languages: availableLangs,
   loadingPage: false,
   notification: {

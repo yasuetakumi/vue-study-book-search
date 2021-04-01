@@ -50,7 +50,8 @@ const en = {
       action: "Action"
     },
     time: {
-      date: "Date"
+      date: "Date",
+      time: "Time"
     },
     nav: {
       projectName: "Vue Starter Kit",

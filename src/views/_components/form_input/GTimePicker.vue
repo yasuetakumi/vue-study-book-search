@@ -5,24 +5,25 @@
     :nudge-right="40"
     transition="scale-transition"
     offset-y
+    max-width="290px"
     min-width="290px"
   >
     <template v-slot:activator="{ on, attrs }">
       <v-text-field
         clearable
         v-model="inputVal"
-        prepend-icon="mdi-calendar"
+        prepend-icon="mdi-clock-time-four-outline"
         readonly
         v-bind="{ ...attrs, ...tfAttrs }"
         v-on="on"
       ></v-text-field>
     </template>
-    <v-date-picker
+    <v-time-picker
       v-model="inputVal"
-      @input="isOpen = false"
-      v-bind="dpAttrs"
-      :locale="$i18n.locale"
-    ></v-date-picker>
+      v-if="isOpen"
+      @click:minute="isOpen = false"
+      v-bind="tpAttrs"
+    ></v-time-picker>
   </v-menu>
 </template>
 <script>
@@ -45,9 +46,9 @@ export default {
         this.$emit("input", val);
       }
     },
-    dpAttrs() {
+    tpAttrs() {
       return Object.entries(this.$attrs).reduce((acc, [key, val]) => {
-        if (key.substring(0, 2) == "dp") {
+        if (key.substring(0, 2) == "tp") {
           return { [key.substring(3, key.length)]: val, ...acc };
         } else {
           return acc;

@@ -50,7 +50,8 @@ const ja = {
       action: "編集"
     },
     time: {
-      date: "Date"
+      date: "Date",
+      time: "Time"
     },
     nav: {
       projectName: "SPA-Vue2 starter",
