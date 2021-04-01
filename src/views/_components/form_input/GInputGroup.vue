@@ -6,10 +6,10 @@
       </v-row>
       <v-row>
         <span class="input-title-label required" v-if="required">
-          {{ $t("general.validation.required") }}
+          {{ $t('general.validation.required') }}
         </span>
         <span class="input-title-label optional" v-if="optional">
-          {{ $t("general.validation.optional") }}
+          {{ $t('general.validation.optional') }}
         </span>
       </v-row>
     </v-col>
@@ -22,25 +22,26 @@
 export default {
   props: {
     title: {
-      required: true
+      required: true,
     },
     required: Boolean,
-    optional: Boolean
-  }
+    optional: Boolean,
+  },
 };
 </script>
 
 <style lang="scss">
 .input-title {
-  font-size: 16px;
+  font-size: 20px;
 }
 .input-title-label {
   font-size: 11px;
   position: relative;
   padding: 2px 10px;
-  border-radius: 4px 10px;
+  border-radius: 10px 15px;
   display: inline-block;
   margin-left: 0px;
+  margin-top: 6px;
 }
 .input-title-label.required {
   color: red;

@@ -37,29 +37,29 @@ export default {
     onConfirm: Function,
     cardText: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     btnClass: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
       isOpen: false,
       text: {
-        title: this.cardText.title || this.$t("general.alert.youSure"),
-        body: this.cardText.body || this.$t("general.alert.confirmDelete"),
-        confirm: this.cardText.confirm || this.$t("general.validation.confirm")
-      }
+        title: this.cardText.title || this.$t('general.alert.youSure'),
+        body: this.cardText.body || this.$t('general.alert.confirmDelete'),
+        confirm: this.cardText.confirm || this.$t('general.validation.confirm'),
+      },
     };
   },
   methods: {
     confirm() {
       this.isOpen = false;
       this.onConfirm();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped></style>

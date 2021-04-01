@@ -1,5 +1,5 @@
-import vuexStore from "@/store";
-export const convArrToObj = function(arr, keyBy = "value") {
+import vuexStore from '@/store';
+export const convArrToObj = function(arr, keyBy = 'value') {
   return arr.reduce(function(obj, next) {
     let { [keyBy]: index, ...rest } = next;
     obj[index] = rest;
@@ -12,7 +12,7 @@ export const pushNotif = function(msg, type) {
     text: msg,
     isOpen: true,
     color: type,
-    multiLine: true
+    multiLine: true,
   };
-  vuexStore.commit("global/setNotification", notif);
+  vuexStore.commit('global/setNotification', notif);
 };

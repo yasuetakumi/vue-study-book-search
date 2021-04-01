@@ -6,11 +6,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 export default {
   data: () => ({}),
   computed: mapState({
-    loadingPage: state => state.global.loadingPage
-  })
+    loadingPage: state => state.global.loadingPage,
+  }),
 };
 </script>

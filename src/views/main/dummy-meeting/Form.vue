@@ -1,27 +1,14 @@
 <template>
   <div>
-    <v-skeleton-loader
-      v-if="loadingComponent"
-      type="card-avatar, article, actions"
-    >
-    </v-skeleton-loader>
-    <v-sheet
-      v-if="!loadingComponent"
-      elevation="1"
-      min-height="70vh"
-      width="100%"
-      :rounded="'sm'"
-    >
+    <v-skeleton-loader v-if="loadingComponent" type="card-avatar, article, actions"> </v-skeleton-loader>
+    <v-sheet v-if="!loadingComponent" elevation="1" min-height="70vh" width="100%" :rounded="'sm'">
       <v-container class="px-10">
         <v-form ref="meetingForm" @submit.prevent="submit">
           <g-input-group required :title="'Title'">
             <v-text-field outlined v-model="item.title"></v-text-field>
           </g-input-group>
           <g-input-group required :title="'Customer'">
-            <v-select
-              v-model="item.customer"
-              :items="formData.customers"
-            ></v-select>
+            <v-select v-model="item.customer" :items="formData.customers"></v-select>
           </g-input-group>
           <g-input-group required :title="'Attendee'">
             <v-radio-group v-model="item.attendee" row>
@@ -35,16 +22,11 @@
             </v-radio-group>
           </g-input-group>
           <g-input-group required :title="$t('general.time.date')">
-            <g-date-picker
-              v-model="item.date"
-              dp-color="green"
-              tf-outlined
-            ></g-date-picker>
+            <g-date-picker v-model="item.date" dp-color="green" tf-outlined></g-date-picker>
           </g-input-group>
 
           <g-input-group required :title="$t('general.time.time')">
-            <g-time-picker v-model="item.time" tp-color="green" tf-outlined>
-            </g-time-picker>
+            <g-time-picker v-model="item.time" tp-color="green" tf-outlined> </g-time-picker>
           </g-input-group>
           <g-input-group optional :title="'Image Location'">
             <g-image-input v-model="item.locImage"></g-image-input>
@@ -56,31 +38,29 @@
   </div>
 </template>
 <script>
-import { store, getForm, update } from "@services/crud";
-import GInputGroup from "@components/form_input/GInputGroup.vue";
-import GDatePicker from "../../_components/form_input/GDatePicker.vue";
-import GTimePicker from "../../_components/form_input/GTimePicker.vue";
-import GImageInput, {
-  imageInitial
-} from "../../_components/form_input/GImageInput.vue";
+import { store, getForm, update } from '@services/crud';
+import GInputGroup from '@components/form_input/GInputGroup.vue';
+import GDatePicker from '../../_components/form_input/GDatePicker.vue';
+import GTimePicker from '../../_components/form_input/GTimePicker.vue';
+import GImageInput, { imageInitial } from '../../_components/form_input/GImageInput.vue';
 export default {
   data() {
     return {
       rules: {},
       item: {
         id: null,
-        title: "",
-        customer: "",
+        title: '',
+        customer: '',
         date: new Date().toISOString().substr(0, 10),
         dateMulti: [],
         time: null,
         attendee: 0,
-        locImage: imageInitial()
+        locImage: imageInitial(),
       },
       formData: {},
       editPage: false,
-      submitUrl: "",
-      loadingComponent: false
+      submitUrl: '',
+      loadingComponent: false,
     };
   },
   methods: {
@@ -88,29 +68,26 @@ export default {
       if (this.$refs.meetingForm.validate()) {
         let options = {
           headers: {
-            "Content-Type": "multipart/form-data"
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         };
         let payload = new FormData();
-        payload.append("title", this.item.title);
-        payload.append("customer", this.item.customer);
-        payload.append("attendee", this.item.attendee);
-        payload.append("meeting_date", this.item.date);
-        payload.append(
-          "location_image_modified",
-          this.item.locImage.isModified ? 1 : 0
-        );
+        payload.append('title', this.item.title);
+        payload.append('customer', this.item.customer);
+        payload.append('attendee', this.item.attendee);
+        payload.append('meeting_date', this.item.date);
+        payload.append('location_image_modified', this.item.locImage.isModified ? 1 : 0);
         if (this.item.locImage.file) {
-          payload.append("location_image", this.item.locImage.file);
+          payload.append('location_image', this.item.locImage.file);
         }
         const res = this.editPage
           ? await update(this.submitUrl, payload, options)
           : await store(this.submitUrl, payload, options);
         if (res) {
-          this.$router.push({ name: "dummy-meetings" });
+          this.$router.push({ name: 'dummy-meetings' });
         }
       }
-    }
+    },
   },
   async created() {
     this.loadingComponent = true;
@@ -123,7 +100,7 @@ export default {
         title: item.title,
         customer: item.customer,
         attendee: item.attendee,
-        date: item.meeting_date
+        date: item.meeting_date,
       };
       if (item.location_image_url) {
         this.item.locImage.url = item.location_image_url;
@@ -141,8 +118,8 @@ export default {
     GInputGroup,
     GDatePicker,
     GImageInput,
-    GTimePicker
-  }
+    GTimePicker,
+  },
 };
 </script>
 , GInputGroup

@@ -1,47 +1,66 @@
-import auth from "@services/auth";
-import router from "@router";
+import auth from '@services/auth';
+import router from '@router';
+
+const defaultAuthInfo = function() {
+  return {
+    status: false,
+    guard: '',
+    username: '',
+    role: '',
+  };
+};
+
+export const guards = {
+  default: {
+    loginRoute: 'login',
+    homeRoute: 'home',
+  },
+  admin: {
+    loginRoute: 'adminLogin',
+    homeRoute: 'adminHome',
+  },
+};
 
 const state = () => ({
   isLoading: false,
-  isAuthenticated: false,
-  username: "",
-  errorLoginMessage: ""
+  info: defaultAuthInfo(),
+  errorLoginMessage: '',
 });
 
 const getters = {};
 
 const actions = {
-  async login({ commit }, credentials) {
+  async login({ commit }, { credentials, guard = '' }) {
+    let homeRoute = guard === '' ? guards.default.homeRoute : guards[guard].homeRoute;
     try {
-      commit("setLoading", true);
-      const res = await auth.login(credentials);
-      if (res.status) {
-        let user = {
-          username: res.username
-        };
-        commit("login", user);
+      commit('setLoading', true);
+      const authInfo = await auth.login(credentials, guard);
+      if (authInfo.status) {
+        commit('login', authInfo);
         let redirect = router.currentRoute.query.redirect;
-        if (typeof redirect !== "undefined") {
+        if (typeof redirect !== 'undefined') {
           router.push(redirect);
         } else {
-          router.push({ name: "home" });
+          router.push({ name: homeRoute });
         }
       } else {
-        commit("setErrorLoginMessage", res.messages);
+        commit('setErrorLoginMessage', authInfo.messages);
       }
     } catch (err) {
       console.log(err);
     } finally {
-      commit("setLoading", false);
+      commit('setLoading', false);
     }
   },
 
-  async logout({ commit }) {
+  async logout({ commit, state }) {
+    let guard = state.info.guard;
+    let loginRoute = guard === '' ? guards.default.loginRoute : guards[guard].loginRoute;
     try {
-      const res = await auth.logout();
+      const res = await auth.logout(guard);
       if (res.status) {
-        commit("logout");
-        router.push({ name: "login" });
+        commit('logout');
+        router.push({ name: loginRoute });
       } else {
         // show error
       }
@@ -51,34 +70,35 @@ const actions = {
   },
 
   async checkAuth({ state, commit }) {
-    if (!state.isAuthenticated) {
-      commit("global/setLoadingPage", true, { root: true });
+    if (!state.info.status) {
+      commit('global/setLoadingPage', true, { root: true });
       try {
-        const res = await auth.checkAuth();
-        if (res.data.status) {
-          let user = {
-            username: res.data.username
-          };
-          commit("login", user);
+        const authInfo = await auth.checkAuth();
+        console.log(authInfo);
+        if (authInfo.status) {
+          commit('login', authInfo);
         }
       } catch (err) {
         console.log(err);
       } finally {
-        commit("global/setLoadingPage", false, { root: true });
+        commit('global/setLoadingPage', false, { root: true });
       }
     }
-  }
+  },
 };
 
 const mutations = {
-  login(state, { username }) {
-    state.isAuthenticated = true;
-    state.username = username;
+  login(state, { status, guard, username, role }) {
+    state.info.status = status;
+    state.info.username = username;
+    state.info.guard = guard;
+    state.info.role = role;
   },
 
   logout(state) {
-    state.isAuthenticated = false;
-    state.username = "";
+    let guard = state.info.guard;
+    state.info = defaultAuthInfo();
+    state.info.guard = guard;
   },
 
   setLoading(state, isLoading) {
@@ -87,7 +107,7 @@ const mutations = {
 
   setErrorLoginMessage(state, message) {
     state.errorLoginMessage = message;
-  }
+  },
 };
 
 export default {
@@ -95,5 +115,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

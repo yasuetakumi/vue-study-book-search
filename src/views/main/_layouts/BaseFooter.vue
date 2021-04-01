@@ -1,8 +1,7 @@
 <template>
   <v-footer class="footer">
     <v-col class="text-center" cols="12">
-      <strong>Copyright {{ new Date().getFullYear() }} Grune.</strong> All
-      rights reserved.
+      <strong>Copyright {{ new Date().getFullYear() }} Grune.</strong> All rights reserved.
     </v-col>
   </v-footer>
 </template>

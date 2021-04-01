@@ -8,36 +8,16 @@
         accept="image/gif,image/jpeg,image/jpg,image/png"
         @change="onFileChange"
       />
-      <v-img
-        max-width="400px"
-        min-width="200px"
-        width="200px"
-        :src="image.url"
-        class="img-thumbnail"
-      >
-      </v-img>
+      <v-img max-width="400px" min-width="200px" width="200px" :src="image.url" class="img-thumbnail"> </v-img>
     </div>
     <div class="d-flex flex-column ml-12">
-      <v-btn
-        fab
-        small
-        color="cyan darken-2"
-        class="mb-1 white--text"
-        @click.stop="$refs.file.click()"
-      >
+      <v-btn fab small color="cyan darken-2" class="mb-1 white--text" @click.stop="$refs.file.click()">
         <v-icon>
           mdi-pencil
         </v-icon>
       </v-btn>
 
-      <v-btn
-        fab
-        small
-        color="grey darken-2"
-        class="white--text"
-        @click="deleteFile"
-        :disabled="isNoFile"
-      >
+      <v-btn fab small color="grey darken-2" class="white--text" @click="deleteFile" :disabled="isNoFile">
         <v-icon>
           mdi-delete
         </v-icon>
@@ -47,20 +27,20 @@
 </template>
 
 <script>
-const noPicUrl = require("@/assets/noimage.png");
+const noPicUrl = require('@/assets/noimage.png');
 export function imageInitial() {
   return {
     url: noPicUrl,
     file: null,
-    isModified: false
+    isModified: false,
   };
 }
 
 export default {
   props: {
     value: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   computed: {
     image: {
@@ -68,18 +48,18 @@ export default {
         return this.value;
       },
       set(val) {
-        this.$emit("input", val);
-      }
+        this.$emit('input', val);
+      },
     },
     isNoFile() {
       return this.image.url == noPicUrl;
-    }
+    },
   },
   methods: {
     reset() {
       const input = this.$refs.file;
-      input.type = "text";
-      input.type = "file";
+      input.type = 'text';
+      input.type = 'file';
     },
 
     onFileChange(e) {
@@ -95,8 +75,8 @@ export default {
       const url = noPicUrl;
       this.image = { url, file, isModified: true };
       this.reset();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

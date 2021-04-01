@@ -1,7 +1,7 @@
 <template>
   <div>
-    <base-nav-left></base-nav-left>
-    <base-app-bar></base-app-bar>
+    <base-nav-left v-model="drawerOpen"></base-nav-left>
+    <base-app-bar v-model="drawerOpen"></base-app-bar>
 
     <v-main>
       <base-notification-snackbar></base-notification-snackbar>
@@ -15,20 +15,25 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import BaseAppBar from "./BaseAppBar.vue";
-import BaseFooter from "./BaseFooter";
-import BaseNavLeft from "./BaseNavLeft.vue";
-import BaseNotificationSnackbar from "./BaseNotificationSnackbar.vue";
+import { mapState } from 'vuex';
+import BaseAppBar from './BaseAppBar.vue';
+import BaseFooter from './BaseFooter';
+import BaseNavLeft from './BaseNavLeft.vue';
+import BaseNotificationSnackbar from './BaseNotificationSnackbar.vue';
 export default {
+  data() {
+    return {
+      drawerOpen: true,
+    };
+  },
   computed: mapState({
-    loadingPage: state => state.global.loadingPage
+    loadingPage: state => state.global.loadingPage,
   }),
   components: {
     BaseFooter,
     BaseNavLeft,
     BaseAppBar,
-    BaseNotificationSnackbar
-  }
+    BaseNotificationSnackbar,
+  },
 };
 </script>

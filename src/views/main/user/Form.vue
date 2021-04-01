@@ -1,17 +1,7 @@
 <template>
   <div>
-    <v-skeleton-loader
-      v-if="loadingComponent"
-      type="card-avatar, article, actions"
-    >
-    </v-skeleton-loader>
-    <v-sheet
-      v-if="!loadingComponent"
-      elevation="1"
-      min-height="70vh"
-      width="100%"
-      :rounded="'sm'"
-    >
+    <v-skeleton-loader v-if="loadingComponent" type="card-avatar, article, actions"> </v-skeleton-loader>
+    <v-sheet v-if="!loadingComponent" elevation="1" min-height="70vh" width="100%" :rounded="'sm'">
       <v-container class="px-10">
         <v-form ref="userForm" @submit.prevent="submit">
           <g-input-group required :title="$t('general.auth.email')">
@@ -31,11 +21,7 @@
             ></v-text-field>
           </g-input-group>
           <g-input-group required :title="$t('general.auth.password')">
-            <g-password-input
-              :rules="rules.password"
-              outlined
-              v-model="item.password"
-            ></g-password-input>
+            <g-password-input :rules="rules.password" outlined v-model="item.password"></g-password-input>
           </g-input-group>
           <v-btn type="submit">SUBMIT</v-btn>
         </v-form>
@@ -44,30 +30,27 @@
   </div>
 </template>
 <script>
-import { store, getForm, update } from "@services/crud";
-import GInputGroup from "@components/form_input/GInputGroup.vue";
-import GPasswordInput from "@components/form_input/GPasswordInput.vue";
+import { store, getForm, update } from '@services/crud';
+import GInputGroup from '@components/form_input/GInputGroup.vue';
+import GPasswordInput from '@components/form_input/GPasswordInput.vue';
 export default {
   data() {
     return {
       rules: {
-        name: [v => !!v || "Name is required"],
-        password: [v => !!v || "Password is required"],
-        email: [
-          v => !!v || "E-mail is required",
-          v => /.+@.+\..+/.test(v) || "E-mail must be valid"
-        ]
+        name: [v => !!v || 'Name is required'],
+        password: [v => !!v || 'Password is required'],
+        email: [v => !!v || 'E-mail is required', v => /.+@.+\..+/.test(v) || 'E-mail must be valid'],
       },
       item: {
         id: null,
-        email: "",
-        displayName: "",
-        password: ""
+        email: '',
+        displayName: '',
+        password: '',
       },
       formData: {},
       editPage: false,
-      submitUrl: "",
-      loadingComponent: false
+      submitUrl: '',
+      loadingComponent: false,
     };
   },
   methods: {
@@ -75,21 +58,21 @@ export default {
       if (this.$refs.userForm.validate()) {
         let options = {
           headers: {
-            "Content-Type": "multipart/form-data"
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         };
         let payload = new FormData();
-        payload.append("email", this.item.email);
-        payload.append("display_name", this.item.displayName);
-        payload.append("password", this.item.password);
+        payload.append('email', this.item.email);
+        payload.append('display_name', this.item.displayName);
+        payload.append('password', this.item.password);
         const res = this.editPage
           ? await update(this.submitUrl, payload, options)
           : await store(this.submitUrl, payload, options);
         if (res) {
-          this.$router.push({ name: "users" });
+          this.$router.push({ name: 'users' });
         }
       }
-    }
+    },
   },
   async created() {
     this.loadingComponent = true;
@@ -114,7 +97,7 @@ export default {
   },
   components: {
     GInputGroup,
-    GPasswordInput
-  }
+    GPasswordInput,
+  },
 };
 </script>

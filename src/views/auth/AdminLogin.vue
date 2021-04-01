@@ -3,17 +3,18 @@
     <v-container class="login-card d-flex flex-column">
       <v-container class="d-flex justify-center">
         <v-card :loading="isLoading" width="374">
+          <v-alert v-model="showAlert" dense type="error">
+            The email or password you entered are incorrect.
+          </v-alert>
           <template slot="progress">
             <v-progress-linear height="10" indeterminate></v-progress-linear>
           </template>
-
-          <v-card-title>{{ $t('general.auth.welcome') }}</v-card-title>
-          <v-card-subtitle>{{ $t('general.auth.signInMessage') }}</v-card-subtitle>
+          <v-card-title class="d-flex justify-center">{{ $t('general.auth.adminLogin') }}</v-card-title>
           <v-form class="ma-3" @submit.prevent="login">
             <v-text-field
               :label="$t('general.auth.email')"
               v-model="email"
-              :placeholder="$t('general.placeholder.email')"
+              placeholder=""
               :rules="emailRules"
               outlined
               required
@@ -27,15 +28,20 @@
               outlined
               required
             ></v-text-field>
-            <v-card-text class="py-1 px-1 yellow">
-              [TEST LOGIN]<br />
-              - admin@company.com 12345678<br />
-              - user@company.com 12345678<br />
-            </v-card-text>
             <v-card-actions>
-              <v-btn block class="pa-2" color="primary" type="submit">{{ $t('general.auth.login') }}</v-btn>
+              <v-checkbox v-model="rememberMe" :label="$t('general.auth.rememberMe')"> </v-checkbox>
+              <v-row class="d-flex justify-end mr-1 card-white-space">
+                <v-btn class="pa-2" color="primary" type="submit">
+                  {{ $t('general.auth.login') }}
+                </v-btn>
+              </v-row>
             </v-card-actions>
           </v-form>
+        </v-card>
+      </v-container>
+      <v-container class="d-flex justify-center">
+        <v-card width="374" elevation="0">
+          <a href="#" class="text-decoration-none">{{ $t('general.auth.adminLogin') }}</a>
         </v-card>
       </v-container>
       <v-container>
@@ -51,9 +57,11 @@ import LocaleSelector from '@components/LocaleSelector.vue';
 export default {
   components: { LocaleSelector },
   data: () => ({
+    showAlert: false,
     email: '',
     password: '',
     remember: false,
+    rememberMe: false,
     emailRules: [
       v => !!v || 'E-mail is required',
       v =>
@@ -66,16 +74,18 @@ export default {
 
   computed: mapState({
     isLoading: state => state.auth.isLoading,
+    showAlert: state => state.auth.showAlert,
   }),
-
   methods: {
     login() {
       let credentials = {
         email: this.email,
         password: this.password,
         remember: this.remember,
+        rememberMe: this.rememberMe,
       };
-      this.$store.dispatch('auth/login', { credentials });
+      let guard = 'admin';
+      this.$store.dispatch('auth/login', { credentials, guard });
     },
   },
 };

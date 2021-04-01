@@ -31,12 +31,7 @@
       </tr>
     </template>
     <template v-slot:item.action="{ item }">
-      <v-btn
-        :disabled="loading"
-        color="cyan darken-2"
-        class="mx-2 white--text"
-        @click="editUser(item.id)"
-      >
+      <v-btn :disabled="loading" color="cyan darken-2" class="mx-2 white--text" @click="editUser(item.id)">
         <v-icon>mdi-account-edit</v-icon>
       </v-btn>
       <g-action-button
@@ -50,9 +45,9 @@
 </template>
 
 <script>
-import { destroy, getAll } from "@services/crud";
-import { convArrToObj } from "@helpers";
-import GActionButton from "../../_components/GActionButton.vue";
+import { destroy, getAll } from '@services/crud';
+import { convArrToObj } from '@helpers';
+import GActionButton from '../../_components/GActionButton.vue';
 
 export default {
   components: { GActionButton },
@@ -70,61 +65,61 @@ export default {
         mustSort: false,
         page: 1,
         sortBy: [],
-        sortDesc: []
+        sortDesc: [],
       },
       activeFilters: {},
       headers: [
         {
-          text: "ID",
-          value: "id"
+          text: 'ID',
+          value: 'id',
         },
         {
-          text: "User Role",
-          value: "user_role"
+          text: 'User Role',
+          value: 'user_role',
         },
         {
-          text: "Name",
-          value: "display_name"
+          text: 'Name',
+          value: 'display_name',
         },
         {
-          text: "Email",
-          value: "email"
+          text: 'Email',
+          value: 'email',
         },
         {
-          text: "Action",
-          value: "action"
-        }
-      ]
+          text: 'Action',
+          value: 'action',
+        },
+      ],
     };
   },
   computed: {
     displayedUsers() {
       return this.users.map(user => ({
         ...user,
-        user_role: this.keyedFormData.userRoles[user.user_role_id].label
+        user_role: this.keyedFormData.userRoles[user.user_role_id].label,
       }));
     },
     keyedFormData() {
       let obj = {};
       for (const [key, value] of Object.entries(this.formData)) {
-        obj[key] = convArrToObj(value, "id");
+        obj[key] = convArrToObj(value, 'id');
       }
       return obj;
-    }
+    },
   },
   watch: {
     options: {
       handler() {
         this.getAllUsers();
       },
-      deep: true
+      deep: true,
     },
     activeFilters: {
       handler() {
         this.getAllUsers();
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   mounted() {
     this.getAllUsers();
@@ -132,7 +127,7 @@ export default {
   methods: {
     getAllUsers: async function() {
       try {
-        let url = "users";
+        let url = 'users';
         this.loading = true;
         const { itemsPerPage, page, sortBy, sortDesc } = this.options;
         const res = await getAll(url, {
@@ -140,7 +135,7 @@ export default {
           page,
           sortBy,
           sortDesc,
-          ...this.activeFilters
+          ...this.activeFilters,
         });
         this.users = res.users.data;
         this.totalUsers = res.users.total;
@@ -172,9 +167,9 @@ export default {
       return cb.bind(this);
     },
     editUser: function(id) {
-      this.$router.push({ name: "users.edit", params: { id } });
-    }
-  }
+      this.$router.push({ name: 'users.edit', params: { id } });
+    },
+  },
 };
 </script>
 <style lang="scss">

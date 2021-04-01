@@ -2,7 +2,7 @@
   <v-app-bar flat app>
     <v-btn icon @click="toggleDrawer(!drawerOpen)">
       <v-icon>
-        {{ drawerOpen ? "mdi-chevron-left" : "mdi-menu" }}
+        {{ drawerOpen ? 'mdi-chevron-left' : 'mdi-menu' }}
       </v-icon>
     </v-btn>
     <v-spacer></v-spacer>
@@ -10,15 +10,11 @@
     <v-menu offset-y class="mx-3">
       <template v-slot:activator="{ on, attrs }">
         <v-btn :elevation="1" small v-bind="attrs" v-on="on">
-          {{ $t("localeLabel") }}
+          {{ $t('localeLabel') }}
         </v-btn>
       </template>
       <v-list dense>
-        <v-list-item
-          v-for="locale in languages"
-          :key="locale.val"
-          @click="setLocale(locale.val)"
-        >
+        <v-list-item v-for="locale in languages" :key="locale.val" @click="setLocale(locale.val)">
           <v-list-item-content>
             <v-list-item-title>{{ locale.label }}</v-list-item-title>
           </v-list-item-content>
@@ -33,11 +29,7 @@
         </v-btn>
       </template>
       <v-list dense>
-        <v-list-item
-          v-for="menu in accountMenus"
-          :key="menu.id"
-          @click="menu.action"
-        >
+        <v-list-item v-for="menu in accountMenus" :key="menu.id" @click="menu.action">
           <v-list-item-icon>
             <v-icon v-text="menu.icon"></v-icon>
           </v-list-item-icon>
@@ -51,24 +43,45 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapActions } from 'vuex';
 export default {
+  props: {
+    value: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      accountMenus: [
+        {
+          id: 'logout',
+          title: 'general.auth.logout',
+          icon: 'mdi-logout',
+          action: () => {
+            this.$store.dispatch('auth/logout');
+          },
+        },
+      ],
+    };
+  },
   computed: {
     ...mapState({
-      accountMenus: store => store.global.accountMenus,
       locale: store => store.global.locale,
       languages: store => store.global.languages,
-      drawerOpen: store => store.global.drawerOpen
-    })
+    }),
+    drawerOpen() {
+      return this.value;
+    },
   },
   methods: {
     ...mapActions({
-      setLocale: "global/setLocale"
+      setLocale: 'global/setLocale',
     }),
-    ...mapMutations({
-      toggleDrawer: "global/toggleDrawer"
-    })
+    toggleDrawer(val) {
+      this.$emit('input', val);
+    },
   },
-  created() {}
+  created() {},
 };
 </script>

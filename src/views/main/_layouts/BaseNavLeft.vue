@@ -3,10 +3,10 @@
     <v-list-item>
       <v-list-item-content>
         <v-list-item-title class="title">
-          {{ $t("general.nav.projectName") }}
+          {{ $t('general.nav.projectName') }}
         </v-list-item-title>
         <v-list-item-subtitle>
-          {{ $t("general.nav.grune") }}
+          {{ $t('general.nav.grune') }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -35,12 +35,7 @@
               </v-list-item-content>
             </template>
 
-            <v-list-item
-              v-for="submenu in menu.children"
-              :key="submenu.title"
-              :to="submenu.route"
-              exact
-            >
+            <v-list-item v-for="submenu in menu.children" :key="submenu.title" :to="submenu.route" exact>
               <v-list-item-icon>
                 <v-icon>{{ submenu.icon }}</v-icon>
               </v-list-item-icon>
@@ -56,21 +51,77 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+const navLeftMenus = [
+  {
+    id: 'dashboard',
+    label: 'general.nav.dashboard',
+    route: { name: 'dashboard' },
+    icon: 'mdi-home-city',
+    hasChildren: false,
+  },
+  {
+    id: 'users',
+    label: 'general.nav.users',
+    icon: 'mdi-account-group-outline',
+    hasChildren: true,
+    children: [
+      {
+        id: 'users.datatable',
+        label: 'general.crud.list',
+        route: { name: 'users' },
+        hasChildren: false,
+      },
+      {
+        id: 'users.form',
+        label: 'general.crud.createNew',
+        route: { name: 'users.create' },
+        hasChildren: false,
+      },
+    ],
+  },
+  {
+    id: 'dummy-meetings',
+    label: 'general.demo.dummyMeetings',
+    icon: 'mdi-account-group-outline',
+    hasChildren: true,
+    children: [
+      {
+        id: 'dummy-meetings.datatable',
+        label: 'general.crud.list',
+        route: { name: 'dummy-meetings' },
+        hasChildren: false,
+      },
+      {
+        id: 'dummy-meetings.form',
+        label: 'general.crud.createNew',
+        route: { name: 'dummy-meetings.create' },
+        hasChildren: false,
+      },
+    ],
+  },
+];
 export default {
+  props: {
+    value: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      navLeftMenus,
+    };
+  },
   computed: {
     drawerOpen: {
       get() {
-        return this.$store.state.global.drawerOpen;
+        return this.value;
       },
-      set(drawer) {
-        this.$store.commit("global/toggleDrawer", drawer);
-      }
+      set(val) {
+        this.$emit('input', val);
+      },
     },
-    ...mapState({
-      navLeftMenus: store => store.global.navLeftMenus
-    })
   },
-  created() {}
+  created() {},
 };
 </script>
