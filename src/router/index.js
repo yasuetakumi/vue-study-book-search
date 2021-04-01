@@ -7,6 +7,10 @@ import usersRoutes from './modules/user';
 import dummyMeetingsRoutes from './modules/dummy-meeting';
 import errors from './errors';
 import auth from './auth';
+
+import AdminAppBase from '@views/admin/_layouts/AppBase';
+import AdminDashboard from '@views/admin/Dashboard';
+
 import { guards as availableGuards } from '@/store/modules/auth';
 
 Vue.use(VueRouter);
@@ -33,8 +37,8 @@ const routes = [
   },
   {
     path: '/admin',
-    name: 'adminHome',
-    component: AppBase,
+    name: 'admin_home',
+    component: AdminAppBase,
     meta: {
       requiresAuth: true,
       guard: 'admin',
@@ -43,17 +47,15 @@ const routes = [
     children: [
       {
         path: 'dashboard',
-        name: 'dashboard',
-        component: Dashboard,
+        name: 'admin.dashboard',
+        component: AdminDashboard,
       },
-      ...usersRoutes,
-      ...dummyMeetingsRoutes,
     ],
   },
   ...auth,
   ...errors,
   {
-    name: 'catchAll',
+    name: 'catch_all',
     path: '*',
     redirect: { name: 'home' },
   },
