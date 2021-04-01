@@ -84,7 +84,7 @@ export default {
           ? await update(this.submitUrl, payload, options)
           : await store(this.submitUrl, payload, options);
         if (res) {
-          this.$router.push({ name: 'dummy-meetings' });
+          this.$router.push({ name: 'dummy_meetings' });
         }
       }
     },

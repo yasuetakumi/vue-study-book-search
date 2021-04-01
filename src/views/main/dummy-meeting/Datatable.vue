@@ -160,7 +160,7 @@ export default {
       return cb.bind(this);
     },
     editMeeting: function(id) {
-      this.$router.push({ name: 'dummy-meetings.edit', params: { id } });
+      this.$router.push({ name: 'dummy_meetings.edit', params: { id } });
     },
   },
 };
