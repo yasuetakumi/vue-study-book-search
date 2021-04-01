@@ -52,6 +52,7 @@ const en = {
     },
     time: {
       date: 'Date',
+      time: 'Time',
     },
     nav: {
       projectName: 'Vue Starter Kit',

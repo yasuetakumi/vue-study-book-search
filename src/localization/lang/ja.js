@@ -52,6 +52,7 @@ const ja = {
     },
     time: {
       date: 'Date',
+      time: 'Time',
     },
     nav: {
       projectName: 'SPA-Vue2 starter',
