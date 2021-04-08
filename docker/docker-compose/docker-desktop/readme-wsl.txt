@@ -17,4 +17,4 @@
 11. Run "php artisan migrate:fresh --seed"
 13. Change api folder owner to nginx process. Assuming in the project root folder,
     run "sudo chown -R $USER:www-data api/storage && sudo chown -R $USER:www-data api/bootstrap/cache && chmod -R 775 api/storage && chmod -R 775 api/bootstrap/cache"
-14. Go to localhost:3000
+14. Go to localhost:8086

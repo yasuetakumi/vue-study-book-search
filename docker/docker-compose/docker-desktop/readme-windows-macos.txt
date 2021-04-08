@@ -15,4 +15,4 @@
 9. Copy ".env.docker" to ".env"
 10. Run "php artisan key:generate"
 11. Run "php artisan migrate:fresh --seed"
-12. Go to localhost:3000
+12. Go to localhost:8086
