@@ -15,7 +15,6 @@
 9. Copy ".env.docker" to ".env"
 10. Run "php artisan key:generate"
 11. Run "php artisan migrate:fresh --seed"
-12. Get the uid of nginx process by "docker exec spa_nginx id www-data"
 13. Change api folder owner to nginx process. Assuming in the project root folder,
-    run "sudo chown -R [uid]:[uid] api"
+    run "sudo chown -R $USER:www-data api/storage && sudo chown -R $USER:www-data api/bootstrap/cache && chmod -R 775 api/storage && chmod -R 775 api/bootstrap/cache"
 14. Go to localhost:3000
