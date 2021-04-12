@@ -81,7 +81,7 @@ router.beforeEach(async (to, from, next) => {
     const authInfo = store.state.auth.info;
     if (!authInfo.status) {
       // if not authenticated, redirect to correct login page
-      next({ name: loginRoute });
+      next({ name: loginRoute, redirect: to.path });
     } else {
       // if isAuthenticated and route.guard matched with authInfo.guard
       if (guards.some(guard => guard === authInfo.guard)) {
