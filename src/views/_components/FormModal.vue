@@ -1,0 +1,69 @@
+<template>
+  <div>
+    <v-dialog v-model="isOpen" width="1000">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
+          {{ form.openText }}
+        </v-btn>
+      </template>
+
+      <v-card>
+        <v-card-title class="headline grey lighten-2">
+          {{ form.title }}
+        </v-card-title>
+
+        <v-card-text>
+          <slot></slot>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="acceptDialog">
+            {{ accept.text }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    accept: {
+      type: Object,
+      required: true,
+      default: function() {
+        return {
+          text: 'Save',
+          cb: () => {},
+        };
+      },
+    },
+    form: {
+      type: Object,
+      required: true,
+      default: function() {
+        return {
+          openText: 'Open',
+          title: 'Form',
+        };
+      },
+    },
+  },
+
+  data() {
+    return {
+      isOpen: false,
+    };
+  },
+  methods: {
+    async acceptDialog() {
+      await this.accept.cb();
+      this.isOpen = false;
+    },
+  },
+};
+</script>

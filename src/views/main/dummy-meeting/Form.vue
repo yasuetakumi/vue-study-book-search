@@ -31,6 +31,23 @@
           <g-input-group optional :title="'Image Location'">
             <g-image-input v-model="item.locImage"></g-image-input>
           </g-input-group>
+
+          <g-input-group optional :title="'Address'">
+            <!-- This is just example for modal form
+            In general, the use case will be project dependent
+            Please use/modify as needed, or create your own per your need -->
+            <form-modal>
+              <g-input-group optional :title="'Address'">
+                <v-text-field outlined v-model="item.address.address"></v-text-field>
+              </g-input-group>
+              <g-input-group optional :title="'Postcode'">
+                <v-text-field outlined v-model="item.address.postcode"></v-text-field>
+              </g-input-group>
+              <g-input-group optional :title="'Phone Number'">
+                <v-text-field outlined v-model="item.address.phone"></v-text-field>
+              </g-input-group>
+            </form-modal>
+          </g-input-group>
           <v-btn type="submit">SUBMIT</v-btn>
         </v-form>
       </v-container>
@@ -43,6 +60,7 @@ import GInputGroup from '@components/form_input/GInputGroup.vue';
 import GDatePicker from '../../_components/form_input/GDatePicker.vue';
 import GTimePicker from '../../_components/form_input/GTimePicker.vue';
 import GImageInput, { imageInitial } from '../../_components/form_input/GImageInput.vue';
+import FormModal from '../../_components/FormModal.vue';
 export default {
   data() {
     return {
@@ -56,6 +74,11 @@ export default {
         time: null,
         attendee: 0,
         locImage: imageInitial(),
+        address: {
+          address: '',
+          postcode: '',
+          phone: '',
+        },
       },
       formData: {},
       editPage: false,
@@ -119,7 +142,7 @@ export default {
     GDatePicker,
     GImageInput,
     GTimePicker,
+    FormModal,
   },
 };
 </script>
-, GInputGroup
