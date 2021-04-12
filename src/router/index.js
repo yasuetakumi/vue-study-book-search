@@ -15,6 +15,10 @@ import { guards as availableGuards } from '@/store/modules/auth';
 
 Vue.use(VueRouter);
 
+/**
+ * Define index routes.
+ * This contain child routes. Please refer other modules.
+ */
 const routes = [
   {
     path: '/',
@@ -66,17 +70,33 @@ const router = new VueRouter({
   routes,
 });
 
+/**
+ * Pre process to start routing. You can set redirect without opening page.
+ * [about args]
+ * to: requested URL.
+ * from: previous router.(only when requested from Vue)
+ * next: callback function.
+ */
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
+    // arr.reduce((accumulater, currentValue) => {...}, initialValue );
+    // [args] "accumulater" is accumulated value. "currenValue" is arr[index] .
+    // Ex: [1,2,3].reduce( (acc, elem) => acc+elem ) is 1+2+3 -> result is 6.
     let reducer = (acc, cur) => {
+      // Check cur.meta.guard is existing. 
       if (Object.prototype.hasOwnProperty.call(cur.meta, 'guard')) {
+        // If there is cur.meta.guard( = to.matched[i].meta.guard ) , append it to acc.
         return [...acc, cur.meta.guard];
       } else {
         return acc;
       }
     };
+    // collect to.matched[i].meta.guard to simple array.
     let guards = to.matched.reduce(reducer, []);
+    // Check current guards in availableGuards and get loginRoute.
     let loginRoute = guards[0] === '' ? availableGuards.default.loginRoute : availableGuards[guards[0]].loginRoute;
+
+    // Check auth.
     await store.dispatch('auth/checkAuth');
     const authInfo = store.state.auth.info;
     if (!authInfo.status) {
