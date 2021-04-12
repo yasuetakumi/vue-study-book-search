@@ -71,11 +71,12 @@ const router = new VueRouter({
 });
 
 /**
- * Pre process to start routing. You can set redirect without opening page.
+ * Pre process to start routing (route guard)
  * [about args]
  * to: requested URL.
  * from: previous router.(only when requested from Vue)
  * next: callback function.
+ * see https://router.vuejs.org
  */
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -83,7 +84,7 @@ router.beforeEach(async (to, from, next) => {
     // [args] "accumulater" is accumulated value. "currenValue" is arr[index] .
     // Ex: [1,2,3].reduce( (acc, elem) => acc+elem ) is 1+2+3 -> result is 6.
     let reducer = (acc, cur) => {
-      // Check cur.meta.guard is existing. 
+      // Check if cur.meta.guard exists
       if (Object.prototype.hasOwnProperty.call(cur.meta, 'guard')) {
         // If there is cur.meta.guard( = to.matched[i].meta.guard ) , append it to acc.
         return [...acc, cur.meta.guard];
