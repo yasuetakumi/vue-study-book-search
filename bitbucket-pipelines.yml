@@ -26,7 +26,7 @@ pipelines:
             - git config git-ftp.syncroot dist/ # .git-ftp-include file is necessary because dist directory is ignored by .gitignore
             - ls dist
             - git ftp push -s deploy_to_xserver
-    release/deploy_demo_site: # TODO!
+    release/deploy_demo_site: # DEMO SITE(push)
       - step:
           name: Yarn run build
           caches:
@@ -50,3 +50,27 @@ pipelines:
             - git config git-ftp.syncroot dist/ # .git-ftp-include file is necessary because dist directory is ignored by .gitignore
             - ls dist
             - git ftp push -s deploy_to_xserver
+    release/deploy_demo_site_init: # DEMO SITE(init)
+      - step:
+          name: Yarn run build
+          caches:
+            - node
+          script:
+            - node
+            - yarn
+            - rm .env && cp .env.demo_on_xserver .env && cat .env
+            - yarn run build
+            - ls dist
+          artifacts: # Share files to after step.
+            - dist/**
+      - step:
+          name: Deploy to XServer by FTP (First time)
+          script:
+            - apt-get update
+            - apt-get -qq install git-ftp
+            - git config git-ftp.user $FTP_USERNAME_DEMO
+            - git config git-ftp.password $FTP_PASSWORD_DEMO
+            - git config git-ftp.url $FTP_HOST_PATH_DEMO
+            - git config git-ftp.syncroot dist/ # .git-ftp-include file is necessary because dist directory is ignored by .gitignore
+            - ls dist
+            - git ftp init -s deploy_to_xserver
