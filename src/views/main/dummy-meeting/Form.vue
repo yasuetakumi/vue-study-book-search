@@ -8,7 +8,7 @@
             <v-text-field outlined v-model="item.title"></v-text-field>
           </g-input-group>
           <g-input-group required :title="'Customer'">
-            <v-select v-model="item.customer" :items="formData.customers"></v-select>
+            <v-select outlined v-model="item.customer" :items="formData.customers"></v-select>
           </g-input-group>
           <g-input-group required :title="'Attendee'">
             <v-radio-group v-model="item.attendee" row>
@@ -48,7 +48,12 @@
               </g-input-group>
             </form-modal>
           </g-input-group>
-          <v-btn type="submit">SUBMIT</v-btn>
+          <g-input-group>
+            <v-combobox clearable v-model="item.customer" :items="formData.customers"></v-combobox>
+          </g-input-group>
+          <div class="pt-10">
+            <v-btn type="submit">SUBMIT</v-btn>
+          </div>
         </v-form>
       </v-container>
     </v-sheet>

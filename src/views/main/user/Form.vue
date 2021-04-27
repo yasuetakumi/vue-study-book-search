@@ -23,7 +23,9 @@
           <g-input-group required :title="$t('general.auth.password')">
             <g-password-input :rules="rules.password" outlined v-model="item.password"></g-password-input>
           </g-input-group>
-          <v-btn type="submit">SUBMIT</v-btn>
+          <div class="pt-10">
+            <v-btn type="submit">SUBMIT</v-btn>
+          </div>
         </v-form>
       </v-container>
     </v-sheet>
