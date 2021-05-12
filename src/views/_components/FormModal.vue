@@ -1,40 +1,43 @@
 <template>
-  <div>
-    <v-dialog v-model="isOpen" width="1000">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
-          {{ form.openText }}
-        </v-btn>
-      </template>
+  <v-dialog v-model="isOpen" width="1100">
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
+        {{ form.openText }}
+      </v-btn>
+    </template>
 
-      <v-card>
-        <v-card-title class="headline grey lighten-2">
-          {{ form.title }}
-        </v-card-title>
+    <v-card>
+      <v-card-title class="headline grey lighten-2">
+        {{ form.title }}
+      </v-card-title>
 
-        <v-card-text>
+      <v-card-text>
+        <div class="pt-5 px-5">
           <slot></slot>
-        </v-card-text>
+        </div>
+      </v-card-text>
 
-        <v-divider></v-divider>
+      <v-divider></v-divider>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="acceptDialog">
-            {{ accept.text }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" text @click="acceptDialog">
+          {{ accept.text }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
 export default {
   props: {
+    /* Specify callback when save is clicked
+     * For example, if we want to trigger api call, when save is clicked
+     * put the method on cb
+     */
     accept: {
       type: Object,
-      required: true,
       default: function() {
         return {
           text: 'Save',
@@ -43,8 +46,8 @@ export default {
       },
     },
     form: {
+      /* Specify text for open button and title */
       type: Object,
-      required: true,
       default: function() {
         return {
           openText: 'Open',

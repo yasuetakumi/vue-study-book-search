@@ -31,13 +31,18 @@
       </tr>
     </template>
     <template v-slot:item.action="{ item }">
-      <v-btn :disabled="loading" color="cyan darken-2" class="mx-2 white--text" @click="editUser(item.id)">
+      <v-btn
+        :disabled="loading"
+        color="cyan darken-2"
+        :class="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
+        @click="editUser(item.id)"
+      >
         <v-icon>mdi-account-edit</v-icon>
       </v-btn>
       <g-action-button
         :disabled="loading"
         :onConfirm="deleteUser(item.id)"
-        :btnClass="['white--text']"
+        :btnClass="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
         color="grey darken-2"
       ></g-action-button>
     </template>
