@@ -42,18 +42,27 @@
         <locale-selector style="width:150px"></locale-selector>
       </v-container>
     </v-container>
+    <v-overlay v-if="loading_hand_shake" value="Loading...">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
   </v-main>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import LocaleSelector from '@components/LocaleSelector.vue';
+import Vue from 'vue';
+
 export default {
   components: { LocaleSelector },
   data: () => ({
     email: '',
     password: '',
     remember: false,
+    loading_hand_shake: true,
     emailRules: [
       v => !!v || 'E-mail is required',
       v =>
@@ -77,7 +86,28 @@ export default {
       };
       this.$store.dispatch('auth/login', { credentials });
     },
+    initHandShake: async function() {
+      if(!this.loading_hand_shake){
+        // End this method if you are already hand shaked.
+        return;
+      }
+      try {
+        const res = await Vue.axios.get('/hand-shake');
+        if( res.data.result == "___SUCCESS___" )
+        {
+          this.loading_hand_shake = false;
+        }else{
+          throw new Error('hand shaking is not succeed. Please check API server.');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    },
   },
+  created: async function() {
+    console.debug('begin:created');
+    this.initHandShake();
+  }
 };
 </script>
 
