@@ -25,6 +25,7 @@
       <v-btn
         :disabled="loading"
         color="cyan darken-2"
+        small
         :class="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
         @click="editMeeting(item.id)"
       >

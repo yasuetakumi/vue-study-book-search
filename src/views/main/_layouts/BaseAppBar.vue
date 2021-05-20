@@ -7,9 +7,9 @@
     </v-btn>
     <v-spacer></v-spacer>
 
-    <v-menu offset-y class="mx-3">
+    <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn :elevation="1" small v-bind="attrs" v-on="on">
+        <v-btn  class="mx-3" :elevation="1" small v-bind="attrs" v-on="on">
           {{ $t('localeLabel') }}
         </v-btn>
       </template>
@@ -24,7 +24,7 @@
 
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn fab :elevation="1" small v-bind="attrs" v-on="on">
+        <v-btn class="mx-3" fab :elevation="1" small v-bind="attrs" v-on="on">
           <v-icon>mdi-account</v-icon>
         </v-btn>
       </template>
