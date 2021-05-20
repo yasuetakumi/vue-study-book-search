@@ -27,10 +27,11 @@
               outlined
               required
             ></v-text-field>
-            <v-card-text class="py-1 px-1 yellow">
-              [TEST LOGIN]<br />
-              - admin@company.com 12345678<br />
-              - user@company.com 12345678<br />
+            <v-card-text class="py-1 px-1 blue-grey lighten-5" style="border-radius: 8px;">
+              <div class="ml-3">
+                <p>試用ログイン情報</p>
+                <p>admin@company.com 12345678 <v-btn class="mx-3" small v-on:click="email = 'admin@company.com'; password= '12345678';">SET</v-btn></p>
+              </div>
             </v-card-text>
             <v-card-actions>
               <v-btn block class="pa-2" color="primary" type="submit">{{ $t('general.auth.login') }}</v-btn>

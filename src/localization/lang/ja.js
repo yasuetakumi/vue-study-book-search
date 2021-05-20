@@ -13,7 +13,7 @@ const ja = {
       showPassword: 'パスワード表示',
       rememberMe: 'ログイン状態を保持する',
       login: 'ログイン',
-      adminLogin: 'Admin Login',
+      adminLogin: 'Adminログイン',
       logout: 'ログアウト',
       register: '登録',
     },
@@ -31,10 +31,10 @@ const ja = {
     validation: {
       required: '必須',
       optional: '任意',
-      confirm: 'Confirm',
+      confirm: '確認',
     },
     demo: {
-      dummyMeetings: 'Dummy Meetings',
+      dummyMeetings: '打ち合わせ',
     },
     crud: {
       createNew: '新規作成',
@@ -51,8 +51,8 @@ const ja = {
       action: '編集',
     },
     time: {
-      date: 'Date',
-      time: 'Time',
+      date: '日付',
+      time: '時間',
     },
     nav: {
       projectName: 'SPA-Vue2 starter',
@@ -67,8 +67,8 @@ const ja = {
       fullName: '山下太郎',
     },
     alert: {
-      youSure: 'Are you sure?',
-      confirmDelete: 'Once the item is deleted, we cannot get it back for you.',
+      youSure: '削除確認',
+      confirmDelete: '選択したデータを削除します。削除されたデータは元に戻せません。',
     },
   },
 };

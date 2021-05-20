@@ -1,6 +1,11 @@
 <template>
   <div style="display: contents">
-    <v-btn @click.stop="isOpen = true" v-bind="$attrs" :class="btnClass">
+    <v-btn
+      small
+      @click.stop="isOpen = true"
+      v-bind="$attrs"
+      :class="btnClass"
+    >
       <slot>
         <v-icon>mdi-delete</v-icon>
       </slot>
@@ -22,7 +27,12 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="success" text @click="confirm">
+          <v-btn
+            color="success"
+            text
+            small
+            @click="confirm"
+          >
             {{ text.confirm }}
           </v-btn>
         </v-card-actions>
