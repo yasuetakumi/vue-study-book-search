@@ -49,7 +49,7 @@ pipelines:
             - git config git-ftp.url $FTP_HOST_PATH_DEMO
             - git config git-ftp.syncroot dist/ # .git-ftp-include file is necessary because dist directory is ignored by .gitignore
             - ls dist
-            - git ftp init --force --auto-init --insecure --changed-only -s deploy_to_xserver
+            - git ftp init -s deploy_to_xserver
     release/deploy_demo_site_init: # DEMO SITE(init)
       - step:
           name: Yarn run build
