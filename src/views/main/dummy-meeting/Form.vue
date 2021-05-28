@@ -4,13 +4,13 @@
     <v-sheet v-if="!loadingComponent" elevation="1" min-height="70vh" width="100%" :rounded="'sm'">
       <v-container class="px-10">
         <v-form ref="meetingForm" @submit.prevent="submit">
-          <g-input-group required :title="'Title'">
+          <g-input-group required :title="$t('general.title')">
             <v-text-field outlined v-model="item.title"></v-text-field>
           </g-input-group>
-          <g-input-group required :title="'Customer'">
+          <g-input-group required :title="$t('general.customer')">
             <v-select outlined v-model="item.customer" :items="formData.customers"></v-select>
           </g-input-group>
-          <g-input-group required :title="'Attendee'">
+          <g-input-group required :title="$t('general.attendee')">
             <v-radio-group v-model="item.attendee" row>
               <v-radio
                 v-for="attendee in formData.attendees"
@@ -28,22 +28,22 @@
           <g-input-group required :title="$t('general.time.time')">
             <g-time-picker v-model="item.time" tp-color="green" tf-outlined> </g-time-picker>
           </g-input-group>
-          <g-input-group optional :title="'Image Location'">
+          <g-input-group optional :title="$t('general.image_location')">
             <g-image-input v-model="item.locImage"></g-image-input>
           </g-input-group>
 
-          <g-input-group optional :title="'Address'">
+          <g-input-group optional :title="$t('general.address')">
             <!-- This is just example for modal form
             In general, the use case will be project dependent
             Please use/modify as needed, or create your own per your need -->
             <form-modal>
-              <g-input-group optional :title="'Address'">
+              <g-input-group optional :title="$t('general.address')">
                 <v-text-field outlined v-model="item.address.address"></v-text-field>
               </g-input-group>
-              <g-input-group optional :title="'Postcode'">
+              <g-input-group optional :title="$t('general.postcode')">
                 <v-text-field outlined v-model="item.address.postcode"></v-text-field>
               </g-input-group>
-              <g-input-group optional :title="'Phone Number'">
+              <g-input-group optional :title="$t('general.phone_number')">
                 <v-text-field outlined v-model="item.address.phone"></v-text-field>
               </g-input-group>
             </form-modal>

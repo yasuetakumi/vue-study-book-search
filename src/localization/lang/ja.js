@@ -5,6 +5,13 @@
 const ja = {
   localeLabel: '日本語',
   general: {
+    attendee: '出席者',
+    customer: '顧客',
+    title: 'タイトル',
+    image_location: '位置画像',
+    address: '住所',
+    postcode: '郵便番号',
+    phone_number: '電話番号',
     auth: {
       welcome: 'ようこそ',
       signInMessage: 'アカウントにサインイン',
