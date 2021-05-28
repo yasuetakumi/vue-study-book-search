@@ -1,5 +1,6 @@
 <template>
   <v-main>
+    <GDebugLabel></GDebugLabel>
     <v-container class="login-card d-flex flex-column">
       <v-container class="d-flex justify-center">
         <v-card :loading="isLoading" width="374">
@@ -54,8 +55,9 @@
 <script>
 import { mapState } from 'vuex';
 import LocaleSelector from '@components/LocaleSelector.vue';
+import GDebugLabel from '@views/_components/GDebugLabel.vue';
 export default {
-  components: { LocaleSelector },
+  components: { LocaleSelector , GDebugLabel },
   data: () => ({
     showAlert: false,
     email: '',
