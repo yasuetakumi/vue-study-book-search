@@ -100,10 +100,12 @@ export default {
         {
           this.loading_hand_shake = false;
         }else{
-          throw new Error('hand shaking is not succeed. 1. If Request url is not correct,you can check client/.env file. 2.If file access is denied, please execute artisan config:clear in docker container, not on host. ');
+          throw new Error('hand shaking is not succeed.');
         }
       } catch (err) {
+        console.error('Hand shaking is not succeed. 1. If Request url is not correct,you can check client/.env file. 2.If file access is denied, please execute artisan config:clear in docker container, not on host. ');
         console.error(err);
+        
       }
     },
   },
