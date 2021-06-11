@@ -8,6 +8,11 @@
 <script>
 import { mapState } from 'vuex';
 export default {
+  metaInfo(){
+    return{
+      title: 'Grune 開発用SPAスターターキット| 日本人対応のGruneオフショア開発'
+    }
+  },
   data: () => ({}),
   computed: mapState({
     loadingPage: state => state.global.loadingPage,
