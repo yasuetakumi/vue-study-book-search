@@ -28,10 +28,11 @@
               outlined
               required
             ></v-text-field>
-            <v-card-text class="py-1 px-1 blue-grey lighten-5" style="border-radius: 8px;">
+            <v-card-text class="py-1 px-1 " style="border-radius: 8px; background-color:#ddeeff; color:#4466aa;">
               <div class="ml-3">
-                <p>試用ログイン情報</p>
-                <p>admin@company.com 12345678 <v-btn class="mx-3" small v-on:click="email = 'admin@company.com'; password= '12345678';">SET</v-btn></p>
+                <p>以下のログイン情報をお使いください。</p>
+                <p>Email: admin@company.com<br>Password: testpass 
+                <v-btn class="ml-12" small v-on:click="email = 'admin@company.com'; password= '12345678';">SET</v-btn></p>
               </div>
             </v-card-text>
             <v-card-actions>
