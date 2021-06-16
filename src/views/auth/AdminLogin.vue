@@ -29,6 +29,13 @@
               outlined
               required
             ></v-text-field>
+            <v-card-text class="py-1 px-1 " style="border-radius: 8px; background-color:#ddeeff; color:#4466aa;">
+              <div class="ml-3">
+                <p>以下のログイン情報をお使いください。</p>
+                <p>Email: admin@admin.com<br>Password: 12345678 
+                <v-btn class="ml-12" small v-on:click="email = 'admin@admin.com'; password= '12345678';">SET</v-btn></p>
+              </div>
+            </v-card-text>
             <v-card-actions>
               <v-checkbox v-model="rememberMe" :label="$t('general.auth.rememberMe')"> </v-checkbox>
               <v-row class="d-flex justify-end mr-1 card-white-space">
@@ -42,7 +49,7 @@
       </v-container>
       <v-container class="d-flex justify-center">
         <v-card width="374" elevation="0">
-          <a href="#" class="text-decoration-none">{{ $t('general.auth.adminLogin') }}</a>
+          <a href="#" class="text-decoration-none">{{ $t('general.auth.moveToUserLogin') }}</a>
         </v-card>
       </v-container>
       <v-container>
