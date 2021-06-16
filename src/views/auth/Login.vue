@@ -31,7 +31,7 @@
             <v-card-text class="py-1 px-1 " style="border-radius: 8px; background-color:#ddeeff; color:#4466aa;">
               <div class="ml-3">
                 <p>以下のログイン情報をお使いください。</p>
-                <p>Email: admin@company.com<br>Password: testpass 
+                <p>Email: admin@company.com<br>Password: 12345678 
                 <v-btn class="ml-12" small v-on:click="email = 'admin@company.com'; password= '12345678';">SET</v-btn></p>
               </div>
             </v-card-text>
