@@ -1,3 +1,4 @@
 bitbucket-pipelines.yml
 deployment-exclude-list.txt
 yarn.lock
+nginx_logs/*
