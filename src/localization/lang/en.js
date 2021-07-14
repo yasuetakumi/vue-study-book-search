@@ -5,6 +5,13 @@
 const en = {
   localeLabel: 'English',
   general: {
+    attendee: 'Attendee',
+    customer: 'Customer',
+    title: 'Title',
+    image_location: 'Image Location',
+    address: 'Address',
+    postcode: 'Postcode',
+    phone_number: 'Phone Number',
     auth: {
       welcome: 'Welcome',
       signInMessage: 'Sign in to your account',
@@ -49,6 +56,7 @@ const en = {
       createdAt: 'Created at',
       updatedAt: 'Updated at',
       action: 'Action',
+      submit: 'Submit',
     },
     time: {
       date: 'Date',
@@ -70,6 +78,9 @@ const en = {
       youSure: 'Are you sure?',
       confirmDelete: 'Once the item is deleted, we cannot get it back for you.',
     },
+    action:{
+      backToList: 'Back To List'
+    }
   },
 };
 

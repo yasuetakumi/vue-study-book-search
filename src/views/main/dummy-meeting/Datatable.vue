@@ -65,28 +65,6 @@ export default {
         sortDesc: [],
       },
       activeFilters: {},
-      headers: [
-        {
-          text: 'Title',
-          value: 'title',
-        },
-        {
-          text: 'Customer',
-          value: 'customer',
-        },
-        {
-          text: 'Attendee',
-          value: 'attendee',
-        },
-        {
-          text: 'Date',
-          value: 'meeting_date',
-        },
-        {
-          text: 'Action',
-          value: 'action',
-        },
-      ],
     };
   },
   watch: {
@@ -104,6 +82,30 @@ export default {
     },
   },
   computed: {
+    headers(){
+      return [
+        {
+          text: this.$t('general.title'),
+          value: 'title',
+        },
+        {
+          text: this.$t('general.customer'),
+          value: 'customer',
+        },
+        {
+          text: this.$t('general.attendee'),
+          value: 'attendee',
+        },
+        {
+          text: this.$t('general.time.date'),
+          value: 'meeting_date',
+        },
+        {
+          text: this.$t('general.crud.action'),
+          value: 'action',
+        },
+      ]
+    },
     displayedMeetings() {
       return this.meetings.map(meeting => ({
         ...meeting,

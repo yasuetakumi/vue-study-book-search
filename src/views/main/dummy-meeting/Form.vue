@@ -2,59 +2,73 @@
   <div>
     <v-skeleton-loader v-if="loadingComponent" type="card-avatar, article, actions"> </v-skeleton-loader>
     <v-sheet v-if="!loadingComponent" elevation="1" min-height="70vh" width="100%" :rounded="'sm'">
-      <v-container class="px-10">
-        <v-form ref="meetingForm" @submit.prevent="submit">
-          <g-input-group required :title="$t('general.title')">
-            <v-text-field outlined v-model="item.title"></v-text-field>
-          </g-input-group>
-          <g-input-group required :title="$t('general.customer')">
-            <v-select outlined v-model="item.customer" :items="formData.customers"></v-select>
-          </g-input-group>
-          <g-input-group required :title="$t('general.attendee')">
-            <v-radio-group v-model="item.attendee" row>
-              <v-radio
-                v-for="attendee in formData.attendees"
-                :key="attendee.value"
-                :label="attendee.text"
-                :value="attendee.value"
-              >
-              </v-radio>
-            </v-radio-group>
-          </g-input-group>
-          <g-input-group required :title="$t('general.time.date')">
-            <g-date-picker v-model="item.date" dp-color="green" tf-outlined></g-date-picker>
-          </g-input-group>
+      <v-container class="pr-10 pl-10 pl-lg-0">
+        <v-row>
+          
+          <v-col cols="12" lg="2">
+            <v-btn :to="{ name: 'dummy_meetings'}" block text plain class="font-weight-bold text-decoration-underline text-h6">
+              <v-icon left>
+                mdi-keyboard-backspace
+              </v-icon>
+              {{ $t('general.action.backToList') }}
+            </v-btn>
+          </v-col>
 
-          <g-input-group required :title="$t('general.time.time')">
-            <g-time-picker v-model="item.time" tp-color="green" tf-outlined> </g-time-picker>
-          </g-input-group>
-          <g-input-group optional :title="$t('general.image_location')">
-            <g-image-input v-model="item.locImage"></g-image-input>
-          </g-input-group>
+          <v-col cols="12" lg="10">
+             <v-form ref="meetingForm" @submit.prevent="submit">
+              <g-input-group required :title="$t('general.title')">
+                <v-text-field outlined v-model="item.title"></v-text-field>
+              </g-input-group>
+              <g-input-group required :title="$t('general.customer')">
+                <v-select outlined v-model="item.customer" :items="formData.customers"></v-select>
+              </g-input-group>
+              <g-input-group required :title="$t('general.attendee')">
+                <v-radio-group v-model="item.attendee" row>
+                  <v-radio
+                    v-for="attendee in formData.attendees"
+                    :key="attendee.value"
+                    :label="attendee.text"
+                    :value="attendee.value"
+                  >
+                  </v-radio>
+                </v-radio-group>
+              </g-input-group>
+              <g-input-group required :title="$t('general.time.date')">
+                <g-date-picker v-model="item.date" dp-color="green" tf-outlined></g-date-picker>
+              </g-input-group>
 
-          <g-input-group optional :title="$t('general.address')">
-            <!-- This is just example for modal form
-            In general, the use case will be project dependent
-            Please use/modify as needed, or create your own per your need -->
-            <form-modal>
+              <g-input-group required :title="$t('general.time.time')">
+                <g-time-picker v-model="item.time" tp-color="green" tf-outlined> </g-time-picker>
+              </g-input-group>
+              <g-input-group optional :title="$t('general.image_location')">
+                <g-image-input v-model="item.locImage"></g-image-input>
+              </g-input-group>
+
               <g-input-group optional :title="$t('general.address')">
-                <v-text-field outlined v-model="item.address.address"></v-text-field>
+                <!-- This is just example for modal form
+                In general, the use case will be project dependent
+                Please use/modify as needed, or create your own per your need -->
+                <form-modal>
+                  <g-input-group optional :title="$t('general.address')">
+                    <v-text-field outlined v-model="item.address.address"></v-text-field>
+                  </g-input-group>
+                  <g-input-group optional :title="$t('general.postcode')">
+                    <v-text-field outlined v-model="item.address.postcode"></v-text-field>
+                  </g-input-group>
+                  <g-input-group optional :title="$t('general.phone_number')">
+                    <v-text-field outlined v-model="item.address.phone"></v-text-field>
+                  </g-input-group>
+                </form-modal>
               </g-input-group>
-              <g-input-group optional :title="$t('general.postcode')">
-                <v-text-field outlined v-model="item.address.postcode"></v-text-field>
+              <g-input-group>
+                <v-combobox clearable v-model="item.customer" :items="formData.customers"></v-combobox>
               </g-input-group>
-              <g-input-group optional :title="$t('general.phone_number')">
-                <v-text-field outlined v-model="item.address.phone"></v-text-field>
-              </g-input-group>
-            </form-modal>
-          </g-input-group>
-          <g-input-group>
-            <v-combobox clearable v-model="item.customer" :items="formData.customers"></v-combobox>
-          </g-input-group>
-          <div class="pt-10">
-            <v-btn type="submit">SUBMIT</v-btn>
-          </div>
-        </v-form>
+              <div class="pt-10">
+                <v-btn type="submit">{{ $t('general.crud.submit') }}</v-btn>
+              </div>
+            </v-form>
+          </v-col>
+        </v-row>
       </v-container>
     </v-sheet>
   </div>
