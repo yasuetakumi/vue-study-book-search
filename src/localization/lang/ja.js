@@ -56,6 +56,7 @@ const ja = {
       createdAt: '作成日',
       updatedAt: '更新日',
       action: '編集',
+      submit: '登録',
     },
     time: {
       date: '日付',
@@ -77,6 +78,9 @@ const ja = {
       youSure: '削除確認',
       confirmDelete: '選択したデータを削除します。削除されたデータは元に戻せません。',
     },
+    action:{
+      backToList: '一覧に戻る'
+    }
   },
 };
 
