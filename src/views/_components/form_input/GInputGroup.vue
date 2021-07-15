@@ -22,7 +22,7 @@
 export default {
   props: {
     title: {
-      required: true,
+      required: false,
     },
     required: Boolean,
     optional: Boolean,

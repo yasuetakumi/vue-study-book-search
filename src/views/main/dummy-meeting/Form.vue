@@ -2,18 +2,10 @@
   <div>
     <v-skeleton-loader v-if="loadingComponent" type="card-avatar, article, actions"> </v-skeleton-loader>
     <v-sheet v-if="!loadingComponent" elevation="1" min-height="70vh" width="100%" :rounded="'sm'">
+      <GBackButton :targetRoute="{ name:'dummy_meetings' }">
+      </GBackButton>
       <v-container class="pr-10 pl-10 pl-lg-0">
         <v-row>
-          
-          <v-col cols="12" lg="2">
-            <v-btn :to="{ name: 'dummy_meetings'}" block text plain class="font-weight-bold text-decoration-underline text-h6">
-              <v-icon left>
-                mdi-keyboard-backspace
-              </v-icon>
-              {{ $t('general.action.backToList') }}
-            </v-btn>
-          </v-col>
-
           <v-col cols="12" lg="10">
              <v-form ref="meetingForm" @submit.prevent="submit">
               <g-input-group required :title="$t('general.title')">
@@ -79,6 +71,7 @@ import GInputGroup from '@components/form_input/GInputGroup.vue';
 import GDatePicker from '../../_components/form_input/GDatePicker.vue';
 import GTimePicker from '../../_components/form_input/GTimePicker.vue';
 import GImageInput, { imageInitial } from '../../_components/form_input/GImageInput.vue';
+import GBackButton from '@components/GBackButton.vue';
 import FormModal from '../../_components/FormModal.vue';
 export default {
   data() {
@@ -161,6 +154,7 @@ export default {
     GDatePicker,
     GImageInput,
     GTimePicker,
+    GBackButton,
     FormModal,
   },
 };

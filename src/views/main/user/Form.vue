@@ -2,18 +2,10 @@
   <div>
     <v-skeleton-loader v-if="loadingComponent" type="card-avatar, article, actions"> </v-skeleton-loader>
     <v-sheet v-if="!loadingComponent" elevation="1" min-height="70vh" width="100%" :rounded="'sm'">
+      <GBackButton :targetRoute="{ name:'users' }">
+      </GBackButton>
       <v-container class="pr-10 pl-10 pl-lg-0">
         <v-row>
-
-          <v-col cols="12" lg="2">
-            <v-btn :to="{ name: 'users'}" block text plain class="font-weight-bold text-decoration-underline text-h6">
-              <v-icon left>
-                mdi-keyboard-backspace
-              </v-icon>
-              {{ $t('general.action.backToList') }}
-            </v-btn>
-          </v-col>
-
           <v-col cols="12" lg="10">
             <v-form ref="userForm" @submit.prevent="submit">
               <g-input-group required :title="$t('general.auth.email')">
@@ -49,6 +41,7 @@
 import { store, getForm, update } from '@services/crud';
 import GInputGroup from '@components/form_input/GInputGroup.vue';
 import GPasswordInput from '@components/form_input/GPasswordInput.vue';
+import GBackButton from '@components/GBackButton.vue';
 export default {
   data() {
     return {
@@ -114,6 +107,7 @@ export default {
   components: {
     GInputGroup,
     GPasswordInput,
+    GBackButton,
   },
 };
 </script>
