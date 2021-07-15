@@ -74,31 +74,33 @@ export default {
         sortDesc: [],
       },
       activeFilters: {},
-      headers: [
+    };
+  },
+  computed: {
+    headers() {
+      return [
         {
           text: 'ID',
           value: 'id',
         },
         {
-          text: 'User Role',
+          text: this.$t('general.role.role'),
           value: 'user_role',
         },
         {
-          text: 'Name',
+          text: this.$t('general.user.fullName'),
           value: 'display_name',
         },
         {
-          text: 'Email',
+          text: this.$t('general.auth.email'),
           value: 'email',
         },
         {
-          text: 'Action',
+          text: this.$t('general.crud.action'),
           value: 'action',
         },
-      ],
-    };
-  },
-  computed: {
+      ]
+    },
     displayedUsers() {
       return this.users.map(user => ({
         ...user,
