@@ -175,6 +175,7 @@ export default {
 .v-data-table > .v-data-table__wrapper > table > thead > tr > th {
   font-weight: bold !important;
   font-size: 18px !important;
+  white-space: nowrap;
 }
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
   font-size: 14px !important;
