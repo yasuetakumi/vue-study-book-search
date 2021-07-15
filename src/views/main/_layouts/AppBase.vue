@@ -4,7 +4,6 @@
     <base-app-bar v-model="drawerOpen"></base-app-bar>
 
     <v-main>
-      <GDebugLabel></GDebugLabel>
       <base-notification-snackbar></base-notification-snackbar>
       <v-progress-linear v-if="loadingPage" indeterminate></v-progress-linear>
       <v-container class="py-8 px-6 mb-10" fluid>
@@ -21,7 +20,6 @@ import BaseAppBar from './BaseAppBar.vue';
 import BaseFooter from './BaseFooter';
 import BaseNavLeft from './BaseNavLeft.vue';
 import BaseNotificationSnackbar from './BaseNotificationSnackbar.vue';
-import GDebugLabel from '@views/_components/GDebugLabel.vue';
 export default {
   data() {
     return {
@@ -36,7 +34,6 @@ export default {
     BaseNavLeft,
     BaseAppBar,
     BaseNotificationSnackbar,
-    GDebugLabel,
   },
 };
 </script>
