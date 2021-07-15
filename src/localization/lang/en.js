@@ -24,6 +24,13 @@ const en = {
       logout: 'Logout',
       register: 'Register',
     },
+    form: {
+      reset: 'Reset Form',
+      search: 'Search',
+    },
+    hint: {
+      partial: 'Partial matching search',
+    },
     user: {
       firstName: 'First Name',
       lastName: 'Last Name',

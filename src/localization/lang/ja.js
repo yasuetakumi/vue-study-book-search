@@ -24,6 +24,13 @@ const ja = {
       logout: 'ログアウト',
       register: '登録',
     },
+    form: {
+      reset: '検索フォームをリセットする',
+      search: '検索する',
+    },
+    hint: {
+      partial: '※部分一致検索',
+    },
     user: {
       firstName: '姓',
       lastName: '名',
