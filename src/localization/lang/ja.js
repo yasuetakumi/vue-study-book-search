@@ -23,6 +23,7 @@ const ja = {
       adminLogin: 'Adminログイン',
       logout: 'ログアウト',
       register: '登録',
+      moveToUserLogin: 'ユーザーログインへ',
     },
     form: {
       reset: '検索フォームをリセットする',
@@ -46,6 +47,9 @@ const ja = {
       required: '必須',
       optional: '任意',
       confirm: '確認',
+      greaterThan: '下限より大きくする必要があります',
+      lessThan: '上限未満である必要があります',
+      positiveInteger: '正の整数を入力してください',
     },
     demo: {
       dummyMeetings: '打ち合わせ',

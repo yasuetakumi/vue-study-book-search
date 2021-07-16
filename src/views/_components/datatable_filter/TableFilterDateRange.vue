@@ -23,7 +23,7 @@ options:
     <!-- Multiple input mode - Start -->
     <div v-else class="row mt-0 mx-n1">
       <div class="px-1 col-sm py-0 mb-3 mb-sm-0">
-        <DatePicker type="date"  :format="format" v-model="minDate" />
+        <DatePicker type="date"  :value-type="valueType" :format="format" v-model="minDate" />
       </div>
       <div class="px-1 col-sm-auto py-0 d-none d-sm-block">
         <div class="py-2">
@@ -31,7 +31,7 @@ options:
         </div>
       </div>
       <div class="px-1 col-sm py-0">
-        <DatePicker type="date" :format="format" v-model="maxDate" />
+        <DatePicker type="date" :value-type="valueType" :format="format" v-model="maxDate" />
       </div>
     </div>
     <!-- Multiple input mode - End -->
@@ -50,25 +50,27 @@ options:
     components: { InputGroup, DatePicker },
     data(){
       return {
-        minDate: io.get( this, 'value[0]') || null,
-        maxDate: io.get( this, 'value[1]') || null
+        minDate: this.dateStart || null,
+        maxDate: this.dateEnd || null
       }
     },
     props: {
       title: { required: true },
-      value: { required: true },
       format: { default: 'YYYY-MM-DD' },
       required: { default: false },
       optional: { default: false },
       disabled: { default: false },
-      single: { type: Boolean, default: false }
+      single: { type: Boolean, default: false },
+      valueType: { default: 'format' },
+      dateStart: { default: '' },
+      dateEnd: { default: ''},
     },
     watch: {
       minDate() {
-        this.$emit( 'input', [ this.minDate, this.maxDate ]);
+        this.$emit( 'startInput',  this.minDate);
       },
       maxDate(){
-        this.$emit( 'input', [ this.minDate, this.maxDate ]);
+        this.$emit( 'endInput',  this.maxDate );
       },
     }
   };

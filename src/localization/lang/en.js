@@ -23,6 +23,7 @@ const en = {
       adminLogin: 'Admin Login',
       logout: 'Logout',
       register: 'Register',
+      moveToUserLogin: 'Move to user login',
     },
     form: {
       reset: 'Reset Form',
@@ -46,6 +47,9 @@ const en = {
       required: 'Required',
       optional: 'Optional',
       confirm: 'Confirm',
+      greaterThan: 'Must be greater than the lower limit',
+      lessThan: 'Must be less than the upper limit',
+      positiveInteger: 'Please enter a positive integer',
     },
     demo: {
       dummyMeetings: 'Dummy Meetings',
