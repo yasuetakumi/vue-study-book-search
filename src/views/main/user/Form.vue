@@ -2,8 +2,7 @@
   <div>
     <v-skeleton-loader v-if="loadingComponent" type="card-avatar, article, actions"> </v-skeleton-loader>
     <v-sheet v-if="!loadingComponent" elevation="1" min-height="70vh" width="100%" :rounded="'sm'">
-      <GBackButton :targetRoute="{ name:'users' }">
-      </GBackButton>
+      <GBackButton :targetRoute="{ name: 'users' }"> </GBackButton>
       <v-container class="pr-10 pl-10 pl-lg-0">
         <v-row>
           <v-col cols="12" lg="10">

@@ -1,10 +1,16 @@
 <template>
-  <v-row>
-    <v-col lg="2" md="3" sm="12">
+  <v-row class="input-group">
+    <v-col lg="2" md="3" sm="12" class="title-group">
       <v-row>
         <strong class="input-title">{{ title }}</strong>
+        <span class="input-title-label required lg-hide" v-if="required">
+          {{ $t('general.validation.required') }}
+        </span>
+        <span class="input-title-label optional lg-hide" v-if="optional">
+          {{ $t('general.validation.optional') }}
+        </span>
       </v-row>
-      <v-row>
+      <v-row class="sm-hide">
         <span class="input-title-label required" v-if="required">
           {{ $t('general.validation.required') }}
         </span>
@@ -51,4 +57,34 @@ export default {
   color: green;
   border: solid 1px green;
 }
+
+// -------------------------------------------------------------------------
+// SP custom layout
+// -------------------------------------------------------------------------
+@media screen and (max-width: 600px) {
+  div.title-group {
+    min-width: 100%;
+    font-size: 9px !important;
+  }
+  .input-title {
+    font-size: 16px;
+  }
+  .input-title-label {
+    font-size: 9px;
+    margin-left: 10px;
+    margin-top: 0;
+  }
+  .sm-hide {
+    display: none;
+  }
+}
+@media screen and (min-width: 601px) {
+  .lg-hide {
+    display: none;
+  }
+  div.row {
+    margin-left: 0;
+  }
+}
+// -------------------------------------------------------------------------
 </style>

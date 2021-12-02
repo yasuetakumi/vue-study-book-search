@@ -2,12 +2,11 @@
   <div>
     <v-skeleton-loader v-if="loadingComponent" type="card-avatar, article, actions"> </v-skeleton-loader>
     <v-sheet v-if="!loadingComponent" elevation="1" min-height="70vh" width="100%" :rounded="'sm'">
-      <GBackButton :targetRoute="{ name:'dummy_meetings' }">
-      </GBackButton>
+      <GBackButton :targetRoute="{ name: 'dummy_meetings' }"> </GBackButton>
       <v-container class="pr-10 pl-10 pl-lg-0">
         <v-row>
           <v-col cols="12" lg="10">
-             <v-form ref="meetingForm" @submit.prevent="submit">
+            <v-form ref="meetingForm" @submit.prevent="submit">
               <g-input-group required :title="$t('general.title')">
                 <v-text-field outlined v-model="item.title"></v-text-field>
               </g-input-group>
