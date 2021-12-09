@@ -58,6 +58,10 @@ const en = {
       action: 'Action',
       submit: 'Submit',
     },
+    meeting: {
+      location: 'Location',
+      registrant: 'Registrant',
+    },
     time: {
       date: 'Date',
       time: 'Time',

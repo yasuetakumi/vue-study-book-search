@@ -16,7 +16,11 @@
           <v-select clearable :items="formData.customers" v-model="activeFilters.customer"> </v-select>
         </td>
         <td>
-          <v-select clearable :items="formData.attendees" v-model="activeFilters.attendee"> </v-select>
+          <v-select clearable :items="formData.locations" v-model="activeFilters.location"> </v-select>
+        </td>
+        <td></td>
+        <td>
+          <v-text-field v-model="activeFilters.registrant"></v-text-field>
         </td>
         <td colspan="4"></td>
       </tr>
@@ -93,12 +97,16 @@ export default {
           value: 'customer',
         },
         {
-          text: this.$t('general.attendee'),
-          value: 'attendee',
+          text: this.$t('general.meeting.location'),
+          value: 'location',
         },
         {
           text: this.$t('general.time.date'),
           value: 'meeting_date',
+        },
+        {
+          text: this.$t('general.meeting.registrant'),
+          value: 'registrant.display_name',
         },
         {
           text: this.$t('general.crud.action'),
@@ -110,7 +118,7 @@ export default {
       return this.meetings.map(meeting => ({
         ...meeting,
         customer: this.keyedFormData.customers[meeting.customer].text,
-        attendee: this.keyedFormData.attendees[meeting.attendee].text,
+        location: this.keyedFormData.locations[meeting.location].text,
       }));
     },
     keyedFormData() {
