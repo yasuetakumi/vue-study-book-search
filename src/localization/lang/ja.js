@@ -25,6 +25,8 @@ const ja = {
       register: '登録',
     },
     user: {
+      list: 'ユーザー一覧',
+      name: '名前',
       firstName: '姓',
       lastName: '名',
       fullName: '名前',
@@ -38,7 +40,8 @@ const ja = {
     validation: {
       required: '必須',
       optional: '任意',
-      confirm: '確認',
+      confirm: 'はい',
+      cancel: 'いいえ',
     },
     demo: {
       dummyMeetings: '打ち合わせ',
@@ -76,10 +79,11 @@ const ja = {
     },
     alert: {
       youSure: '削除確認',
-      confirmDelete: '選択したデータを削除します。削除されたデータは元に戻せません。',
+      confirmDelete: ' を削除します。削除されたデータは元に戻せません。',
     },
     action:{
-      backToList: '一覧に戻る'
+      backToList: '一覧に戻る',
+      csvDownload: 'CSVダウンロード',
     }
   },
 };

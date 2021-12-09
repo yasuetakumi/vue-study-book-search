@@ -25,6 +25,8 @@ const en = {
       register: 'Register',
     },
     user: {
+      list: 'User List',
+      name: 'Name',
       firstName: 'First Name',
       lastName: 'Last Name',
       fullName: 'Fullname',
@@ -38,7 +40,8 @@ const en = {
     validation: {
       required: 'Required',
       optional: 'Optional',
-      confirm: 'Confirm',
+      confirm: 'Yes',
+      cancel: 'No',
     },
     demo: {
       dummyMeetings: 'Dummy Meetings',
@@ -79,7 +82,8 @@ const en = {
       confirmDelete: 'Once the item is deleted, we cannot get it back for you.',
     },
     action:{
-      backToList: 'Back To List'
+      backToList: 'Back To List',
+      csvDownload: 'Download CSV',
     }
   },
 };
