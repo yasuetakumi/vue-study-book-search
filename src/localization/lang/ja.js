@@ -7,6 +7,7 @@ const ja = {
   general: {
     attendee: '出席者',
     customer: '顧客',
+    name: '名前',
     title: 'タイトル',
     image_location: '位置画像',
     address: '住所',
@@ -67,6 +68,7 @@ const ja = {
       grune: 'Grune',
       dashboard: 'ダッシュボード',
       users: 'ユーザー',
+      customers: 'お客様',
     },
     placeholder: {
       email: 'sample@email.com',

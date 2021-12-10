@@ -7,6 +7,7 @@ const en = {
   general: {
     attendee: 'Attendee',
     customer: 'Customer',
+    name: 'Name',
     title: 'Title',
     image_location: 'Image Location',
     address: 'Address',
@@ -67,6 +68,7 @@ const en = {
       grune: 'Grune',
       dashboard: 'Dashboard',
       users: 'Users',
+      customers: 'Customers',
     },
     placeholder: {
       email: 'sample@email.com',
