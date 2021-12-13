@@ -84,9 +84,9 @@ const ja = {
       youSure: '削除確認',
       confirmDelete: '選択したデータを削除します。削除されたデータは元に戻せません。',
     },
-    action:{
-      backToList: '一覧に戻る'
-    }
+    action: {
+      backToList: '一覧に戻る',
+    },
   },
 };
 

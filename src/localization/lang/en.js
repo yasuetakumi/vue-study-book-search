@@ -84,9 +84,9 @@ const en = {
       youSure: 'Are you sure?',
       confirmDelete: 'Once the item is deleted, we cannot get it back for you.',
     },
-    action:{
-      backToList: 'Back To List'
-    }
+    action: {
+      backToList: 'Back To List',
+    },
   },
 };
 

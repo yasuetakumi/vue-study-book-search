@@ -8,7 +8,7 @@
     class="elevation-1"
   >
     <template v-slot:body.prepend>
-      <tr>
+      <tr class="sm-hide">
         <td>
           <v-text-field v-model="activeFilters.title"></v-text-field>
         </td>
@@ -86,7 +86,7 @@ export default {
     },
   },
   computed: {
-    headers(){
+    headers() {
       return [
         {
           text: this.$t('general.title'),
@@ -112,7 +112,7 @@ export default {
           text: this.$t('general.crud.action'),
           value: 'action',
         },
-      ]
+      ];
     },
     displayedMeetings() {
       return this.meetings.map(meeting => ({
@@ -189,4 +189,23 @@ export default {
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
   font-size: 14px !important;
 }
+
+// -------------------------------------------------------------------------
+// SP custom layout
+// Please add <tr class="sm-hide"> at custom filter to avoid broken on SP layout
+// -------------------------------------------------------------------------
+.v-data-table > .v-data-table__wrapper > table > tbody > tr.sm-hide {
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+}
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td.v-data-table__mobile-row > div {
+  @media screen and (max-width: 600px) {
+    width: 50% !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+}
+// -------------------------------------------------------------------------
 </style>
