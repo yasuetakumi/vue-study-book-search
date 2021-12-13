@@ -13,7 +13,7 @@
           <v-text-field v-model="activeFilters.title"></v-text-field>
         </td>
         <td>
-          <v-select clearable :items="formData.customers" v-model="activeFilters.customer"> </v-select>
+          <v-select clearable :items="formData.customers" v-model="activeFilters.customer" item-text="name" item-value="id"> </v-select>
         </td>
         <td>
           <v-select clearable :items="formData.locations" v-model="activeFilters.location"> </v-select>
@@ -94,7 +94,7 @@ export default {
         },
         {
           text: this.$t('general.customer'),
-          value: 'customer',
+          value: 'customer.name',
         },
         {
           text: this.$t('general.meeting.location'),
@@ -117,7 +117,6 @@ export default {
     displayedMeetings() {
       return this.meetings.map(meeting => ({
         ...meeting,
-        customer: this.keyedFormData.customers[meeting.customer].text,
         location: this.keyedFormData.locations[meeting.location].text,
       }));
     },

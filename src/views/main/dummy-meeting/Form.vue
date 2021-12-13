@@ -12,7 +12,7 @@
                 <v-text-field outlined v-model="item.title"></v-text-field>
               </g-input-group>
               <g-input-group required :title="$t('general.customer')">
-                <v-select outlined v-model="item.customer" :items="formData.customers"></v-select>
+                <v-select outlined v-model="item.customer" :items="formData.customers" item-text="name" item-value="id"></v-select>
               </g-input-group>
               <g-input-group required :title="$t('general.meeting.location')">
                 <v-radio-group v-model="item.location" row>
@@ -52,9 +52,9 @@
                   </g-input-group>
                 </form-modal>
               </g-input-group>
-              <g-input-group>
+              <!-- <g-input-group>
                 <v-combobox clearable v-model="item.customer" :items="formData.customers"></v-combobox>
-              </g-input-group>
+              </g-input-group> -->
               <div class="pt-10">
                 <v-btn type="submit">{{ $t('general.crud.submit') }}</v-btn>
               </div>

@@ -70,7 +70,7 @@ export default {
                     value: 'id',
                 },
                 {
-                    text: this.$t('general.customer.name'),
+                    text: this.$t('general.name'),
                     value: 'name',
                 },
                 {
