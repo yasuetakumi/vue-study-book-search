@@ -59,6 +59,10 @@ const ja = {
       action: '編集',
       submit: '登録',
     },
+    meeting: {
+      location: '場所',
+      registrant: '登録者',
+    },
     time: {
       date: '日付',
       time: '時間',
