@@ -71,3 +71,27 @@ export const destroy = async function(url) {
     throw handleApiError(err, true);
   }
 };
+
+export const importCsv = async function(url, payload) {
+  try {
+    let postConfig = {
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+    };
+    const res = await Vue.axios.post(url, payload, postConfig);
+    if (res.status) {
+      pushNotif(res.data.message, 'success');
+      return true;
+    }
+  } catch (err) {
+    if (typeof err.response.data.errors.file != 'undefined') {
+      pushNotif(err.response.data.errors.file[0], 'error');
+    } else if (typeof err.response.data.errors.errors != 'undefined') {
+      pushNotif(err.response.data.errors.errors[0], 'error');
+    } else {
+      pushNotif(err.response.data.message, 'error');
+    }
+    // throw handleApiError(err, false);
+  }
+};
