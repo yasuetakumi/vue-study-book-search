@@ -1,5 +1,5 @@
 <template>
-  <v-footer class="footer">
+  <v-footer class="footer" fixed>
     <v-col class="text-center" cols="12">
       <strong>Copyright {{ new Date().getFullYear() }} Grune.</strong> All rights reserved.
       <span class="float-none float-sm-right">
@@ -13,9 +13,9 @@
   </v-footer>
 </template>
 <style lang="scss" scoped>
-.footer {
-  // position: fixed;
-  bottom: 0%;
-  width: 100%;
-}
+// .footer {
+//   position: fixed;
+//   bottom: 0%;
+//   width: 100%;
+// }
 </style>
