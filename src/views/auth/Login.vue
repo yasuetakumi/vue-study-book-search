@@ -3,7 +3,7 @@
     <GDebugLabel></GDebugLabel>
     <v-container class="login-card d-flex flex-column">
       <v-container class="d-flex justify-center">
-        <v-card :loading="isLoading" width="374">
+        <v-card :loading="isLoading" width="390">
           <template slot="progress">
             <v-progress-linear height="10" indeterminate></v-progress-linear>
           </template>

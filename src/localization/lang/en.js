@@ -13,7 +13,7 @@ const en = {
     postcode: 'Postcode',
     phone_number: 'Phone Number',
     auth: {
-      welcome: 'Welcome',
+      welcome: 'Grune Laravel Starter Kit (SPA version)',
       signInMessage: 'Sign in to your account',
       email: 'Email',
       password: 'Password',
