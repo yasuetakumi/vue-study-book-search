@@ -26,7 +26,7 @@
             color="primary"
             @click.stop="dialogColumnFilter = true"
           >
-            Primary
+            Filter Column
           </v-btn>
           <v-dialog
             v-model="dialogColumnFilter"
@@ -39,7 +39,7 @@
                 <v-container fluid>
                   <v-row>
                     <v-col
-                      v-for="(collumn, index) in headers"
+                      v-for="(header, index) in selectedHeaders"
                       :key="index"
                       xl="4"
                       lg="4"
@@ -48,11 +48,12 @@
                       <v-btn
                         class=""
                         block
-                        outlined
-                        color="indigo"
-                        @click="addColumn(index)"
+                        :outlined="!header.status"
+                        color="cyan"
+                        dark
+                        @click="addColumn(header)"
                       >
-                        {{ collumn.text }}
+                        {{ header.text }}
                       </v-btn>
                     </v-col>
                   </v-row>
@@ -76,7 +77,7 @@
       </v-row>
     </v-container>
     <v-data-table
-      :headers="showHeaders"
+      :headers="headers"
       :items="displayedUsers"
       :options.sync="options"
       :server-items-length="totalUsers"
@@ -85,8 +86,8 @@
     >
       <template v-slot:body.prepend>
         <tr>
-          <td></td>
-          <td>
+          <td v-show="isEnabled('id')"></td>
+          <td v-show="isEnabled('user_role')">
             <v-select
               clearable
               :items="formData.userRoles"
@@ -96,14 +97,14 @@
             >
             </v-select>
           </td>
-          <td>
+          <td v-show="isEnabled('display_name')">
             <v-text-field v-model="activeFilters.name"></v-text-field>
           </td>
-          <td>
+          <td v-show="isEnabled('email')">
             <v-text-field v-model="activeFilters.email"></v-text-field>
           </td>
 
-          <td colspan="4"></td>
+          <td v-show="isEnabled('action')" colspan="4"></td>
         </tr>
       </template>
       <template v-slot:item.action="{ item }">
@@ -131,6 +132,7 @@
 import { destroy, getAll } from '@services/crud';
 import { convArrToObj } from '@helpers';
 import GActionButton from '../../_components/GActionButton.vue';
+import { mapState } from 'vuex'
 
 export default {
   components: { GActionButton },
@@ -153,46 +155,50 @@ export default {
       activeFilters: {},
       // for dialog filter column
       dialogColumnFilter: false,
-      headers: [],
-      headersMap: {
-        id: {text: 'ID', value: 'id', },
-        role: {text: this.$t('general.role.role'), value: 'user_role', },
-        fullName: {text: this.$t('general.user.fullName'), value: 'display_name', },
-        email: {text: this.$t('general.auth.email'), value: 'email', },
-        action: {text: this.$t('general.crud.action'), value: 'action', },
-      },
+      headersMap: [
+        {
+          text: 'ID',
+          value: 'id',
+          status: true,
+        },
+        {
+          text: this.$t('general.role.role'),
+          value: 'user_role',
+          status: true,
+        },
+        {
+          text: this.$t('general.user.fullName'),
+          value: 'display_name',
+          status: true,
+        },
+        {
+          text: this.$t('general.auth.email'),
+          value: 'email',
+          status: true,
+        },
+        {
+          text: this.$t('general.crud.action'),
+          value: 'action',
+          status: true,
+        },
+      ],
       selectedHeaders: []
     };
   },
   created () {
-    this.headers = Object.values(this.headersMap);
-    this.selectedHeaders = this.headers;
+    this.selectedHeaders = this.headersMap;
   },
   computed: {
-    // headers() {
-    //   return [
-    //     {
-    //       text: 'ID',
-    //       value: 'id',
-    //     },
-    //     {
-    //       text: this.$t('general.role.role'),
-    //       value: 'user_role',
-    //     },
-    //     {
-    //       text: this.$t('general.user.fullName'),
-    //       value: 'display_name',
-    //     },
-    //     {
-    //       text: this.$t('general.auth.email'),
-    //       value: 'email',
-    //     },
-    //     {
-    //       text: this.$t('general.crud.action'),
-    //       value: 'action',
-    //     },
-    //   ]
-    // },
+    headers: {
+      // getter
+      get: function () {
+        return this.selectedHeaders.filter(s => s.status == true);
+      },
+      // setter
+      set: function () {
+        // 
+      }
+    },
     displayedUsers() {
       return this.users.map(user => ({
         ...user,
@@ -206,9 +212,9 @@ export default {
       }
       return obj;
     },
-    showHeaders () {
-      return this.headers.filter(s => this.selectedHeaders.includes(s));
-    },
+    ...mapState({
+			nowLocale: state => state.global.locale,
+		}),
   },
   watch: {
     options: {
@@ -222,6 +228,9 @@ export default {
         this.getAllUsers();
       },
       deep: true,
+    },
+    nowLocale: function () {
+      this.changeTextFromLocal();
     },
   },
   mounted() {
@@ -272,8 +281,42 @@ export default {
     editUser: function(id) {
       this.$router.push({ name: 'users.edit', params: { id } });
     },
-    addColumn: function(index) {
-      console.log(index)
+    addColumn: function(data) {
+      // find index data
+      let index = this.selectedHeaders.findIndex((obj => obj.value == data.value));
+      this.selectedHeaders[index].status = !data.status;
+      this.headers = this.selectedHeaders.filter(function(value){ 
+        return value.status == true;
+      });
+    },
+    isEnabled: function(value) {
+      let obj_selectedHeaders = this.selectedHeaders.find(obj => obj.value == value);
+      return obj_selectedHeaders.status;
+    },
+    changeTextFromLocal: function() {
+      this.selectedHeaders = this.selectedHeaders.map(obj => {
+        var temp = Object.assign({}, obj);
+        console.log(temp)
+        if(temp.value != 'id') {
+          switch (temp.value) {
+            case 'user_role':
+              temp.text = this.$t('general.role.role');
+              break;
+            case 'display_name':
+              temp.text = this.$t('general.user.fullName');
+              break;
+            case 'email':
+              temp.text = this.$t('general.auth.email');
+              break;
+            case 'action':
+              temp.text = this.$t('general.crud.action');
+              break;
+            default:
+              console.log('no data');
+          }
+        }
+        return temp;
+      });
     },
   },
 };
