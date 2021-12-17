@@ -14,16 +14,42 @@
           </v-btn>
           <v-dialog
             v-model="dialogColumnFilter"
-            max-width="500"
+            max-width="700"
           >
             <v-card>
               <v-card-title class="text-h5">
                 Column Fillter
               </v-card-title>
+              <v-card-text>
                 <v-container fluid>
                   <v-row>
+                    <v-col sm="12" md="7" xl="7">
+                      <v-text-field
+                        label="Search Column Name . . ."
+                        v-model="searchNameColumn"
+                        solo
+                      ></v-text-field>
+                    </v-col>
+                    <v-col sm="12" md="5" xl="5" class="d-flex justify-space-between pt-4">
+                      <v-btn
+                        large
+                        color=""
+                        @click="displayColumn(true)"
+                      >
+                        Show All
+                      </v-btn>
+                      <v-btn
+                        large
+                        color=""
+                        @click="displayColumn(false)"
+                      >
+                        Hide All
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                  <v-row>
                     <v-col
-                      v-for="(header, index) in selectedHeaders"
+                      v-for="(header, index) in resultSearchNameColumn"
                       :key="index"
                       xl="4"
                       lg="4"
@@ -42,14 +68,12 @@
                     </v-col>
                   </v-row>
                 </v-container>
-              <v-card-text>
               </v-card-text>
-
               <v-card-actions>
                 <v-spacer></v-spacer>
 
                 <v-btn
-                  color="error"
+                  color=""
                   @click="dialogColumnFilter = false"
                 >
                   close
@@ -132,6 +156,7 @@ export default {
       },
       activeFilters: {},
       // --- for filter column
+      searchNameColumn: '',
       dialogColumnFilter: false,
       // init table header
       headersMap: [
@@ -215,6 +240,11 @@ export default {
       return obj;
     },
     // --- for filter column
+    resultSearchNameColumn(){
+      return this.selectedHeaders.filter((item)=>{
+        return item.text.toLowerCase().includes(this.searchNameColumn.toLowerCase());
+      });
+    },
     ...mapState({
       // for get current locale
 		  currentLocale: state => state.global.locale,
@@ -314,6 +344,11 @@ export default {
         }
         return temp;
       });
+    },
+    displayColumn: function(type) {
+      for (let index = 0; index < this.selectedHeaders.length; index++) {
+        this.selectedHeaders[index].status = type;
+      }
     },
     // --- END for filter column
   },
