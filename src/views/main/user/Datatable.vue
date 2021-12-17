@@ -1,138 +1,59 @@
 <template>
-  <div class="">
-    <v-container
-      fluid
-      class="grey lighten-5 mb-6"
-    >
-      <v-row
-        no-gutters
-        justify="space-between"
+  <v-data-table
+    :headers="headers"
+    :items="displayedUsers"
+    :options.sync="options"
+    :server-items-length="totalUsers"
+    :loading="loading"
+    class="elevation-1"
+  >
+    <template v-slot:body.prepend>
+      <tr>
+        <td></td>
+        <td>
+          <v-select
+            clearable
+            :items="formData.userRoles"
+            item-text="label"
+            item-value="id"
+            v-model="activeFilters.userRole"
+          >
+          </v-select>
+        </td>
+        <td>
+          <v-text-field v-model="activeFilters.name"></v-text-field>
+        </td>
+        <td>
+          <v-text-field v-model="activeFilters.email"></v-text-field>
+        </td>
+
+        <td colspan="4"></td>
+      </tr>
+    </template>
+    <template v-slot:item.action="{ item }">
+      <v-btn
+        :disabled="loading"
+        color="cyan darken-2"
+        small
+        :class="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
+        @click="editUser(item.id)"
       >
-        <v-col
-          xl="8"
-          lg="8"
-          md="8"
-          sm="12"
-        >
-        </v-col>
-        <v-col
-          xl="4"
-          lg="4"
-          md="4"
-          sm="12"
-        >
-          <v-btn
-            depressed
-            color="primary"
-            @click.stop="dialogColumnFilter = true"
-          >
-            Filter Column
-          </v-btn>
-          <v-dialog
-            v-model="dialogColumnFilter"
-            max-width="500"
-          >
-            <v-card>
-              <v-card-title class="text-h5">
-                Column Fillter
-              </v-card-title>
-                <v-container fluid>
-                  <v-row>
-                    <v-col
-                      v-for="(header, index) in selectedHeaders"
-                      :key="index"
-                      xl="4"
-                      lg="4"
-                      md="3"
-                    >
-                      <v-btn
-                        class=""
-                        block
-                        :outlined="!header.status"
-                        color="cyan"
-                        dark
-                        @click="addColumn(header)"
-                      >
-                        {{ header.text }}
-                      </v-btn>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              <v-card-text>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-
-                <v-btn
-                  color="primary"
-                  @click="dialogColumnFilter = false"
-                >
-                  close
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-data-table
-      :headers="headers"
-      :items="displayedUsers"
-      :options.sync="options"
-      :server-items-length="totalUsers"
-      :loading="loading"
-      class="elevation-1"
-    >
-      <template v-slot:body.prepend>
-        <tr>
-          <td v-show="isEnabled('id')"></td>
-          <td v-show="isEnabled('user_role')">
-            <v-select
-              clearable
-              :items="formData.userRoles"
-              item-text="label"
-              item-value="id"
-              v-model="activeFilters.userRole"
-            >
-            </v-select>
-          </td>
-          <td v-show="isEnabled('display_name')">
-            <v-text-field v-model="activeFilters.name"></v-text-field>
-          </td>
-          <td v-show="isEnabled('email')">
-            <v-text-field v-model="activeFilters.email"></v-text-field>
-          </td>
-
-          <td v-show="isEnabled('action')" colspan="4"></td>
-        </tr>
-      </template>
-      <template v-slot:item.action="{ item }">
-        <v-btn
-          :disabled="loading"
-          color="cyan darken-2"
-          small
-          :class="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
-          @click="editUser(item.id)"
-        >
-          <v-icon>mdi-account-edit</v-icon>
-        </v-btn>
-        <g-action-button
-          :disabled="loading"
-          :onConfirm="deleteUser(item.id)"
-          :btnClass="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
-          color="grey darken-2"
-        ></g-action-button>
-      </template>
-    </v-data-table>
-  </div>
+        <v-icon>mdi-account-edit</v-icon>
+      </v-btn>
+      <g-action-button
+        :disabled="loading"
+        :onConfirm="deleteUser(item.id)"
+        :btnClass="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
+        color="grey darken-2"
+      ></g-action-button>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
 import { destroy, getAll } from '@services/crud';
 import { convArrToObj } from '@helpers';
 import GActionButton from '../../_components/GActionButton.vue';
-import { mapState } from 'vuex'
 
 export default {
   components: { GActionButton },
@@ -153,51 +74,32 @@ export default {
         sortDesc: [],
       },
       activeFilters: {},
-      // for dialog filter column
-      dialogColumnFilter: false,
-      headersMap: [
+    };
+  },
+  computed: {
+    headers() {
+      return [
         {
           text: 'ID',
           value: 'id',
-          status: true,
         },
         {
           text: this.$t('general.role.role'),
           value: 'user_role',
-          status: true,
         },
         {
           text: this.$t('general.user.fullName'),
           value: 'display_name',
-          status: true,
         },
         {
           text: this.$t('general.auth.email'),
           value: 'email',
-          status: true,
         },
         {
           text: this.$t('general.crud.action'),
           value: 'action',
-          status: true,
         },
-      ],
-      selectedHeaders: []
-    };
-  },
-  created () {
-    this.selectedHeaders = this.headersMap;
-  },
-  computed: {
-    headers: {
-      // getter
-      get: function () {
-        return this.selectedHeaders.filter(s => s.status == true);
-      },
-      // setter
-      set: function () {
-        // 
-      }
+      ];
     },
     displayedUsers() {
       return this.users.map(user => ({
@@ -212,9 +114,6 @@ export default {
       }
       return obj;
     },
-    ...mapState({
-			nowLocale: state => state.global.locale,
-		}),
   },
   watch: {
     options: {
@@ -228,9 +127,6 @@ export default {
         this.getAllUsers();
       },
       deep: true,
-    },
-    nowLocale: function () {
-      this.changeTextFromLocal();
     },
   },
   mounted() {
@@ -280,43 +176,6 @@ export default {
     },
     editUser: function(id) {
       this.$router.push({ name: 'users.edit', params: { id } });
-    },
-    addColumn: function(data) {
-      // find index data
-      let index = this.selectedHeaders.findIndex((obj => obj.value == data.value));
-      this.selectedHeaders[index].status = !data.status;
-      this.headers = this.selectedHeaders.filter(function(value){ 
-        return value.status == true;
-      });
-    },
-    isEnabled: function(value) {
-      let obj_selectedHeaders = this.selectedHeaders.find(obj => obj.value == value);
-      return obj_selectedHeaders.status;
-    },
-    changeTextFromLocal: function() {
-      this.selectedHeaders = this.selectedHeaders.map(obj => {
-        var temp = Object.assign({}, obj);
-        console.log(temp)
-        if(temp.value != 'id') {
-          switch (temp.value) {
-            case 'user_role':
-              temp.text = this.$t('general.role.role');
-              break;
-            case 'display_name':
-              temp.text = this.$t('general.user.fullName');
-              break;
-            case 'email':
-              temp.text = this.$t('general.auth.email');
-              break;
-            case 'action':
-              temp.text = this.$t('general.crud.action');
-              break;
-            default:
-              console.log('no data');
-          }
-        }
-        return temp;
-      });
     },
   },
 };
