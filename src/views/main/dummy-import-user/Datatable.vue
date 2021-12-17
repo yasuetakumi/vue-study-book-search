@@ -33,6 +33,8 @@
                         placeholder="Upload your documents"
                         label="File input"
                         prepend-icon="mdi-paperclip"
+                        outlined
+                        dense
                       >
                         <template v-slot:selection="{ text }">
                           <v-chip
