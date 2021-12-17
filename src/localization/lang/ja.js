@@ -42,6 +42,7 @@ const ja = {
     },
     demo: {
       dummyMeetings: '打ち合わせ',
+      dummyImportUser: 'ダミーインポートユーザー ',
     },
     crud: {
       createNew: '新規作成',

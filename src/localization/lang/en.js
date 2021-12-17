@@ -42,6 +42,7 @@ const en = {
     },
     demo: {
       dummyMeetings: 'Dummy Meetings',
+      dummyImportUser: 'Dummy Import User',
     },
     crud: {
       createNew: 'Create New',
