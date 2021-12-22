@@ -6,11 +6,21 @@ const usersRoutes = [
     path: 'users',
     name: 'users',
     component: Datatable,
+    meta: {
+      requiresAuth: true,
+      guard: '',
+      main: true,
+    },
   },
   {
     path: 'users/create',
     name: 'users.create',
     component: Form,
+    meta: {
+      requiresAuth: true,
+      guard: '',
+      main: true,
+    },
   },
   {
     path: 'users/:id/edit',
@@ -18,6 +28,7 @@ const usersRoutes = [
     component: Form,
     meta: {
       editPage: true,
+      requiresAuth: true,
     },
   },
 ];

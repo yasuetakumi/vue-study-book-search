@@ -6,17 +6,28 @@ const dummyMeetingsRoutes = [
     path: 'dummy-meetings',
     name: 'dummy_meetings',
     component: Datatable,
+    meta: {
+      requiresAuth: true,
+      guard: '',
+      main: true,
+    },
   },
   {
     path: 'dummy-meetings/create',
     name: 'dummy_meetings.create',
     component: Form,
+    meta: {
+      requiresAuth: true,
+      guard: '',
+      main: true,
+    },
   },
   {
     path: 'dummy-meetings/:id/edit',
     name: 'dummy_meetings.edit',
     component: Form,
     meta: {
+      requiresAuth: true,
       editPage: true,
     },
   },
