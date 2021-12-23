@@ -45,7 +45,12 @@ export const store = async function(url, payload) {
       return res.data.data || true;
     }
   } catch (err) {
-    throw handleApiError(err, true);
+    let errors = err.response.data.errors;
+    if(errors){
+      return errors;
+    }else{
+      throw handleApiError(err, true);
+    }
   }
 };
 
@@ -57,7 +62,12 @@ export const update = async function(url, payload) {
       return res.data.data || true;
     }
   } catch (err) {
-    throw handleApiError(err, true);
+    let errors = err.response.data.errors;
+    if(errors){
+      return errors;
+    }else{
+      throw handleApiError(err, true);
+    }
   }
 };
 
