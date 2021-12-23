@@ -5,6 +5,9 @@ import AppBase from '@views/main/_layouts/AppBase';
 import Dashboard from '@views/main/Dashboard';
 import usersRoutes from './modules/user';
 import dummyMeetingsRoutes from './modules/dummy-meeting';
+import customersRoutes from './modules/customer';
+import dummyFilterColumnRoutes from './modules/dummy-filter-column';
+import dummyImportUserRoutes from './modules/dummy-import-user';
 import errors from './errors';
 import auth from './auth';
 
@@ -37,6 +40,9 @@ const routes = [
       },
       ...usersRoutes,
       ...dummyMeetingsRoutes,
+      ...customersRoutes,
+      ...dummyFilterColumnRoutes,
+      ...dummyImportUserRoutes,
     ],
   },
   {

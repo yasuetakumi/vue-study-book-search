@@ -7,13 +7,14 @@ const ja = {
   general: {
     attendee: '出席者',
     customer: '顧客',
+    name: '名前',
     title: 'タイトル',
     image_location: '位置画像',
     address: '住所',
     postcode: '郵便番号',
     phone_number: '電話番号',
     auth: {
-      welcome: 'ようこそ',
+      welcome: 'Grune Laravel Starter Kit (SPA version)',
       signInMessage: 'アカウントにサインイン',
       email: 'メールアドレス',
       password: 'パスワード',
@@ -23,8 +24,18 @@ const ja = {
       adminLogin: 'Adminログイン',
       logout: 'ログアウト',
       register: '登録',
+      moveToUserLogin: 'ユーザーログインへ',
+    },
+    form: {
+      reset: '検索フォームをリセットする',
+      search: '検索する',
+    },
+    hint: {
+      partial: '※部分一致検索',
     },
     user: {
+      list: 'ユーザー一覧',
+      name: '名前',
       firstName: '姓',
       lastName: '名',
       fullName: '名前',
@@ -38,10 +49,16 @@ const ja = {
     validation: {
       required: '必須',
       optional: '任意',
-      confirm: '確認',
+      confirm: 'はい',
+      cancel: 'いいえ',
+      greaterThan: '下限より大きくする必要があります',
+      lessThan: '上限未満である必要があります',
+      positiveInteger: '正の整数を入力してください',
     },
     demo: {
       dummyMeetings: '打ち合わせ',
+      dummyFilterColumn: 'フィルターカラム',
+      dummyImportUser: 'ダミーインポートユーザー ',
     },
     crud: {
       createNew: '新規作成',
@@ -58,6 +75,10 @@ const ja = {
       action: '編集',
       submit: '登録',
     },
+    meeting: {
+      location: '場所',
+      registrant: '登録者',
+    },
     time: {
       date: '日付',
       time: '時間',
@@ -67,6 +88,7 @@ const ja = {
       grune: 'Grune',
       dashboard: 'ダッシュボード',
       users: 'ユーザー',
+      customers: 'お客様',
     },
     placeholder: {
       email: 'sample@email.com',
@@ -76,10 +98,11 @@ const ja = {
     },
     alert: {
       youSure: '削除確認',
-      confirmDelete: '選択したデータを削除します。削除されたデータは元に戻せません。',
+      confirmDelete: ' を削除します。削除されたデータは元に戻せません。',
     },
     action:{
-      backToList: '一覧に戻る'
+      backToList: '一覧に戻る',
+      csvDownload: 'CSVダウンロード',
     }
   },
 };

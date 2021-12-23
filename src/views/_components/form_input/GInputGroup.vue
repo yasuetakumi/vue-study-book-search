@@ -1,19 +1,16 @@
 <template>
-  <v-row>
-    <v-col lg="2" md="3" sm="12">
-      <v-row>
+  <v-row class="center">
+    <v-col lg="2" md="3" sm="12" cols="12" class="title-wrapper">
         <strong class="input-title">{{ title }}</strong>
-      </v-row>
-      <v-row>
+        <br/>
         <span class="input-title-label required" v-if="required">
           {{ $t('general.validation.required') }}
         </span>
         <span class="input-title-label optional" v-if="optional">
           {{ $t('general.validation.optional') }}
         </span>
-      </v-row>
     </v-col>
-    <v-col lg="10" md="9" sm="12">
+    <v-col lg="10" md="9" sm="12" cols="12">
       <slot></slot>
     </v-col>
   </v-row>
@@ -31,11 +28,19 @@ export default {
 </script>
 
 <style lang="scss">
+.title-wrapper {
+  margin-top:-25px;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .input-title {
-  font-size: 20px;
+  font-size: 14px;
 }
 .input-title-label {
-  font-size: 11px;
+  font-size: 10px;
   position: relative;
   padding: 2px 10px;
   border-radius: 10px 15px;
@@ -50,5 +55,8 @@ export default {
 .input-title-label.optional {
   color: green;
   border: solid 1px green;
+}
+.v-input__control {
+    font-size: 14px;
 }
 </style>

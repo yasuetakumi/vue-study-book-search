@@ -4,7 +4,7 @@
     <v-sheet v-if="!loadingComponent" elevation="1" min-height="70vh" width="100%" :rounded="'sm'">
       <GBackButton :targetRoute="{ name:'users' }">
       </GBackButton>
-      <v-container class="pr-10 pl-10 pl-lg-0">
+      <v-container class="pr-10 pl-10 pt-10">
         <v-row>
           <v-col cols="12" lg="10">
             <v-form ref="userForm" @submit.prevent="submit">
@@ -13,7 +13,9 @@
                   :rules="rules.email"
                   :placeholder="$t('general.placeholder.email')"
                   outlined
+                  dense
                   v-model="item.email"
+                  :error-messages="allerror.email"
                 ></v-text-field>
               </g-input-group>
               <g-input-group required :title="$t('general.user.fullName')">
@@ -21,11 +23,18 @@
                   :rules="rules.name"
                   :placeholder="$t('general.placeholder.fullName')"
                   outlined
+                  dense
                   v-model="item.displayName"
+                  :error-messages="allerror.display_name"
                 ></v-text-field>
               </g-input-group>
-              <g-input-group required :title="$t('general.auth.password')">
-                <g-password-input :rules="rules.password" outlined v-model="item.password"></g-password-input>
+              <g-input-group :required="editPage ? false:true" :title="$t('general.auth.password')">
+                <g-password-input 
+                  :rules="editPage ? [] : rules.password"
+                  outlined dense 
+                  v-model="item.password" 
+                  :error-messages="allerror.password">
+                </g-password-input>
               </g-input-group>
               <div class="pt-10">
                 <v-btn type="submit">{{ $t('general.crud.submit') }}</v-btn>
@@ -60,6 +69,7 @@ export default {
       editPage: false,
       submitUrl: '',
       loadingComponent: false,
+      allerror: ''
     };
   },
   methods: {
@@ -77,8 +87,12 @@ export default {
         const res = this.editPage
           ? await update(this.submitUrl, payload, options)
           : await store(this.submitUrl, payload, options);
-        if (res) {
+
+        //get retrun data of API if success return to list, else show errors
+        if (res == true) {
           this.$router.push({ name: 'users' });
+        }else{
+          this.allerror = res;
         }
       }
     },

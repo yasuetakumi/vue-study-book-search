@@ -9,7 +9,7 @@
 
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn  class="mx-3" :elevation="1" small v-bind="attrs" v-on="on">
+        <v-btn class="mx-3" :elevation="1" small v-bind="attrs" v-on="on">
           {{ $t('localeLabel') }}
         </v-btn>
       </template>

@@ -7,13 +7,14 @@ const en = {
   general: {
     attendee: 'Attendee',
     customer: 'Customer',
+    name: 'Name',
     title: 'Title',
     image_location: 'Image Location',
     address: 'Address',
     postcode: 'Postcode',
     phone_number: 'Phone Number',
     auth: {
-      welcome: 'Welcome',
+      welcome: 'Grune Laravel Starter Kit (SPA version)',
       signInMessage: 'Sign in to your account',
       email: 'Email',
       password: 'Password',
@@ -23,8 +24,18 @@ const en = {
       adminLogin: 'Admin Login',
       logout: 'Logout',
       register: 'Register',
+      moveToUserLogin: 'Move to user login',
+    },
+    form: {
+      reset: 'Reset Form',
+      search: 'Search',
+    },
+    hint: {
+      partial: 'Partial matching search',
     },
     user: {
+      list: 'User List',
+      name: 'Name',
       firstName: 'First Name',
       lastName: 'Last Name',
       fullName: 'Fullname',
@@ -38,10 +49,16 @@ const en = {
     validation: {
       required: 'Required',
       optional: 'Optional',
-      confirm: 'Confirm',
+      confirm: 'Yes',
+      cancel: 'No',
+      greaterThan: 'Must be greater than the lower limit',
+      lessThan: 'Must be less than the upper limit',
+      positiveInteger: 'Please enter a positive integer',
     },
     demo: {
       dummyMeetings: 'Dummy Meetings',
+      dummyFilterColumn: 'Dummy Filter Column',
+      dummyImportUser: 'Dummy Import User',
     },
     crud: {
       createNew: 'Create New',
@@ -58,6 +75,10 @@ const en = {
       action: 'Action',
       submit: 'Submit',
     },
+    meeting: {
+      location: 'Location',
+      registrant: 'Registrant',
+    },
     time: {
       date: 'Date',
       time: 'Time',
@@ -67,6 +88,7 @@ const en = {
       grune: 'Grune',
       dashboard: 'Dashboard',
       users: 'Users',
+      customers: 'Customers',
     },
     placeholder: {
       email: 'sample@email.com',
@@ -79,7 +101,8 @@ const en = {
       confirmDelete: 'Once the item is deleted, we cannot get it back for you.',
     },
     action:{
-      backToList: 'Back To List'
+      backToList: 'Back To List',
+      csvDownload: 'Download CSV',
     }
   },
 };

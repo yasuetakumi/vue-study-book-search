@@ -99,6 +99,40 @@ const navLeftMenus = [
       },
     ],
   },
+  {
+    id: 'customers',
+    label: 'general.nav.customers',
+    icon: 'mdi-account-group-outline',
+    hasChildren: true,
+    children: [
+      {
+        id: 'customers.datatable',
+        label: 'general.crud.list',
+        route: { name: 'customers' },
+        hasChildren: false,
+      },
+      {
+        id: 'customers.form',
+        label: 'general.crud.createNew',
+        route: { name: 'customers.create' },
+        hasChildren: false,
+      },
+    ],
+  },
+  {
+    id: 'dummy_filter_column',
+    label: 'general.demo.dummyFilterColumn',
+    route: { name: 'dummy_filter_column' },
+    icon: 'mdi-account-group-outline',
+    hasChildren: false,
+  },
+  {
+    id: 'dummy_import_user',
+    label: 'general.demo.dummyImportUser',
+    route: { name: 'dummy_import_user' },
+    icon: 'mdi-account-group-outline',
+    hasChildren: false,
+  },
 ];
 export default {
   props: {
