@@ -98,11 +98,12 @@ const ja = {
     },
     alert: {
       youSure: '削除確認',
-      confirmDelete: ' を削除します。削除されたデータは元に戻せません。',
+      confirmDelete: 'を削除します。削除されたデータは元に戻りません。よろしいですか？',
     },
     action:{
       backToList: '一覧に戻る',
       csvDownload: 'CSVダウンロード',
+      search: '捜索',
     }
   },
 };

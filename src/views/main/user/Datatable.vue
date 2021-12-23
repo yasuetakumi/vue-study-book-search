@@ -15,7 +15,7 @@
       <v-form ref="filter">
 
         <v-row class="align-items-center">
-          <v-col cols="4">
+          <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '4'">
             <span class="text text--secondary">{{ $t('general.role.role') }} : </span>
             <v-select
               clearable
@@ -27,17 +27,17 @@
             </v-select>
           </v-col>
 
-          <v-col cols="4">
+          <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '4'">
             <span class="text text--secondary">{{ $t('general.user.name') }} : </span>
             <v-text-field v-model="activeFilters.name"></v-text-field>
           </v-col>
 
-          <v-col cols="4">
+          <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '4'">
           </v-col>
         </v-row>
 
         <v-row class="align-items-center">
-          <v-col cols="4">
+          <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '4'">
             <span class="text text--secondary">{{ $t('general.auth.email') }} : </span>
             <v-text-field v-model="activeFilters.email"></v-text-field>
           </v-col>
@@ -50,16 +50,26 @@
           </v-col>
           <v-col cols="4">
           </v-col>
-          <v-col cols="4">
+          <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '4'" class="d-flex justify-end">
             <v-btn
               :disabled="loading"
               color="cyan darken-2"
               medium
-              :class="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text float-right']"
+              :class="[$vuetify.breakpoint.mdAndDown ? 'my-1' : '', 'mr-4 white--text float-left']"
+              @click="search()"
+            >
+              <v-icon>mdi-magnify</v-icon> {{ $t('general.action.search') }}
+            </v-btn>
+            <v-btn
+              :disabled="loading"
+              color="cyan darken-2"
+              medium
+              :class="[$vuetify.breakpoint.mdAndDown ? 'my-1' : '', 'white--text float-right']"
               @click="downloadCSV()"
             >
               <v-icon>mdi-download</v-icon> {{ $t('general.action.csvDownload') }}
             </v-btn>
+            
           </v-col>
         </v-row>
 
@@ -178,7 +188,7 @@ export default {
       },
       deep: true,
     },
-    activeFilters: {
+    'activeFilters.userRole': {
       handler() {
         this.getAllUsers();
       },
@@ -262,6 +272,9 @@ export default {
         this.loading = false;
       }
     },
+    search: function(){
+      this.getAllUsers();
+    }
   },
 };
 </script>
