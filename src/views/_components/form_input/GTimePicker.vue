@@ -18,23 +18,18 @@
         v-on="on"
       ></v-text-field>
     </template>
-    <v-time-picker
-      v-model="inputVal"
-      v-if="isOpen"
-      @click:minute="isOpen = false"
-      v-bind="tpAttrs"
-    ></v-time-picker>
+    <v-time-picker v-model="inputVal" v-if="isOpen" @click:minute="isOpen = false" v-bind="tpAttrs"></v-time-picker>
   </v-menu>
 </template>
 <script>
 export default {
   inheritAttrs: false,
   props: {
-    value: String
+    value: String,
   },
   data() {
     return {
-      isOpen: false
+      isOpen: false,
     };
   },
   computed: {
@@ -43,12 +38,12 @@ export default {
         return this.value;
       },
       set(val) {
-        this.$emit("input", val);
-      }
+        this.$emit('input', val);
+      },
     },
     tpAttrs() {
       return Object.entries(this.$attrs).reduce((acc, [key, val]) => {
-        if (key.substring(0, 2) == "tp") {
+        if (key.substring(0, 2) == 'tp') {
           return { [key.substring(3, key.length)]: val, ...acc };
         } else {
           return acc;
@@ -57,13 +52,13 @@ export default {
     },
     tfAttrs() {
       return Object.entries(this.$attrs).reduce((acc, [key, val]) => {
-        if (key.substring(0, 2) == "tf") {
+        if (key.substring(0, 2) == 'tf') {
           return { [key.substring(3, key.length)]: val, ...acc };
         } else {
           return acc;
         }
       }, {});
-    }
-  }
+    },
+  },
 };
 </script>

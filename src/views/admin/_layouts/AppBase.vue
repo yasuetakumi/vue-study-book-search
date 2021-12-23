@@ -36,7 +36,7 @@ export default {
     BaseNavLeft,
     BaseAppBar,
     BaseNotificationSnackbar,
-    GDebugLabel
+    GDebugLabel,
   },
 };
 </script>

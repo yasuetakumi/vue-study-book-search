@@ -32,8 +32,18 @@
             <v-card-text class="py-1 px-1 " style="border-radius: 8px; background-color:#ddeeff; color:#4466aa;">
               <div class="ml-3">
                 <p>以下のログイン情報をお使いください。</p>
-                <p>Email: admin@admin.com<br>Password: 12345678 
-                <v-btn class="ml-12" small v-on:click="email = 'admin@admin.com'; password= '12345678';">SET</v-btn></p>
+                <p>
+                  Email: admin@admin.com<br />Password: 12345678
+                  <v-btn
+                    class="ml-12"
+                    small
+                    v-on:click="
+                      email = 'admin@admin.com';
+                      password = '12345678';
+                    "
+                    >SET</v-btn
+                  >
+                </p>
               </div>
             </v-card-text>
             <v-card-actions>
@@ -64,7 +74,7 @@ import { mapState } from 'vuex';
 import LocaleSelector from '@components/LocaleSelector.vue';
 import GDebugLabel from '@views/_components/GDebugLabel.vue';
 export default {
-  components: { LocaleSelector , GDebugLabel },
+  components: { LocaleSelector, GDebugLabel },
   data: () => ({
     showAlert: false,
     email: '',

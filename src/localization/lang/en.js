@@ -7,6 +7,7 @@ const en = {
   general: {
     attendee: 'Attendee',
     customer: 'Customer',
+    name: 'Name',
     title: 'Title',
     image_location: 'Image Location',
     address: 'Address',
@@ -23,6 +24,14 @@ const en = {
       adminLogin: 'Admin Login',
       logout: 'Logout',
       register: 'Register',
+      moveToUserLogin: 'Move to user login',
+    },
+    form: {
+      reset: 'Reset Form',
+      search: 'Search',
+    },
+    hint: {
+      partial: 'Partial matching search',
     },
     user: {
       list: 'User List',
@@ -42,6 +51,9 @@ const en = {
       optional: 'Optional',
       confirm: 'Yes',
       cancel: 'No',
+      greaterThan: 'Must be greater than the lower limit',
+      lessThan: 'Must be less than the upper limit',
+      positiveInteger: 'Please enter a positive integer',
     },
     demo: {
       dummyMeetings: 'Dummy Meetings',
@@ -61,6 +73,10 @@ const en = {
       action: 'Action',
       submit: 'Submit',
     },
+    meeting: {
+      location: 'Location',
+      registrant: 'Registrant',
+    },
     time: {
       date: 'Date',
       time: 'Time',
@@ -70,6 +86,7 @@ const en = {
       grune: 'Grune',
       dashboard: 'Dashboard',
       users: 'Users',
+      customers: 'Customers',
     },
     placeholder: {
       email: 'sample@email.com',

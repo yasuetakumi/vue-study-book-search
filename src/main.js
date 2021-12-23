@@ -10,7 +10,7 @@ import '@/plugins/axios.js';
 import '@/plugins/v-currency-field.js';
 
 Vue.config.productionTip = false;
-Vue.use( meta, { refreshOnceOnNavigation: true });
+Vue.use(meta, { refreshOnceOnNavigation: true });
 
 new Vue({
   router,
