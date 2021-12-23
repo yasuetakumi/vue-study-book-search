@@ -119,6 +119,13 @@ const navLeftMenus = [
       },
     ],
   },
+  {
+    id: 'dummy_filter_column',
+    label: 'general.demo.dummyFilterColumn',
+    route: { name: 'dummy_filter_column' },
+    icon: 'mdi-account-group-outline',
+    hasChildren: false,
+  },
 ];
 export default {
   props: {

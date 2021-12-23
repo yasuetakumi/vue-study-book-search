@@ -14,7 +14,7 @@ const ja = {
     postcode: '郵便番号',
     phone_number: '電話番号',
     auth: {
-      welcome: 'ようこそ',
+      welcome: 'Grune Laravel Starter Kit (SPA version)',
       signInMessage: 'アカウントにサインイン',
       email: 'メールアドレス',
       password: 'パスワード',
@@ -57,6 +57,7 @@ const ja = {
     },
     demo: {
       dummyMeetings: '打ち合わせ',
+      dummyFilterColumn: 'フィルターカラム',
     },
     crud: {
       createNew: '新規作成',
