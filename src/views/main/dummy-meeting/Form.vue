@@ -2,25 +2,24 @@
   <div>
     <v-skeleton-loader v-if="loadingComponent" type="card-avatar, article, actions"> </v-skeleton-loader>
     <v-sheet v-if="!loadingComponent" elevation="1" min-height="70vh" width="100%" :rounded="'sm'">
-      <GBackButton :targetRoute="{ name:'dummy_meetings' }">
-      </GBackButton>
+      <GBackButton :targetRoute="{ name: 'dummy_meetings' }"> </GBackButton>
       <v-container class="pr-10 pl-10 pl-lg-0">
         <v-row>
           <v-col cols="12" lg="10">
-             <v-form ref="meetingForm" @submit.prevent="submit">
+            <v-form ref="meetingForm" @submit.prevent="submit">
               <g-input-group required :title="$t('general.title')">
                 <v-text-field outlined v-model="item.title"></v-text-field>
               </g-input-group>
               <g-input-group required :title="$t('general.customer')">
-                <v-select outlined v-model="item.customer" :items="formData.customers"></v-select>
+                <v-select outlined v-model="item.customer" :items="formData.customers" item-text="name" item-value="id"></v-select>
               </g-input-group>
-              <g-input-group required :title="$t('general.attendee')">
-                <v-radio-group v-model="item.attendee" row>
+              <g-input-group required :title="$t('general.meeting.location')">
+                <v-radio-group v-model="item.location" row>
                   <v-radio
-                    v-for="attendee in formData.attendees"
-                    :key="attendee.value"
-                    :label="attendee.text"
-                    :value="attendee.value"
+                    v-for="location in formData.locations"
+                    :key="location.value"
+                    :label="location.text"
+                    :value="location.value"
                   >
                   </v-radio>
                 </v-radio-group>
@@ -52,9 +51,9 @@
                   </g-input-group>
                 </form-modal>
               </g-input-group>
-              <g-input-group>
+              <!-- <g-input-group>
                 <v-combobox clearable v-model="item.customer" :items="formData.customers"></v-combobox>
-              </g-input-group>
+              </g-input-group> -->
               <div class="pt-10">
                 <v-btn type="submit">{{ $t('general.crud.submit') }}</v-btn>
               </div>
@@ -84,7 +83,7 @@ export default {
         date: new Date().toISOString().substr(0, 10),
         dateMulti: [],
         time: null,
-        attendee: 0,
+        location: 0,
         locImage: imageInitial(),
         address: {
           address: '',
@@ -109,7 +108,7 @@ export default {
         let payload = new FormData();
         payload.append('title', this.item.title);
         payload.append('customer', this.item.customer);
-        payload.append('attendee', this.item.attendee);
+        payload.append('location', this.item.location);
         payload.append('meeting_date', this.item.date);
         payload.append('location_image_modified', this.item.locImage.isModified ? 1 : 0);
         if (this.item.locImage.file) {
@@ -134,7 +133,7 @@ export default {
         ...this.item,
         title: item.title,
         customer: item.customer,
-        attendee: item.attendee,
+        location: item.location,
         date: item.meeting_date,
       };
       if (item.location_image_url) {

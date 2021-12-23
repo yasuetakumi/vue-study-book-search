@@ -242,28 +242,31 @@ export default {
         },
         {
           text: this.$t('general.customer'),
-          value: 'customer',
+          value: 'customer.name',
         },
         {
-          text: this.$t('general.attendee'),
-          value: 'attendee',
+          text: this.$t('general.meeting.location'),
+          value: 'location',
         },
         {
           text: this.$t('general.time.date'),
           value: 'meeting_date',
         },
         {
+          text: this.$t('general.meeting.registrant'),
+          value: 'registrant.display_name',
+        },
+        {
           text: this.$t('general.crud.action'),
           value: 'action',
         },
-      ]
+      ];
     },
 
     displayedMeetings() {
       return this.meetings.map(meeting => ({
         ...meeting,
-        customer: this.keyedFormData.customers[meeting.customer].text,
-        attendee: this.keyedFormData.attendees[meeting.attendee].text,
+        location: this.keyedFormData.locations[meeting.location].text,
       }));
     },
     
@@ -370,4 +373,23 @@ export default {
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
   font-size: 14px !important;
 }
+
+// -------------------------------------------------------------------------
+// SP custom layout
+// Please add <tr class="sm-hide"> at custom filter to avoid broken on SP layout
+// -------------------------------------------------------------------------
+.v-data-table > .v-data-table__wrapper > table > tbody > tr.sm-hide {
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+}
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td.v-data-table__mobile-row > div {
+  @media screen and (max-width: 600px) {
+    width: 50% !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+}
+// -------------------------------------------------------------------------
 </style>

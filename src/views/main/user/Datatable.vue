@@ -155,7 +155,7 @@ export default {
           value: 'action',
           sortable: false,
         },
-      ]
+      ];
     },
     displayedUsers() {
       return this.users.map(user => ({
@@ -274,4 +274,23 @@ export default {
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
   font-size: 14px !important;
 }
+
+// -------------------------------------------------------------------------
+// SP custom layout
+// Please add <tr class="sm-hide"> at custom filter to avoid broken on SP layout
+// -------------------------------------------------------------------------
+.v-data-table > .v-data-table__wrapper > table > tbody > tr.sm-hide {
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+}
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td.v-data-table__mobile-row > div {
+  @media screen and (max-width: 600px) {
+    width: 50% !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+}
+// -------------------------------------------------------------------------
 </style>

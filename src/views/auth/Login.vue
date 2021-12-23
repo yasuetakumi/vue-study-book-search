@@ -31,8 +31,18 @@
             <v-card-text class="py-1 px-1 " style="border-radius: 8px; background-color:#ddeeff; color:#4466aa;">
               <div class="ml-3">
                 <p>以下のログイン情報をお使いください。</p>
-                <p>Email: admin@company.com<br>Password: 12345678 
-                <v-btn class="ml-12" small v-on:click="email = 'admin@company.com'; password= '12345678';">SET</v-btn></p>
+                <p>
+                  Email: admin@company.com<br />Password: 12345678
+                  <v-btn
+                    class="ml-12"
+                    small
+                    v-on:click="
+                      email = 'admin@company.com';
+                      password = '12345678';
+                    "
+                    >SET</v-btn
+                  >
+                </p>
               </div>
             </v-card-text>
             <v-card-actions>
@@ -46,10 +56,7 @@
       </v-container>
     </v-container>
     <v-overlay v-if="loading_hand_shake" value="Loading...">
-      <v-progress-circular
-        indeterminate
-        size="64"
-      ></v-progress-circular>
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
   </v-main>
 </template>
@@ -61,7 +68,7 @@ import GDebugLabel from '@views/_components/GDebugLabel.vue';
 import Vue from 'vue';
 
 export default {
-  components: { LocaleSelector , GDebugLabel},
+  components: { LocaleSelector, GDebugLabel },
   data: () => ({
     email: '',
     password: '',
@@ -91,29 +98,29 @@ export default {
       this.$store.dispatch('auth/login', { credentials });
     },
     initHandShake: async function() {
-      if(!this.loading_hand_shake){
+      if (!this.loading_hand_shake) {
         // End this method if you are already hand shaked.
         return;
       }
       try {
         const res = await Vue.axios.get('/hand-shake');
-        if( res.data.result == "___SUCCESS___" )
-        {
+        if (res.data.result == '___SUCCESS___') {
           this.loading_hand_shake = false;
-        }else{
+        } else {
           throw new Error('hand shaking is not succeed.');
         }
       } catch (err) {
-        console.error('Hand shaking is not succeed. 1. If Request url is not correct,you can check client/.env file. 2.If file access is denied, please execute artisan config:clear in docker container, not on host. ');
+        console.error(
+          'Hand shaking is not succeed. 1. If Request url is not correct,you can check client/.env file. 2.If file access is denied, please execute artisan config:clear in docker container, not on host. '
+        );
         console.error(err);
-        
       }
     },
   },
   created: async function() {
     console.debug('begin:created');
     this.initHandShake();
-  }
+  },
 };
 </script>
 
