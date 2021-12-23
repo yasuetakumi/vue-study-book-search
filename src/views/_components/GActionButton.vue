@@ -19,7 +19,7 @@
 
         <v-card-text>
           <h4>
-            {{ text.body }}
+            {{ valueText }} {{ text.body }}
           </h4>
         </v-card-text>
 
@@ -27,6 +27,14 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-btn
+            color="error"
+            text
+            small
+            @click="cancel"
+          >
+            {{ text.cancel }}
+          </v-btn>
           <v-btn
             color="success"
             text
@@ -53,6 +61,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    valueText: {
+      type: String,
+      default: () => "",
+    },
   },
   data() {
     return {
@@ -61,6 +73,7 @@ export default {
         title: this.cardText.title || this.$t('general.alert.youSure'),
         body: this.cardText.body || this.$t('general.alert.confirmDelete'),
         confirm: this.cardText.confirm || this.$t('general.validation.confirm'),
+        cancel: this.cardText.cancel || this.$t('general.validation.cancel'),
       },
     };
   },
@@ -68,6 +81,9 @@ export default {
     confirm() {
       this.isOpen = false;
       this.onConfirm();
+    },
+    cancel() {
+      this.isOpen = false;
     },
   },
 };

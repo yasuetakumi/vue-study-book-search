@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import axios from 'axios';
 import { pushNotif } from '@/helpers';
 import { handleApiError } from '@/plugins/axios';
 
@@ -69,5 +70,25 @@ export const destroy = async function(url) {
     }
   } catch (err) {
     throw handleApiError(err, true);
+  }
+};
+
+export const download = async function(url, options) {
+  try {
+    let postConfig = {
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      responseType: 'blob',
+    };
+
+    const params = new URLSearchParams(options);
+    const res = await Vue.axios.get(`${url}?${params.toString()}`, postConfig);
+    if (res.status) {
+      return res;
+    }
+    
+  } catch (err) {
+    throw handleApiError(err);
   }
 };

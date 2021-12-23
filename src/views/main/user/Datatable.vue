@@ -1,62 +1,114 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="displayedUsers"
-    :options.sync="options"
-    :server-items-length="totalUsers"
-    :loading="loading"
-    class="elevation-1"
-  >
-    <template v-slot:body.prepend>
-      <tr>
-        <td></td>
-        <td>
-          <v-select
-            clearable
-            :items="formData.userRoles"
-            item-text="label"
-            item-value="id"
-            v-model="activeFilters.userRole"
-          >
-          </v-select>
-        </td>
-        <td>
-          <v-text-field v-model="activeFilters.name"></v-text-field>
-        </td>
-        <td>
-          <v-text-field v-model="activeFilters.email"></v-text-field>
-        </td>
+  <div>
 
-        <td colspan="4"></td>
-      </tr>
-    </template>
-    <template v-slot:item.action="{ item }">
-      <v-btn
-        :disabled="loading"
-        color="cyan darken-2"
-        small
-        :class="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
-        @click="editUser(item.id)"
+    <!-- Breadcrumbs -->
+    <p class="mx-1 text-subtitle-2 text--secondary">
+      <router-link :to="{ name: 'dashboard' }">{{$t("general.nav.dashboard")}}</router-link>
+      <span class="mx-2">></span>
+      <span>{{$t("general.user.list")}}</span>
+    </p>
+
+    <!-- Page container -->
+    <PageInnerset :title="$t('general.user.list')">
+
+      <!-- searching form -->
+      <v-form ref="filter">
+
+        <v-row class="align-items-center">
+          <v-col cols="4">
+            <span class="text text--secondary">{{ $t('general.role.role') }} : </span>
+            <v-select
+              clearable
+              :items="formData.userRoles"
+              item-text="label"
+              item-value="id"
+              v-model="activeFilters.userRole"
+            >
+            </v-select>
+          </v-col>
+
+          <v-col cols="4">
+            <span class="text text--secondary">{{ $t('general.user.name') }} : </span>
+            <v-text-field v-model="activeFilters.name"></v-text-field>
+          </v-col>
+
+          <v-col cols="4">
+          </v-col>
+        </v-row>
+
+        <v-row class="align-items-center">
+          <v-col cols="4">
+            <span class="text text--secondary">{{ $t('general.auth.email') }} : </span>
+            <v-text-field v-model="activeFilters.email"></v-text-field>
+          </v-col>
+        </v-row>
+
+
+        <!-- searching form button -->
+        <v-row class="align-items-center">
+          <v-col cols="4">
+          </v-col>
+          <v-col cols="4">
+          </v-col>
+          <v-col cols="4">
+            <v-btn
+              :disabled="loading"
+              color="cyan darken-2"
+              medium
+              :class="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text float-right']"
+              @click="downloadCSV()"
+            >
+              <v-icon>mdi-download</v-icon> {{ $t('general.action.csvDownload') }}
+            </v-btn>
+          </v-col>
+        </v-row>
+
+      </v-form>
+
+
+      <!-- Data Table -->
+      <v-data-table
+        :headers="headers"
+        :items="displayedUsers"
+        :options.sync="options"
+        :server-items-length="totalUsers"
+        :loading="loading"
+        class="elevation-1 mt-5"
       >
-        <v-icon>mdi-account-edit</v-icon>
-      </v-btn>
-      <g-action-button
-        :disabled="loading"
-        :onConfirm="deleteUser(item.id)"
-        :btnClass="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
-        color="grey darken-2"
-      ></g-action-button>
-    </template>
-  </v-data-table>
+        <template v-slot:item.action="{ item }">
+          <v-btn
+            :disabled="loading"
+            color="cyan darken-2"
+            small
+            :class="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
+            @click="editUser(item.id)"
+          >
+            <v-icon>mdi-account-edit</v-icon>
+          </v-btn>
+          <g-action-button
+            :valueText="item.display_name"
+            :disabled="loading"
+            :onConfirm="deleteUser(item.id)"
+            :btnClass="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
+            color="grey darken-2"
+          ></g-action-button>
+        </template>
+      </v-data-table>
+
+    </PageInnerset>
+
+  </div>
 </template>
 
 <script>
-import { destroy, getAll } from '@services/crud';
+import PageInnerset from '../../_components/page/PageInnerset';
+
+import { destroy, getAll, download } from '@services/crud';
 import { convArrToObj } from '@helpers';
 import GActionButton from '../../_components/GActionButton.vue';
 
 export default {
-  components: { GActionButton },
+  components: { GActionButton , PageInnerset},
   data() {
     return {
       formData: {},
@@ -85,26 +137,30 @@ export default {
         },
         {
           text: this.$t('general.role.role'),
-          value: 'user_role',
+          value: 'user_roles.label',
+          sortable: true,
         },
         {
           text: this.$t('general.user.fullName'),
           value: 'display_name',
+          sortable: true,
         },
         {
           text: this.$t('general.auth.email'),
           value: 'email',
+          sortable: true,
         },
         {
           text: this.$t('general.crud.action'),
           value: 'action',
+          sortable: false,
         },
       ]
     },
     displayedUsers() {
       return this.users.map(user => ({
         ...user,
-        user_role: this.keyedFormData.userRoles[user.user_role_id].label,
+        user_roles: this.keyedFormData.userRoles[user.user_role_id],
       }));
     },
     keyedFormData() {
@@ -143,8 +199,8 @@ export default {
           page,
           sortBy,
           sortDesc,
-          ...this.activeFilters,
-        });
+          ...this.activeFilters
+        }); 
         this.users = res.users.data;
         this.totalUsers = res.users.total;
         this.formData = res.formData;
@@ -152,6 +208,7 @@ export default {
         console.log(err);
       } finally {
         this.loading = false;
+        
       }
     },
     deleteUser: function(id) {
@@ -176,6 +233,34 @@ export default {
     },
     editUser: function(id) {
       this.$router.push({ name: 'users.edit', params: { id } });
+    },
+    downloadCSV: async function() {
+      try {
+        let url = 'users/downloadCSV';
+        this.loading = true;
+        const { itemsPerPage, page, sortBy, sortDesc } = this.options;
+        const res = await download(url, {
+          itemsPerPage,
+          page,
+          sortBy,
+          sortDesc,
+          ...this.activeFilters
+        }); 
+        
+        const urls = URL.createObjectURL(new Blob([res.data], {
+          type: 'application/vnd.ms-excel'
+        }));
+        const link = document.createElement('a');
+        link.href = urls;
+        link.setAttribute('download', 'user_list.csv');
+        document.body.appendChild(link);
+        link.click();
+
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };
