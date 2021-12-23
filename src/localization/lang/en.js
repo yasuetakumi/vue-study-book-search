@@ -58,6 +58,7 @@ const en = {
     demo: {
       dummyMeetings: 'Dummy Meetings',
       dummyFilterColumn: 'Dummy Filter Column',
+      dummyImportUser: 'Dummy Import User',
     },
     crud: {
       createNew: 'Create New',

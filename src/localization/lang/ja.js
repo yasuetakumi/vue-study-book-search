@@ -58,6 +58,7 @@ const ja = {
     demo: {
       dummyMeetings: '打ち合わせ',
       dummyFilterColumn: 'フィルターカラム',
+      dummyImportUser: 'ダミーインポートユーザー ',
     },
     crud: {
       createNew: '新規作成',
