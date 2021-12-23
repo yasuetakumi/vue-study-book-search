@@ -23,6 +23,14 @@ const ja = {
       adminLogin: 'Adminログイン',
       logout: 'ログアウト',
       register: '登録',
+      moveToUserLogin: 'ユーザーログインへ',
+    },
+    form: {
+      reset: '検索フォームをリセットする',
+      search: '検索する',
+    },
+    hint: {
+      partial: '※部分一致検索',
     },
     user: {
       list: 'ユーザー一覧',
@@ -42,6 +50,9 @@ const ja = {
       optional: '任意',
       confirm: 'はい',
       cancel: 'いいえ',
+      greaterThan: '下限より大きくする必要があります',
+      lessThan: '上限未満である必要があります',
+      positiveInteger: '正の整数を入力してください',
     },
     demo: {
       dummyMeetings: '打ち合わせ',
