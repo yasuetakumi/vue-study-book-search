@@ -54,6 +54,7 @@ const en = {
       greaterThan: 'Must be greater than the lower limit',
       lessThan: 'Must be less than the upper limit',
       positiveInteger: 'Please enter a positive integer',
+      emailValid: 'Email must be valid!',
     },
     demo: {
       dummyMeetings: 'Dummy Meetings',
