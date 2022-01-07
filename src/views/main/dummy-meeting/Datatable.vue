@@ -266,7 +266,7 @@ export default {
     displayedMeetings() {
       return this.meetings.map(meeting => ({
         ...meeting,
-        location: this.keyedFormData.locations[meeting.location].text,
+        location: meeting.location ? this.keyedFormData.locations[meeting.location].text : '-',
       }));
     },
     
