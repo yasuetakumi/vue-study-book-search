@@ -99,12 +99,13 @@
           <td v-show="isEnabledColumn('title')">
             <v-text-field v-model="activeFilters.title"></v-text-field>
           </td>
-          <td v-show="isEnabledColumn('customer')">
+          <!--
+           <td v-show="isEnabledColumn('customer')">
             <v-select clearable :items="formData.customers" v-model="activeFilters.customer"> </v-select>
           </td>
           <td v-show="isEnabledColumn('attendee')">
             <v-select clearable :items="formData.attendees" v-model="activeFilters.attendee"> </v-select>
-          </td>
+          </td> -->
           <td v-show="isEnabledColumn('action')" colspan="4"></td>
           <!-- END add v-show="isEnabledColumn for filter column -->
         </tr>
@@ -167,12 +168,12 @@ export default {
         },
         {
           text: this.$t('general.customer'),
-          value: 'customer',
+          value: 'customer.name',
           status: true,
         },
         {
-          text: this.$t('general.attendee'),
-          value: 'attendee',
+          text: this.$t('general.meeting.location'),
+          value: 'location',
           status: true,
         },
         {
@@ -228,8 +229,11 @@ export default {
     displayedMeetings() {
       return this.meetings.map(meeting => ({
         ...meeting,
-        customer: this.keyedFormData.customers[meeting.customer].text,
-        attendee: this.keyedFormData.attendees[meeting.attendee].text,
+        // customer: this.keyedFormData.customers[meeting.customer.name].text,
+        // attendee: this.keyedFormData.attendees[meeting.attendee.name].text, 
+
+        // customer: meeting.customer == null ? '-' : this.keyedFormData.customers[meeting.customer].text,
+        location: meeting.location == null ? '-' : this.keyedFormData.locations[meeting.location].text,
       }));
     },
     keyedFormData() {
