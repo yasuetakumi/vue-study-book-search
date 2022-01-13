@@ -54,6 +54,7 @@ const ja = {
       greaterThan: '下限より大きくする必要があります',
       lessThan: '上限未満である必要があります',
       positiveInteger: '正の整数を入力してください',
+      emailValid: 'メールは有効である必要があります',
     },
     demo: {
       dummyMeetings: '打ち合わせ',

@@ -37,7 +37,7 @@
                 </g-password-input>
               </g-input-group>
               <div class="pt-10">
-                <v-btn type="submit">{{ $t('general.crud.submit') }}</v-btn>
+                <v-btn :disabled="disableButton" type="submit">{{ $t('general.crud.submit') }}</v-btn>
               </div>
             </v-form>
           </v-col>
@@ -55,9 +55,9 @@ export default {
   data() {
     return {
       rules: {
-        name: [v => !!v || 'Name is required'],
-        password: [v => !!v || 'Password is required'],
-        email: [v => !!v || 'E-mail is required', v => /.+@.+\..+/.test(v) || 'E-mail must be valid'],
+        name: [v => !!v || this.$i18n.t('general.user.name') + this.$i18n.t('general.validation.required')],
+        password: [v => !!v || this.$i18n.t('general.auth.password') + this.$i18n.t('general.validation.required')],
+        email: [v => !!v || this.$i18n.t('general.auth.email') + this.$i18n.t('general.validation.required'), v => /.+@.+\..+/.test(v) || this.$i18n.t('general.validation.emailValid')],
       },
       item: {
         id: null,
@@ -69,12 +69,14 @@ export default {
       editPage: false,
       submitUrl: '',
       loadingComponent: false,
-      allerror: ''
+      allerror: '',
+      disableButton: false,
     };
   },
   methods: {
     async submit() {
       if (this.$refs.userForm.validate()) {
+        this.disableButton = true;
         let options = {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -90,9 +92,11 @@ export default {
 
         //get retrun data of API if success return to list, else show errors
         if (res == true) {
+          this.disableButton = false;
           this.$router.push({ name: 'users' });
         }else{
           this.allerror = res;
+          this.disableButton = false;
         }
       }
     },
