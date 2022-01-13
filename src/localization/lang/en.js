@@ -103,6 +103,7 @@ const en = {
     action:{
       backToList: 'Back To List',
       csvDownload: 'Download CSV',
+      search: 'Search',
     }
   },
 };
