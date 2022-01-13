@@ -6,11 +6,17 @@ const customersRoutes = [
     path: 'customers',
     name: 'customers',
     component: Datatable,
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: 'customers/create',
     name: 'customers.create',
     component: Form,
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: 'customers/:id/edit',
@@ -18,6 +24,7 @@ const customersRoutes = [
     component: Form,
     meta: {
       editPage: true,
+      requiresAuth: true,
     },
   },
 ];
