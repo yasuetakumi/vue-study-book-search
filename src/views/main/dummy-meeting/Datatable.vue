@@ -28,15 +28,15 @@
           :title="$t('general.customer')+': '"
           v-model="activeFilters.customer"
           :items="formData.customers"
-          :option="['value', 'text']"
+          :option="['value', 'name']"
         />
 
-        <FilterRadio :title="$t('general.attendee') + ': '" v-model="activeFilters.attendee">
+        <FilterRadio :title="$t('general.meeting.location') + ': '" v-model="activeFilters.location">
           <v-radio
-            v-for="attendee in formData.attendees"
-            :key="attendee.value"
-            :label="attendee.text"
-            :value="attendee.value"
+            v-for="location in formData.locations"
+            :key="location.value"
+            :label="location.text"
+            :value="location.value"
           ></v-radio>
         </FilterRadio>
 
