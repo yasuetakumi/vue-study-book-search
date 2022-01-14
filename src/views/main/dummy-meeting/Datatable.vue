@@ -28,7 +28,7 @@
           :title="$t('general.customer')+': '"
           v-model="activeFilters.customer"
           :items="formData.customers"
-          :option="['value', 'name']"
+          :option="['id', 'name']"
         />
 
         <FilterRadio :title="$t('general.meeting.location') + ': '" v-model="activeFilters.location">
@@ -180,8 +180,8 @@ export default {
       activeFilters: {},
       defaultFilters: {
         title: '',
-        customer: '',
-        attendee: '',
+        customer:'',
+        location: '',
         meeting_date_start: '',
         meeting_date_end: '',
         // min_user_count: '',
@@ -284,8 +284,8 @@ export default {
     var query = this.$route.query;
 
     // need to change the data type to int, to make filter selected on input
-    if(query.customer) query.customer = Number(query.customer);
-    if(query.attendee) query.attendee = Number(query.attendee);
+    // if(query.customer) query.customer = Number(query.customer);
+    if(query.location) query.location = Number(query.location);
 
     this.activeFilters = io.assign({}, this.defaultFilters, query );
   },
