@@ -81,20 +81,20 @@
       :loading="loading"
       class="elevation-1"
     >
-      <!-- <template v-slot:body.prepend>
+      <template v-slot:body.prepend>
         <tr>
           <td>
             <v-text-field v-model="activeFilters.title"></v-text-field>
           </td>
           <td>
-            <v-select clearable :items="formData.customers" v-model="activeFilters.customer"> </v-select>
+            <v-select clearable :items="formData.customers" :option="['id','name']" v-model="activeFilters.customer"> </v-select>
           </td>
           <td>
-            <v-select clearable :items="formData.attendees" v-model="activeFilters.attendee"> </v-select>
+            <v-select clearable :items="formData.locations" v-model="activeFilters.location"> </v-select>
           </td>
           <td colspan="4"></td>
         </tr>
-      </template> -->
+      </template> 
 
       <template v-slot:item.action="{ item }">
         <v-btn
@@ -178,6 +178,10 @@ export default {
         sortDesc: [],
       },
       activeFilters: {},
+      // --- for filter column
+      searchNameColumn: '',
+      dialogColumnFilter: false,
+      
       defaultFilters: {
         title: '',
         customer:'',
@@ -223,6 +227,12 @@ export default {
       deep: true,
     },
 
+    // --- for filter column
+    currentLocale: function () {
+      this.changeTextFromLocal();
+    },
+    // --- END for filter column
+
     $route: {
       immediate: true,
       deep: true,
@@ -252,13 +262,14 @@ export default {
           text: this.$t('general.time.date'),
           value: 'meeting_date',
         },
-        {
-          text: this.$t('general.meeting.registrant'),
-          value: 'registrant.display_name',
-        },
+        // {
+        //   text: this.$t('general.meeting.registrant'),
+        //   value: 'registrant.display_name',
+        // },
         {
           text: this.$t('general.crud.action'),
           value: 'action',
+          sortable: false,
         },
       ];
     },
@@ -277,14 +288,13 @@ export default {
       }
       return obj;
     },
-
   },
 
   created() {
     var query = this.$route.query;
 
     // need to change the data type to int, to make filter selected on input
-    // if(query.customer) query.customer = Number(query.customer);
+    if(query.customer) query.customer = Number(query.customer);
     if(query.location) query.location = Number(query.location);
 
     this.activeFilters = io.assign({}, this.defaultFilters, query );
