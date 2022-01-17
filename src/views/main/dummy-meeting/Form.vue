@@ -40,11 +40,11 @@
                 In general, the use case will be project dependent
                 Please use/modify as needed, or create your own per your need -->
                 <form-modal>
-                  <g-input-group optional :title="$t('general.address')">
-                    <v-text-field outlined v-model="item.address.address"></v-text-field>
-                  </g-input-group>
                   <g-input-group optional :title="$t('general.postcode')">
                     <v-text-field outlined v-model="item.address.postcode"></v-text-field>
+                  </g-input-group>
+                  <g-input-group optional :title="$t('general.address')">
+                    <v-text-field outlined v-model="item.address.address"></v-text-field>
                   </g-input-group>
                   <g-input-group optional :title="$t('general.phone_number')">
                     <v-text-field outlined v-model="item.address.phone"></v-text-field>
