@@ -57,8 +57,8 @@ const en = {
       emailValid: 'Email must be valid!',
     },
     demo: {
-      dummyMeetings: 'Dummy Meetings',
-      dummyFilterColumn: 'Dummy Filter Column',
+      dummyMeetings: 'Meetings',
+      dummyFilterColumn: 'Filter Column',
       dummyImportUser: 'Dummy Import User',
     },
     crud: {
