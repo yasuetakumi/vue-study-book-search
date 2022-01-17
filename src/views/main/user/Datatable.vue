@@ -13,13 +13,13 @@
       <v-container>
         <!-- searching form button -->
         <v-row class="align-items-center">
-          <v-col cols="8"> </v-col>
+          <v-col cols="6"> </v-col>
           <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '2'" class="d-flex justify-end">
             <v-btn
               :disabled="loading"
               color="cyan darken-2"
               medium
-              :class="[$vuetify.breakpoint.mdAndDown ? 'my-1' : '', 'mr-4 white--text float-right']"
+              :class="[$vuetify.breakpoint.mdAndDown ? 'my-1' : '', 'white--text float-right']"
               @click.stop="dialogColumnFilter = true"
             >
               Filter Column
@@ -81,6 +81,74 @@
               <v-icon>mdi-download</v-icon> {{ $t('general.action.csvDownload') }}
             </v-btn>
           </v-col>
+          <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '2'" class="d-flex justify-end">
+            <v-btn
+              :disabled="loading"
+              color="cyan darken-2"
+              medium
+              :class="[$vuetify.breakpoint.mdAndDown ? 'my-1' : '', 'white--text float-right']"
+              @click.stop="importDialog = true"
+            >
+              <!-- <v-icon>mdi-upload</v-icon> {{ $t('general.action.csvDownload') }} -->
+              <v-icon>mdi-upload</v-icon> Import User
+            </v-btn>
+            <v-dialog
+              v-model="importDialog"
+              max-width="500"
+            >
+              <v-card>
+                <v-card-title class="text-h5">
+                  Import User
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col
+                        cols="12"
+                        sm="12"
+                        md="12"
+                      >
+                        <v-file-input
+                          v-model="files"
+                          placeholder="Upload your documents"
+                          label="File input"
+                          prepend-icon="mdi-paperclip"
+                          outlined
+                          dense
+                        >
+                          <template v-slot:selection="{ text }">
+                            <v-chip
+                              small
+                              label
+                              color="primary"
+                            >
+                              {{ text }}
+                            </v-chip>
+                          </template>
+                        </v-file-input>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="primary"
+                    depressed
+                    @click="importUser()"
+                  >
+                    Import
+                  </v-btn>
+                  <v-btn
+                    @click="importDialog = false"
+                  >
+                    close
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-col>
         </v-row>
       </v-container>
 
@@ -93,7 +161,7 @@
         :loading="loading"
         class="elevation-1 mt-5"
       >
-        <template v-slot:body.prepend>
+        <template v-slot:body.prepend v-if="$vuetify.breakpoint.mdAndUp">
           <tr>
             <td></td>
             <td v-show="isEnabledColumn('user_role_name')">
@@ -141,7 +209,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import { destroy, getAll, download } from '@services/crud';
+import { destroy, getAll, download, importCsv } from '@services/crud';
 import { convArrToObj } from '@helpers';
 
 import PageInnerset from '../../_components/page/PageInnerset';
@@ -203,6 +271,10 @@ export default {
       ],
       selectedHeaders: [],
       // --- END for filter column
+      // --- for import csv
+      importDialog: false,
+      files: null,
+      // --- END for import csvt
     };
   },
   computed: {
@@ -365,17 +437,14 @@ export default {
         var temp = Object.assign({}, obj);
         if(temp.value != 'id') {
           switch (temp.value) {
-            case 'id':
-              temp.text = this.$t('general.title');
-              break;
             case 'user_role_name':
-              temp.text = this.$t('general.customer');
+              temp.text = this.$t('general.role.role');
               break;
             case 'display_name':
-              temp.text = this.$t('general.attendee');
+              temp.text = this.$t('general.user.fullName');
               break;
             case 'email':
-              temp.text = this.$t('general.time.date');
+              temp.text = this.$t('general.auth.email');
               break;
             case 'action':
               temp.text = this.$t('general.crud.action');
@@ -393,6 +462,24 @@ export default {
       }
     },
     // --- END for filter column
+    async importUser() {
+      try {
+        let url = 'users/import-csv';
+        let formData = new FormData();
+        formData.append('file', this.files);
+        formData.append('type', 'create');
+        this.loading = true;
+        const res = await importCsv(url, formData);
+        if (res) {
+          this.importDialog = false;
+          this.getAllUsers();
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.loading = false;
+      }
+    },
   },
 };
 </script>
