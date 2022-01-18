@@ -41,7 +41,9 @@ export default {
       default: function() {
         return {
           text: 'Apply',
-          cb: () => {},
+          cb: () => {
+            
+          },
         };
       },
     },
