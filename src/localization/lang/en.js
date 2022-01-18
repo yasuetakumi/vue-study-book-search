@@ -40,6 +40,11 @@ const en = {
       lastName: 'Last Name',
       fullName: 'Fullname',
       profPic: 'Profile Picture',
+      deleteModal: {
+        openingText: 'Once the item (',
+        closingText: ') is deleted, we cannot get it back for you',
+      },
+      deleteSuccess: 'Successfully deleted the user',
     },
     role: {
       role: 'Role',

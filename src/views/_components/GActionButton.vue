@@ -64,12 +64,12 @@ export default {
   data() {
     return {
       isOpen: false,
-      text: {
-        title: this.cardText.title || this.$t('general.alert.youSure'),
-        body: this.cardText.body || this.$t('general.alert.confirmDelete'),
-        confirm: this.cardText.confirm || this.$t('general.validation.confirm'),
-        cancel: this.cardText.cancel || this.$t('general.validation.cancel'),
-      },
+      // text: {
+      //   title: this.cardText.title || this.$t('general.alert.youSure'),
+      //   body: this.cardText.body || this.$t('general.alert.confirmDelete'),
+      //   confirm: this.cardText.confirm || this.$t('general.validation.confirm'),
+      //   cancel: this.cardText.cancel || this.$t('general.validation.cancel'),
+      // },
     };
   },
   methods: {
@@ -79,6 +79,17 @@ export default {
     },
     cancel() {
       this.isOpen = false;
+    },
+  },
+  computed: {
+    text() {
+      let text = {
+        title: this.cardText.title || this.$t('general.alert.youSure'),
+        body: this.cardText.body || this.$t('general.alert.confirmDelete'),
+        confirm: this.cardText.confirm || this.$t('general.validation.confirm'),
+        cancel: this.cardText.cancel || this.$t('general.validation.cancel'),
+      };
+      return text;
     },
   },
 };
