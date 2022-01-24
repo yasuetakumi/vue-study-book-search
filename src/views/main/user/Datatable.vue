@@ -87,6 +87,7 @@
       >
         <template v-slot:item.action="{ item }">
           <v-btn
+            id="edit"
             :disabled="loading"
             color="cyan darken-2"
             small
