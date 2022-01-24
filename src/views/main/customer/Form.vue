@@ -16,6 +16,30 @@
                                 v-model="item.name"
                                 ></v-text-field>
                             </g-input-group>
+                            <g-input-group required :title="$t('general.auth.email')">
+                                <v-text-field
+                                :rules="rules.name"
+                                :placeholder="$t('general.auth.email')"
+                                outlined
+                                v-model="item.name"
+                                ></v-text-field>
+                            </g-input-group>
+                            <g-input-group required :title="$t('general.phone_number')">
+                                <v-text-field
+                                :rules="rules.name"
+                                :placeholder="$t('general.phone_number')"
+                                outlined
+                                v-model="item.name"
+                                ></v-text-field>
+                            </g-input-group>
+                            <g-input-group required :title="$t('general.website')">
+                                <v-text-field
+                                :rules="rules.name"
+                                :placeholder="$t('general.website')"
+                                outlined
+                                v-model="item.name"
+                                ></v-text-field>
+                            </g-input-group>
                             <div class="pt-10">
                                 <v-btn type="submit">{{ $t('general.crud.submit') }}</v-btn>
                             </div>
