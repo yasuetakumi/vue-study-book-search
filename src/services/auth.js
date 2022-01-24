@@ -50,6 +50,7 @@ const cookieAuth = {
   async checkAuth() {
     try {
       const res = await Vue.axios.get('/auth-check');
+      console.log(res);
       return res.data;
     } catch (err) {
       return {

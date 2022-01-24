@@ -74,7 +74,7 @@ const actions = {
       commit('global/setLoadingPage', true, { root: true });
       try {
         const authInfo = await auth.checkAuth();
-        console.log(authInfo);
+        console.log(authInfo.status);
         if (authInfo.status) {
           commit('login', authInfo);
         }

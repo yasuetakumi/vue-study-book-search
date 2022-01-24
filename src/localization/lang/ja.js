@@ -54,6 +54,7 @@ const ja = {
       greaterThan: '下限より大きくする必要があります',
       lessThan: '上限未満である必要があります',
       positiveInteger: '正の整数を入力してください',
+      emailValid: 'メールは有効である必要があります',
     },
     demo: {
       dummyMeetings: '打ち合わせ',
@@ -98,11 +99,12 @@ const ja = {
     },
     alert: {
       youSure: '削除確認',
-      confirmDelete: ' を削除します。削除されたデータは元に戻せません。',
+      confirmDelete: 'を削除します。削除されたデータは元に戻りません。よろしいですか？',
     },
     action:{
       backToList: '一覧に戻る',
       csvDownload: 'CSVダウンロード',
+      search: '捜索',
     }
   },
 };
