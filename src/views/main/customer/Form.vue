@@ -18,26 +18,26 @@
                             </g-input-group>
                             <g-input-group required :title="$t('general.auth.email')">
                                 <v-text-field
-                                :rules="rules.name"
+                                :rules="rules.email"
                                 :placeholder="$t('general.auth.email')"
                                 outlined
-                                v-model="item.name"
+                                v-model="item.email"
                                 ></v-text-field>
                             </g-input-group>
                             <g-input-group required :title="$t('general.phone_number')">
                                 <v-text-field
-                                :rules="rules.name"
+                                :rules="rules.phone"
                                 :placeholder="$t('general.phone_number')"
                                 outlined
-                                v-model="item.name"
+                                v-model="item.phone"
                                 ></v-text-field>
                             </g-input-group>
                             <g-input-group required :title="$t('general.website')">
                                 <v-text-field
-                                :rules="rules.name"
+                                :rules="rules.website"
                                 :placeholder="$t('general.website')"
                                 outlined
-                                v-model="item.name"
+                                v-model="item.website"
                                 ></v-text-field>
                             </g-input-group>
                             <div class="pt-10">
@@ -59,10 +59,16 @@ export default {
         return {
             rules: {
                 name: [v => !!v || 'Name is required'],
+                email: [v => !!v || 'Email Address is required'],
+                phone: [v => !!v || 'Phone Number is required'],
+                website: [v => !!v || 'Website is required'],
             },
             item: {
                 id: null,
                 name: '',
+                email: '',
+                phone:'',
+                website: '',
             },
             editPage: false,
             submitUrl: '',
