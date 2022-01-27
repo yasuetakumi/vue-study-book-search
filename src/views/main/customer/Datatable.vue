@@ -1,67 +1,94 @@
 <template>
+    <v-sheet>
+        <v-form ref="customerFilter" @submit.prevent="submit" lazy-validation class="px-10 mb-0">
+            <!-- Reset Button -->
+            <FilterReset  @click="resetFilter()"></FilterReset>
 
-    <!-- searching form -->
-    <v-form ref="filter">
-    <FilterReset  @click="resetFilter()"></FilterReset>
+            <!-- Filter Container -->
+            <FilterContainer>
+                <template v-slot:left>
+                    <!-- Name Filter -->
+                    <FilterText
+                    :title="$t('general.name')+ ': '"
+                    :partial="true"
+                    v-model="activeFilters.name"
+                    />
+                    
+                    <!-- Email Filter -->
+                    <FilterText
+                    :title="$t('general.auth.email')+ ': '"
+                    :partial="true"
+                    v-model="activeFilters.email"
+                    />
+                </template>
+                <template v-slot:right>
+                    <!-- Phone Filter -->
+                    <FilterText
+                    :title="$t('general.phone_number')+ ': '"
+                    :partial="true"
+                    v-model="activeFilters.phone"
+                    />
 
-        <FilterContainer>
-            <template v-slot:left>
-                <FilterText
-                :title="$t('general.name')+ ': '"
-                :partial="true"
-                v-model="activeFilters.name"
-                />
-            </template>
-        </FilterContainer>
-    </v-form>
+                    <!-- Website Filter -->
+                    <FilterText
+                    :title="$t('general.website')+ ': '"
+                    :partial="true"
+                    v-model="activeFilters.website"
+                    />
+                </template>
+            </FilterContainer>
+        </v-form>
 
-    <v-data-table
-    :headers="headers"
-    :items="displayedCustomers"
-    :options.sync="options"
-    :server-items-length="totalCustomers"
-    :loading="loading"
-    class="elevation-1"
-    >
-    <template v-slot:body.prepend>
-        <tr>
-            <td></td>
-            <td>
-                <v-text-field v-model="activeFilters.name"></v-text-field>
-            </td>
-            <td>
-                <v-text-field v-model="activeFilters.email"></v-text-field>
-            </td>
-            <td>
-                <v-text-field v-model="activeFilters.phone"></v-text-field>
-            </td>
-            <td>
-                <v-text-field v-model="activeFilters.website"></v-text-field>
-            </td>
-            <td colspan="4"></td>
-        </tr>
-    </template>
-    <template v-slot:item.action="{ item }">
-        <v-btn
-        :disabled="loading"
-        color="cyan darken-2"
-        small
-        :class="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
-        @click="editCustomer(item.id)"
+        <!-- Datatable -->
+        <v-data-table
+        :headers="headers"
+        :items="displayedCustomers"
+        :options.sync="options"
+        :server-items-length="totalCustomers"
+        :loading="loading"
+        class="elevation-1"
         >
-        <v-icon>mdi-account-edit</v-icon>
-    </v-btn>
-    <g-action-button
-    :disabled="loading"
-    :onConfirm="deleteCustomer(item.id)"
-    :btnClass="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
-    color="grey darken-2"
-    ></g-action-button>
-</template>
-</v-data-table>
+            <template v-slot:body.prepend>
+                <tr>
+                    <td></td>
+                    <td>
+                        <v-text-field v-model="activeFilters.name"></v-text-field>
+                    </td>
+                    <td>
+                        <v-text-field v-model="activeFilters.email"></v-text-field>
+                    </td>
+                    <td>
+                        <v-text-field v-model="activeFilters.phone"></v-text-field>
+                    </td>
+                    <td>
+                        <v-text-field v-model="activeFilters.website"></v-text-field>
+                    </td>
+                    <td colspan="4"></td>
+                </tr>
+            </template>
+            <template v-slot:item.action="{ item }">
+                <v-btn
+                :disabled="loading"
+                color="cyan darken-2"
+                small
+                :class="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
+                @click="editCustomer(item.id)"
+                >
+                    <v-icon>mdi-account-edit</v-icon>
+                </v-btn>
+                <g-action-button
+                :disabled="loading"
+                :onConfirm="deleteCustomer(item.id)"
+                :btnClass="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
+                color="grey darken-2"
+                ></g-action-button>
+            </template>
+        </v-data-table>
+    </v-sheet>
 </template>
 
 <script>
+import io from 'lodash';
 import { destroy, getAll } from '@services/crud';
 import { convArrToObj } from '@helpers';
 import GActionButton from '../../_components/GActionButton.vue';
@@ -70,7 +97,6 @@ import FilterReset from '@views/_components/datatable_filter/TableFilterReset';
 import FilterContainer from '@views/_components/datatable_filter/TableFilterContainer';
 
 import FilterText from '@views/_components/datatable_filter/TableFilterText';
-import FilterSelect from '@views/_components/datatable_filter/TableFilterSelect';
 
 export default {
     components: { 
@@ -78,7 +104,6 @@ export default {
         FilterReset,
         FilterContainer,
         FilterText,
-        FilterSelect,
     },
     data() {
         return {
@@ -97,14 +122,53 @@ export default {
                 sortDesc: [],
             },
             activeFilters: {},
-            defaultFilters:{
-                name:'',
+            // --- for filter column
+            searchNameColumn: '',
+            dialogColumnFilter: false,
+            
+            defaultFilters: {
+                name: '',
                 email:'',
-                phone:'',
-                website:'',
-            }
-        };
+                phone: '',
+                website: '',
+            },
+        }
     },
+    
+    watch: {
+        options: {
+            handler() {
+                this.getAllCustomers();
+            },
+            deep: true,
+        },
+        activeFilters: {
+            handler() {
+                this.getAllCustomers();
+            },
+            deep: true,
+        },
+        defaultFilters: {
+            handler(to){
+                console.log(to);
+            },
+            deep: true,
+        },
+        // --- for filter column
+        currentLocale: function () {
+            this.changeTextFromLocal();
+        },
+        // --- END for filter column
+
+        $route: {
+            immediate: true,
+            deep: true,
+            handler(){
+                this.getAllCustomers();
+            }
+        }
+    },
+    
     computed: {
         headers() {
             return [
@@ -131,6 +195,7 @@ export default {
                 {
                     text: this.$t('general.crud.action'),
                     value: 'action',
+                    sortable: false,
                 },
             ]
         },
@@ -147,48 +212,24 @@ export default {
             return obj;
         },
     },
-    watch: {
-        options: {
-            handler() {
-                this.getAllCustomers();
-            },
-            deep: true,
-        },
-        activeFilters: {
-            handler() {
-                this.getAllCustomers();
-            },
-            deep: true,
-        },
-        defaultFilters: {
-            handler(to){
-                console.log(to);
-            },
-            deep: true,
-        },
-    },
-    mounted() {
-        this.getAllCustomers();
-    },
+    
     created() {
         var query = this.$route.query;
 
-        // need to change the data type to int, to make filter selected on input
-        if(query.customer) query.customer = Number(query.customer);
-
         this.activeFilters = io.assign({}, this.defaultFilters, query );
     },
+
     methods: {
         // update and push filter into vue router
         updateFilters: io.throttle( function() {
-        const filters = io.cloneDeep( this.activeFilters );
-        const keys = Object.keys(filters);
+            const filters = io.cloneDeep( this.activeFilters );
+            const keys = Object.keys(filters);
 
-        keys.forEach((key, index) => {
-            if(!String(filters[key])) delete filters[key];;
-        });
+            keys.forEach((key, index) => {
+                if(!String(filters[key])) delete filters[key];;
+            });
 
-        this.$router.push({  query: filters }).catch( function(e){});
+            this.$router.push({  query: filters }).catch( function(e){});
         }, 500),
 
         getAllCustomers: async function() {
@@ -235,13 +276,10 @@ export default {
         editCustomer: function(id) {
             this.$router.push({ name: 'customers.edit', params: { id } });
         },
+
         resetFilter: function() {
-            this.$refs.filter.reset;
+            this.$refs.customerFilter.reset;
             this.activeFilters = io.cloneDeep( this.defaultFilters );;
-            
-            // make date on input empty
-            this.$refs.datePicker.minDate = '';
-            this.$refs.datePicker.maxDate = '';
         },
     },
 };

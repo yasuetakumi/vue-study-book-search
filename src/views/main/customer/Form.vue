@@ -85,6 +85,9 @@ export default {
                 };
                 let payload = new FormData();
                 payload.append('name', this.item.name);
+                payload.append('email', this.item.email);
+                payload.append('phone', this.item.phone);
+                payload.append('website', this.item.website);
                 const res = this.editPage
                 ? await update(this.submitUrl, payload, options)
                 : await store(this.submitUrl, payload, options);
