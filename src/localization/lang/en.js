@@ -106,6 +106,9 @@ const en = {
       backToList: 'Back To List',
       csvDownload: 'Download CSV',
       search: 'Search',
+    },
+    customers:{
+      success: 'Successfully process the requests',
     }
   },
 };

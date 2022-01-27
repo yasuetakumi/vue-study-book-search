@@ -54,6 +54,8 @@
 import { store, getForm, update } from '@services/crud';
 import GInputGroup from '@components/form_input/GInputGroup.vue';
 import GBackButton from '@components/GBackButton.vue';
+import { pushNotif } from '@/helpers';
+
 export default {
     data() {
         return {
@@ -92,6 +94,8 @@ export default {
                 ? await update(this.submitUrl, payload, options)
                 : await store(this.submitUrl, payload, options);
                 if (res) {
+                    // Notif Message when success store or updated data
+                    pushNotif(this.$t('general.customers.success'), 'success');
                     this.$router.push({ name: 'customers' });
                 }
             }

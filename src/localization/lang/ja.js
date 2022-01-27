@@ -106,6 +106,9 @@ const ja = {
       backToList: '一覧に戻る',
       csvDownload: 'CSVダウンロード',
       search: '捜索',
+    },
+    customers:{
+      success: 'リクエストを正常に処理する',
     }
   },
 };
