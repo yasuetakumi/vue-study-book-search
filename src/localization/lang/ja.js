@@ -78,6 +78,7 @@ const ja = {
       submit: '登録',
     },
     meeting: {
+      list: '会議一覧',
       location: '場所',
       registrant: '登録者',
     },
