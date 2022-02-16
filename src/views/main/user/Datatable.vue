@@ -1,65 +1,76 @@
 <template>
   <div>
-
     <!-- Breadcrumbs -->
     <p class="mx-1 text-subtitle-2 text--secondary">
-      <router-link :to="{ name: 'dashboard' }">{{$t("general.nav.dashboard")}}</router-link>
+      <router-link :to="{ name: 'dashboard' }">{{ $t('general.nav.dashboard') }}</router-link>
       <span class="mx-2">></span>
-      <span>{{$t("general.user.list")}}</span>
+      <span>{{ $t('general.user.list') }}</span>
     </p>
 
     <!-- Page container -->
     <PageInnerset :title="$t('general.user.list')">
-
       <!-- searching form -->
-      <v-form ref="filter">
-
-        <v-row class="align-items-center">
-          <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '4'">
-            <span class="text text--secondary">{{ $t('general.role.role') }} : </span>
-            <v-select
-              clearable
-              :items="formData.userRoles"
-              item-text="label"
-              item-value="id"
-              v-model="activeFilters.userRole"
-            >
-            </v-select>
-          </v-col>
-
-          <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '4'">
-            <span class="text text--secondary">{{ $t('general.user.name') }} : </span>
-            <v-text-field v-model="activeFilters.name"></v-text-field>
-          </v-col>
-
-          <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '4'">
-          </v-col>
-        </v-row>
-
-        <v-row class="align-items-center">
-          <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '4'">
-            <span class="text text--secondary">{{ $t('general.auth.email') }} : </span>
-            <v-text-field v-model="activeFilters.email"></v-text-field>
-          </v-col>
-        </v-row>
-
-
+      <v-container>
         <!-- searching form button -->
         <v-row class="align-items-center">
-          <v-col cols="4">
-          </v-col>
-          <v-col cols="4">
-          </v-col>
-          <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '4'" class="d-flex justify-end">
+          <v-col cols="8"> </v-col>
+          <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '2'" class="d-flex justify-end">
             <v-btn
               :disabled="loading"
               color="cyan darken-2"
               medium
-              :class="[$vuetify.breakpoint.mdAndDown ? 'my-1' : '', 'mr-4 white--text float-left']"
-              @click="search()"
+              :class="[$vuetify.breakpoint.mdAndDown ? 'my-1' : '', 'mr-4 white--text float-right']"
+              @click.stop="dialogColumnFilter = true"
             >
-              <v-icon>mdi-magnify</v-icon> {{ $t('general.action.search') }}
+              Filter Column
             </v-btn>
+            <v-dialog v-model="dialogColumnFilter" max-width="700">
+              <v-card>
+                <v-card-title class="text-h5">
+                  Column Fillter
+                </v-card-title>
+                <v-card-text>
+                  <v-container fluid>
+                    <v-row>
+                      <v-col sm="12" md="7" xl="7">
+                        <v-text-field label="Search Column Name . . ." v-model="searchNameColumn" solo></v-text-field>
+                      </v-col>
+                      <v-col sm="12" md="5" xl="5" class="d-flex justify-space-between pt-4">
+                        <v-btn large color="" @click="displayColumn(true)">
+                          Show All
+                        </v-btn>
+                        <v-btn large color="" @click="displayColumn(false)">
+                          Hide All
+                        </v-btn>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col v-for="(header, index) in resultSearchNameColumn" :key="index" xl="4" lg="4" md="3">
+                        <v-btn
+                          class=""
+                          block
+                          :outlined="!header.status"
+                          color="cyan"
+                          dark
+                          @click="filterColumn(header)"
+                        >
+                          {{ header.text }}
+                        </v-btn>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+
+                  <v-btn color="" @click="dialogColumnFilter = false">
+                    close
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-col>
+          <v-col :cols="$vuetify.breakpoint.mdAndDown ? '12' : '2'" class="d-flex justify-end">
             <v-btn
               :disabled="loading"
               color="cyan darken-2"
@@ -69,12 +80,9 @@
             >
               <v-icon>mdi-download</v-icon> {{ $t('general.action.csvDownload') }}
             </v-btn>
-            
           </v-col>
         </v-row>
-
-      </v-form>
-
+      </v-container>
 
       <!-- Data Table -->
       <v-data-table
@@ -85,6 +93,28 @@
         :loading="loading"
         class="elevation-1 mt-5"
       >
+        <template v-slot:body.prepend>
+          <tr>
+            <td></td>
+            <td v-show="isEnabledColumn('user_role_name')">
+              <v-select
+                clearable
+                :items="formData.userRoles"
+                item-text="label"
+                item-value="id"
+                v-model="activeFilters.userRole"
+              >
+              </v-select>
+            </td>
+            <td v-show="isEnabledColumn('display_name')">
+              <v-text-field clearable v-model="activeFilters.name"></v-text-field>
+            </td>
+            <td v-show="isEnabledColumn('email')">
+              <v-text-field clearable v-model="activeFilters.email"></v-text-field>
+            </td>
+            <td colspan="4"></td>
+          </tr>
+        </template>
         <template v-slot:item.action="{ item }">
           <v-btn
             :disabled="loading"
@@ -104,21 +134,21 @@
           ></g-action-button>
         </template>
       </v-data-table>
-
     </PageInnerset>
-
   </div>
 </template>
 
 <script>
-import PageInnerset from '../../_components/page/PageInnerset';
+import { mapState } from 'vuex';
 
 import { destroy, getAll, download } from '@services/crud';
 import { convArrToObj } from '@helpers';
+
+import PageInnerset from '../../_components/page/PageInnerset';
 import GActionButton from '../../_components/GActionButton.vue';
 
 export default {
-  components: { GActionButton , PageInnerset},
+  components: { GActionButton, PageInnerset },
   data() {
     return {
       formData: {},
@@ -136,37 +166,58 @@ export default {
         sortDesc: [],
       },
       activeFilters: {},
-    };
-  },
-  computed: {
-    headers() {
-      return [
+      // --- for filter column
+      searchNameColumn: '',
+      dialogColumnFilter: false,
+      // init table header
+      headersMap: [
         {
           text: 'ID',
           value: 'id',
+          status: true,
         },
         {
           text: this.$t('general.role.role'),
-          value: 'user_roles.label',
+          value: 'user_role_name',
           sortable: true,
+          status: true,
         },
         {
           text: this.$t('general.user.fullName'),
           value: 'display_name',
           sortable: true,
+          status: true,
         },
         {
           text: this.$t('general.auth.email'),
           value: 'email',
           sortable: true,
+          status: true,
         },
         {
           text: this.$t('general.crud.action'),
           value: 'action',
           sortable: false,
+          status: true,
         },
-      ];
+      ],
+      selectedHeaders: [],
+      // --- END for filter column
+    };
+  },
+  computed: {
+    // --- changefor filter column
+    headers: {
+      // getter
+      get: function() {
+        return this.selectedHeaders.filter(s => s.status == true);
+      },
+      // setter
+      set: function() {
+        //
+      },
     },
+    // --- END changefor filter column
     displayedUsers() {
       return this.users.map(user => ({
         ...user,
@@ -180,6 +231,17 @@ export default {
       }
       return obj;
     },
+    // --- for filter column
+    resultSearchNameColumn() {
+      return this.selectedHeaders.filter(item => {
+        return item.text.toLowerCase().includes(this.searchNameColumn.toLowerCase());
+      });
+    },
+    ...mapState({
+      // for get current locale
+      currentLocale: state => state.global.locale,
+    }),
+    // --- END for filter column
   },
   watch: {
     options: {
@@ -188,12 +250,20 @@ export default {
       },
       deep: true,
     },
-    'activeFilters.userRole': {
+    activeFilters: {
       handler() {
         this.getAllUsers();
       },
       deep: true,
     },
+    // --- for filter column
+    currentLocale: function() {
+      this.changeTextFromLocal();
+    },
+    // --- END for filter column
+  },
+  created() {
+    this.selectedHeaders = this.headersMap;
   },
   mounted() {
     this.getAllUsers();
@@ -209,8 +279,8 @@ export default {
           page,
           sortBy,
           sortDesc,
-          ...this.activeFilters
-        }); 
+          ...this.activeFilters,
+        });
         this.users = res.users.data;
         this.totalUsers = res.users.total;
         this.formData = res.formData;
@@ -218,7 +288,6 @@ export default {
         console.log(err);
       } finally {
         this.loading = false;
-        
       }
     },
     deleteUser: function(id) {
@@ -254,27 +323,76 @@ export default {
           page,
           sortBy,
           sortDesc,
-          ...this.activeFilters
-        }); 
-        
-        const urls = URL.createObjectURL(new Blob([res.data], {
-          type: 'application/vnd.ms-excel'
-        }));
+          ...this.activeFilters,
+        });
+
+        const urls = URL.createObjectURL(
+          new Blob([res.data], {
+            type: 'application/vnd.ms-excel',
+          })
+        );
         const link = document.createElement('a');
         link.href = urls;
         link.setAttribute('download', 'user_list.csv');
         document.body.appendChild(link);
         link.click();
-
       } catch (err) {
         console.log(err);
       } finally {
         this.loading = false;
       }
     },
-    search: function(){
-      this.getAllUsers();
-    }
+    // --- for filter column
+    filterColumn: function(data) {
+      // find index data
+      let index = this.selectedHeaders.findIndex((obj => obj.value == data.value));
+      // change status
+      this.selectedHeaders[index].status = !data.status;
+      // change headers, only shows if status == true
+      this.headers = this.selectedHeaders.filter(function(value){ 
+        return value.status == true;
+      });
+    },
+    // for hide select filter if table header is hidden
+    isEnabledColumn: function(value) {
+      let obj_selectedHeaders = this.selectedHeaders.find(obj => obj.value == value);
+      return obj_selectedHeaders.status;
+    },
+    // for change word based on local (on table header and dialog filter column)
+    changeTextFromLocal: function() {
+      this.selectedHeaders = this.selectedHeaders.map(obj => {
+        // temporary object
+        var temp = Object.assign({}, obj);
+        if(temp.value != 'id') {
+          switch (temp.value) {
+            case 'id':
+              temp.text = this.$t('general.title');
+              break;
+            case 'user_role_name':
+              temp.text = this.$t('general.customer');
+              break;
+            case 'display_name':
+              temp.text = this.$t('general.attendee');
+              break;
+            case 'email':
+              temp.text = this.$t('general.time.date');
+              break;
+            case 'action':
+              temp.text = this.$t('general.crud.action');
+              break;
+            default:
+              console.log('no data');
+          }
+        }
+        return temp;
+      });
+    },
+    displayColumn: function(type) {
+      for (let index = 0; index < this.selectedHeaders.length; index++) {
+        this.selectedHeaders[index].status = type;
+      }
+    },
+    // --- END for filter column
   },
 };
 </script>
