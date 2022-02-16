@@ -53,6 +53,7 @@ import { store, getForm, update } from '@services/crud';
 import GInputGroup from '@components/form_input/GInputGroup.vue';
 import GPasswordInput from '@components/form_input/GPasswordInput.vue';
 import GBackButton from '@components/GBackButton.vue';
+import { pushNotif } from '@/helpers';
 export default {
   data() {
     return {
@@ -95,6 +96,7 @@ export default {
         //get retrun data of API if success return to list, else show errors
         if (res == true) {
           this.disableButton = false;
+          pushNotif(this.$t('general.user.createSuccess') + ' (' + this.item.displayName + ')', 'success');
           this.$router.push({ name: 'users' });
         }else{
           this.allerror = res;

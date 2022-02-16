@@ -195,7 +195,12 @@
             <v-icon>mdi-account-edit</v-icon>
           </v-btn>
           <g-action-button
-            :valueText="item.display_name"
+            :cardText="{
+              body:
+                $t('general.user.deleteModal.openingText') +
+                item.display_name +
+                $t('general.user.deleteModal.closingText'),
+            }"
             :disabled="loading"
             :onConfirm="deleteUser(item.id)"
             :btnClass="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
@@ -215,6 +220,7 @@ import { convArrToObj } from '@helpers';
 
 import PageInnerset from '../../_components/page/PageInnerset';
 import GActionButton from '../../_components/GActionButton.vue';
+import { pushNotif } from '@/helpers';
 
 export default {
   components: { GActionButton, PageInnerset },
@@ -371,6 +377,7 @@ export default {
           const res = await destroy(url);
           if (res) {
             this.getAllUsers();
+            pushNotif(this.$t('general.user.deleteSuccess'), 'success');
           }
         } catch (err) {
           if (err.isHandled) {

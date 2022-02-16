@@ -41,6 +41,12 @@ const ja = {
       lastName: '名',
       fullName: '名前',
       profPic: 'プロフィール画像',
+      deleteModal: {
+        openingText: 'アイテム(',
+        closingText: ')が削除されると、元に戻すことはできません。',
+      },
+      deleteSuccess: 'ユーザーの削除に成功しました',
+      createSuccess: '正常にユーザーを作成しました',
     },
     role: {
       role: '役割',
