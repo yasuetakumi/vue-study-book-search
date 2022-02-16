@@ -78,6 +78,7 @@ const en = {
       submit: 'Submit',
     },
     meeting: {
+      list: 'Meeting List',
       location: 'Location',
       registrant: 'Registrant',
     },
