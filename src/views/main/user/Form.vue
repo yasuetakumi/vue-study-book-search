@@ -10,6 +10,7 @@
             <v-form ref="userForm" @submit.prevent="submit">
               <g-input-group required :title="$t('general.auth.email')">
                 <v-text-field
+                  name="email"
                   :rules="rules.email"
                   :placeholder="$t('general.placeholder.email')"
                   outlined
@@ -20,6 +21,7 @@
               </g-input-group>
               <g-input-group required :title="$t('general.user.fullName')">
                 <v-text-field
+                  name="full_name"
                   :rules="rules.name"
                   :placeholder="$t('general.placeholder.fullName')"
                   outlined

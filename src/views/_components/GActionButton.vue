@@ -1,6 +1,6 @@
 <template>
   <div style="display: contents">
-    <v-btn small @click.stop="isOpen = true" v-bind="$attrs" :class="btnClass">
+    <v-btn small @click.stop="isOpen = true" v-bind="$attrs" :class="btnClass" id="delete">
       <slot>
         <v-icon>mdi-delete</v-icon>
       </slot>
