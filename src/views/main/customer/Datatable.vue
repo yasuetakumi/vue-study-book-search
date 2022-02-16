@@ -39,6 +39,91 @@
             </FilterContainer>
         </v-form>
 
+        <!--for filter column -->
+        <v-container fluid class="grey lighten-5 mb-6">
+            <v-row no-gutters justify="space-between">
+                <v-col xl="12" lg="12" md="12" sm="12">
+                <v-btn
+                    depressed
+                    color="primary"
+                    @click.stop="dialogColumnFilter = true"
+                    class="float-none float-sm-right"
+                >
+                    Filter Column
+                </v-btn>
+                <v-dialog
+                    v-model="dialogColumnFilter"
+                    max-width="700"
+                >
+                    <v-card>
+                    <v-card-title class="text-h5">
+                        Column Fillter
+                    </v-card-title>
+                    <v-card-text>
+                        <v-container fluid>
+                        <v-row>
+                            <v-col sm="12" md="7" xl="7">
+                            <v-text-field
+                                label="Search Column Name . . ."
+                                v-model="searchNameColumn"
+                                solo
+                            ></v-text-field>
+                            </v-col>
+                            <v-col sm="12" md="5" xl="5" class="d-flex justify-space-between pt-4">
+                            <v-btn
+                                large
+                                color=""
+                                @click="displayColumn(true)"
+                            >
+                                Show All
+                            </v-btn>
+                            <v-btn
+                                large
+                                color=""
+                                @click="displayColumn(false)"
+                            >
+                                Hide All
+                            </v-btn>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col
+                            v-for="(header, index) in resultSearchNameColumn"
+                            :key="index"
+                            xl="4"
+                            lg="4"
+                            md="3"
+                            >
+                            <v-btn
+                                class=""
+                                block
+                                :outlined="!header.status"
+                                color="cyan"
+                                dark
+                                @click="filterColumn(header)"
+                            >
+                                {{ header.text }}
+                            </v-btn>
+                            </v-col>
+                        </v-row>
+                        </v-container>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+
+                        <v-btn
+                        color=""
+                        @click="dialogColumnFilter = false"
+                        >
+                        close
+                        </v-btn>
+                    </v-card-actions>
+                    </v-card>
+                </v-dialog>
+                </v-col>
+            </v-row>
+        </v-container>
+
         <!-- Datatable -->
         <v-data-table
         :headers="headers"
@@ -51,7 +136,7 @@
             <template v-slot:body.prepend>
                 <tr>
                     <td></td>
-                    <td>
+                    <td v-show="isEnabledColumn('name')">
                         <v-text-field v-model="activeFilters.name"></v-text-field>
                     </td>
                     <td>
@@ -63,7 +148,7 @@
                     <td>
                         <v-text-field v-model="activeFilters.website"></v-text-field>
                     </td>
-                    <td colspan="4"></td>
+                    <td v-show="isEnabledColumn('action')" colspan="4"></td>
                 </tr>
             </template>
             <template v-slot:item.action="{ item }">
@@ -97,6 +182,7 @@ import FilterReset from '@views/_components/datatable_filter/TableFilterReset';
 import FilterContainer from '@views/_components/datatable_filter/TableFilterContainer';
 
 import FilterText from '@views/_components/datatable_filter/TableFilterText';
+import { mapState } from 'vuex'
 
 export default {
     components: { 
@@ -132,9 +218,51 @@ export default {
                 phone: '',
                 website: '',
             },
+
+            // init table header
+            headersMap: [
+                {
+                    text: 'ID',
+                    value: 'id',  
+                    status: true,
+                },
+                {
+                    text: this.$t('general.name'),
+                    value: 'name',
+                    status: true,
+                },
+                {
+                    text: this.$t('general.auth.email'),
+                    value: 'email',
+                    status: true,
+                },
+                {
+                    text: this.$t('general.phone_number'),
+                    value: 'phone',
+                    status: true,
+                },
+                {
+                    text: this.$t('general.website'),
+                    value: 'website',
+                    status: true,
+                },
+                {
+                    text: this.$t('general.crud.action'),
+                    value: 'action',
+                    sortable: false,
+                    status: true,
+                },
+            ],
+            selectedHeaders: [],
+            // --- END for filter column
         }
     },
-    
+    created () {
+        var query = this.$route.query;
+        this.activeFilters = io.assign({}, this.defaultFilters, query );
+
+        this.selectedHeaders = this.headersMap;
+    },
     watch: {
         options: {
             handler() {
@@ -170,34 +298,16 @@ export default {
     },
     
     computed: {
-        headers() {
-            return [
-                {
-                    text: 'ID',
-                    value: 'id',
-                },
-                {
-                    text: this.$t('general.name'),
-                    value: 'name',
-                },
-                {
-                    text: this.$t('general.auth.email'),
-                    value: 'email',
-                },
-                {
-                    text: this.$t('general.phone_number'),
-                    value: 'phone',
-                },
-                {
-                    text: this.$t('general.website'),
-                    value: 'website',
-                },
-                {
-                    text: this.$t('general.crud.action'),
-                    value: 'action',
-                    sortable: false,
-                },
-            ]
+        // --- changefor filter column
+        headers: {
+            // getter
+            get: function () {
+                return this.selectedHeaders.filter(s => s.status == true);
+            },
+            // setter
+            set: function () {
+                // 
+            }
         },
         displayedCustomers() {
             return this.customers.map(customer => ({
@@ -211,14 +321,21 @@ export default {
             }
             return obj;
         },
+        // --- for filter column
+        resultSearchNameColumn(){
+            return this.selectedHeaders.filter((item)=>{
+                return item.text.toLowerCase().includes(this.searchNameColumn.toLowerCase());
+            });
+        },
+        ...mapState({
+        // for get current locale
+            currentLocale: state => state.global.locale,
+        }),
+        // --- END for filter column
     },
-    
-    created() {
-        var query = this.$route.query;
-
-        this.activeFilters = io.assign({}, this.defaultFilters, query );
+    mounted() {
+        this.getAllCustomers();
     },
-
     methods: {
         // update and push filter into vue router
         updateFilters: io.throttle( function() {
@@ -280,6 +397,57 @@ export default {
         resetFilter: function() {
             this.$refs.customerFilter.reset;
             this.activeFilters = io.cloneDeep( this.defaultFilters );;
+        },
+
+         // --- for filter column
+        filterColumn: function(data) {
+            // find index data
+            let index = this.selectedHeaders.findIndex((obj => obj.value == data.value));
+            // change status
+            this.selectedHeaders[index].status = !data.status;
+            // change headers, only shows if status == true
+            this.headers = this.selectedHeaders.filter(function(value){ 
+                return value.status == true;
+            });
+        },
+        // for hide select filter if table header is hidden
+        isEnabledColumn: function(value) {
+            let obj_selectedHeaders = this.selectedHeaders.find(obj => obj.value == value);
+            return obj_selectedHeaders.status;
+        },
+        // for change word based on local (on table header and dialog filter column)
+        changeTextFromLocal: function() {
+            this.selectedHeaders = this.selectedHeaders.map(obj => {
+                // temporary object
+                var temp = Object.assign({}, obj);
+                if(temp.value != 'id') {
+                    switch (temp.value) {
+                        case 'name':
+                            temp.text = this.$t('general.name');
+                            break;
+                        case 'email':
+                        temp.text = this.$t('general.auth.email');
+                            break;
+                            case 'phone':
+                        temp.text = this.$t('general.phone_number');
+                            break;
+                            case 'website':
+                        temp.text = this.$t('general.website');
+                            break;
+                            case 'action':
+                        temp.text = this.$t('general.crud.action');
+                            break;
+                        default:
+                            console.log('no data');
+                    }
+                }
+                return temp;
+            });
+        },
+        displayColumn: function(type) {
+            for (let index = 0; index < this.selectedHeaders.length; index++) {
+                this.selectedHeaders[index].status = type;
+            }
         },
     },
 };
