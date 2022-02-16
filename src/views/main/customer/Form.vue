@@ -16,6 +16,30 @@
                                 v-model="item.name"
                                 ></v-text-field>
                             </g-input-group>
+                            <g-input-group required :title="$t('general.auth.email')">
+                                <v-text-field
+                                :rules="rules.email"
+                                :placeholder="$t('general.auth.email')"
+                                outlined
+                                v-model="item.email"
+                                ></v-text-field>
+                            </g-input-group>
+                            <g-input-group required :title="$t('general.phone_number')">
+                                <v-text-field
+                                :rules="rules.phone"
+                                :placeholder="$t('general.phone_number')"
+                                outlined
+                                v-model="item.phone"
+                                ></v-text-field>
+                            </g-input-group>
+                            <g-input-group required :title="$t('general.website')">
+                                <v-text-field
+                                :rules="rules.website"
+                                :placeholder="$t('general.website')"
+                                outlined
+                                v-model="item.website"
+                                ></v-text-field>
+                            </g-input-group>
                             <div class="pt-10">
                                 <v-btn type="submit">{{ $t('general.crud.submit') }}</v-btn>
                             </div>
@@ -30,15 +54,23 @@
 import { store, getForm, update } from '@services/crud';
 import GInputGroup from '@components/form_input/GInputGroup.vue';
 import GBackButton from '@components/GBackButton.vue';
+import { pushNotif } from '@/helpers';
+
 export default {
     data() {
         return {
             rules: {
                 name: [v => !!v || 'Name is required'],
+                email: [v => !!v || 'Email Address is required'],
+                phone: [v => !!v || 'Phone Number is required'],
+                website: [v => !!v || 'Website is required'],
             },
             item: {
                 id: null,
                 name: '',
+                email: '',
+                phone:'',
+                website: '',
             },
             editPage: false,
             submitUrl: '',
@@ -55,10 +87,15 @@ export default {
                 };
                 let payload = new FormData();
                 payload.append('name', this.item.name);
+                payload.append('email', this.item.email);
+                payload.append('phone', this.item.phone);
+                payload.append('website', this.item.website);
                 const res = this.editPage
                 ? await update(this.submitUrl, payload, options)
                 : await store(this.submitUrl, payload, options);
                 if (res) {
+                    // Notif Message when success store or updated data
+                    pushNotif(this.$t('general.customers.success'), 'success');
                     this.$router.push({ name: 'customers' });
                 }
             }

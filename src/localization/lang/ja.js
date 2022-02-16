@@ -13,6 +13,7 @@ const ja = {
     address: '住所',
     postcode: '郵便番号',
     phone_number: '電話番号',
+    website:'Webサイト',
     auth: {
       welcome: 'Grune Laravel Starter Kit (SPA version)',
       signInMessage: 'アカウントにサインイン',
@@ -105,6 +106,9 @@ const ja = {
       backToList: '一覧に戻る',
       csvDownload: 'CSVダウンロード',
       search: '捜索',
+    },
+    customers:{
+      success: 'リクエストを正常に処理する',
     }
   },
 };

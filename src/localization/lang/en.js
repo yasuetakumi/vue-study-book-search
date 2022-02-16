@@ -13,6 +13,7 @@ const en = {
     address: 'Address',
     postcode: 'Postcode',
     phone_number: 'Phone Number',
+    website: 'Website',
     auth: {
       welcome: 'Grune Laravel Starter Kit (SPA version)',
       signInMessage: 'Sign in to your account',
@@ -105,6 +106,9 @@ const en = {
       backToList: 'Back To List',
       csvDownload: 'Download CSV',
       search: 'Search',
+    },
+    customers:{
+      success: 'Successfully process the requests',
     }
   },
 };

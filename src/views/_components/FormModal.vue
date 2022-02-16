@@ -40,8 +40,10 @@ export default {
       type: Object,
       default: function() {
         return {
-          text: 'Save',
-          cb: () => {},
+          text: 'Apply',
+          cb: () => {
+            
+          },
         };
       },
     },
