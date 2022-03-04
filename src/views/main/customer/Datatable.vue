@@ -1,5 +1,5 @@
 <template>
-    <v-sheet>
+    <PageInnerset :title="$t('general.customers.list')">
         <v-form ref="customerFilter" @submit.prevent="submit" lazy-validation class="px-10 mb-0">
             <!-- Reset Button -->
             <FilterReset  @click="resetFilter()"></FilterReset>
@@ -169,13 +169,14 @@
                 ></g-action-button>
             </template>
         </v-data-table>
-    </v-sheet>
+    </PageInnerset>
 </template>
 
 <script>
 import io from 'lodash';
 import { destroy, getAll } from '@services/crud';
 import { convArrToObj } from '@helpers';
+import PageInnerset from '../../_components/page/PageInnerset';
 import GActionButton from '../../_components/GActionButton.vue';
 
 import FilterReset from '@views/_components/datatable_filter/TableFilterReset';
@@ -186,6 +187,7 @@ import { mapState } from 'vuex'
 
 export default {
     components: { 
+        PageInnerset,
         GActionButton,
         FilterReset,
         FilterContainer,

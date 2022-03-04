@@ -116,6 +116,7 @@ const en = {
     },
     customers:{
       success: 'Successfully process the requests',
+      list: 'Customer List',
     }
   },
 };

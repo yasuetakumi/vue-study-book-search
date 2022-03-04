@@ -116,6 +116,7 @@ const ja = {
     },
     customers:{
       success: 'リクエストを正常に処理する',
+      list: '顧客一覧',
     }
   },
 };
