@@ -9,6 +9,37 @@
 
     <!-- Page container -->
     <PageInnerset :title="$t('general.user.list')">
+      <!-- filter section -->
+      <v-form ref="userListFilter" @submit.prevent="submit" lazy-validation class="px-10 mb-0">
+        <FilterReset  @click="resetFilter()"></FilterReset>
+
+        <FilterContainer>
+          <template v-slot:left>
+            <FilterSelect
+              :title="$t('general.role.role')+': '"
+              v-model="activeFilters.userRole"
+              :items="formData.userRoles"
+              :option="['id', 'label']"
+            />
+            <FilterText
+              :title="$t('general.user.fullName')+ ': '"
+              :partial="true"
+              v-model="activeFilters.name"
+            />
+          </template>
+
+          <template v-slot:right>
+            <FilterText
+              :title="$t('general.auth.email')+ ': '"
+              :partial="true"
+              v-model="activeFilters.email"
+            />
+          </template>
+        </FilterContainer>
+
+      </v-form>
+      <!-- END filter section -->
+
       <!-- searching form -->
       <v-container>
         <!-- searching form button -->
@@ -161,28 +192,6 @@
         :loading="loading"
         class="elevation-1 mt-5"
       >
-        <template v-slot:body.prepend v-if="$vuetify.breakpoint.mdAndUp">
-          <tr>
-            <td></td>
-            <td v-show="isEnabledColumn('user_role_name')">
-              <v-select
-                clearable
-                :items="formData.userRoles"
-                item-text="label"
-                item-value="id"
-                v-model="activeFilters.userRole"
-              >
-              </v-select>
-            </td>
-            <td v-show="isEnabledColumn('display_name')">
-              <v-text-field clearable v-model="activeFilters.name"></v-text-field>
-            </td>
-            <td v-show="isEnabledColumn('email')">
-              <v-text-field clearable v-model="activeFilters.email"></v-text-field>
-            </td>
-            <td colspan="4"></td>
-          </tr>
-        </template>
         <template v-slot:item.action="{ item }">
           <v-btn
             id="edit"
@@ -213,6 +222,7 @@
 </template>
 
 <script>
+import io from 'lodash';
 import { mapState } from 'vuex';
 
 import { destroy, getAll, download, importCsv } from '@services/crud';
@@ -222,8 +232,22 @@ import PageInnerset from '../../_components/page/PageInnerset';
 import GActionButton from '../../_components/GActionButton.vue';
 import { pushNotif } from '@/helpers';
 
+// --- components for filter section
+import FilterReset from '@views/_components/datatable_filter/TableFilterReset';
+import FilterContainer from '@views/_components/datatable_filter/TableFilterContainer';
+import FilterText from '@views/_components/datatable_filter/TableFilterText';
+import FilterSelect from '@views/_components/datatable_filter/TableFilterSelect';
+// --- END components for filter section
+
 export default {
-  components: { GActionButton, PageInnerset },
+  components: { 
+    GActionButton, 
+    PageInnerset,
+    FilterReset,
+    FilterContainer,
+    FilterText,
+    FilterSelect,
+  },
   data() {
     return {
       formData: {},
@@ -240,7 +264,16 @@ export default {
         sortBy: [],
         sortDesc: [],
       },
+
+      // --- for filter section
       activeFilters: {},
+      defaultFilters: {
+        userRoles: '',
+        name: '',
+        email: '',
+      },
+      // --- END for filter section
+
       // --- for filter column
       searchNameColumn: '',
       dialogColumnFilter: false,
@@ -421,6 +454,10 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+    resetFilter: function() {
+      this.$refs.userListFilter.reset;
+      this.activeFilters = io.cloneDeep( this.defaultFilters );
     },
     // --- for filter column
     filterColumn: function(data) {
