@@ -133,7 +133,7 @@ export default {
           : await store(this.submitUrl, payload, options);
         if (res) {
           let customer_name = this.formData.customers.find(customer => customer.id == this.item.customer);
-          pushNotif(this.$t('general.meeting.createSuccess', {customer: customer_name.name}), 'success');
+          pushNotif(this.$t('general.meeting.createSuccess', {customer: customer_name.name, meeting: this.item.title}), 'success');
           this.$router.push({ name: 'dummy_meetings' });
         }
       }

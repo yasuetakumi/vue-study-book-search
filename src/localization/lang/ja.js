@@ -87,7 +87,7 @@ const ja = {
       list: '会議一覧',
       location: '場所',
       registrant: '登録者',
-      createSuccess: '正常に打ち合わせを作成しました ({customer})',
+      createSuccess: '正常に打ち合わせを作成しました ({customer}: {meeting})',
       deleteSuccess: '打ち合わせの削除に成功しました',
     },
     time: {

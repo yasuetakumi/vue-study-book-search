@@ -87,7 +87,7 @@ const en = {
       list: 'Meeting List',
       location: 'Location',
       registrant: 'Registrant',
-      createSuccess: 'Successfully created a meeting ({customer})',
+      createSuccess: 'Successfully created a meeting ({customer}: {meeting})',
       deleteSuccess: 'Successfully deleted the meeting',
     },
     time: {
