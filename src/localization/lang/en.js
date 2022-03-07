@@ -89,6 +89,9 @@ const en = {
       registrant: 'Registrant',
       createSuccess: 'Successfully created a meeting ({customer}: {meeting})',
       deleteSuccess: 'Successfully deleted the meeting',
+      deleteModal: {
+        text: 'Once the item ({customer_name}: {meeting_date}) is deleted, we cannot get it back for you',
+      },
     },
     time: {
       date: 'Date',
@@ -120,6 +123,9 @@ const en = {
       success: 'Successfully process the requests',
       createSuccess: 'Successfully created a customer ({customer})',
       deleteSuccess: 'Successfully deleted the customer',
+      deleteModal: {
+        text: 'Once the item ({customer_name}) is deleted, we cannot get it back for you',
+      },
     }
   },
 };
