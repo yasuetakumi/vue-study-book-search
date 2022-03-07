@@ -85,6 +85,7 @@ import GTimePicker from '../../_components/form_input/GTimePicker.vue';
 import GImageInput, { imageInitial } from '../../_components/form_input/GImageInput.vue';
 import GBackButton from '@components/GBackButton.vue';
 import FormModal from '../../_components/FormModal.vue';
+import { pushNotif } from '@/helpers';
 export default {
   data() {
     return {
@@ -131,6 +132,8 @@ export default {
           ? await update(this.submitUrl, payload, options)
           : await store(this.submitUrl, payload, options);
         if (res) {
+          let customer_name = this.formData.customers.find(customer => customer.id == this.item.customer);
+          pushNotif(this.$t('general.meeting.createSuccess', {customer: customer_name.name}), 'success');
           this.$router.push({ name: 'dummy_meetings' });
         }
       }

@@ -87,6 +87,8 @@ const en = {
       list: 'Meeting List',
       location: 'Location',
       registrant: 'Registrant',
+      createSuccess: 'Successfully created a meeting ({customer})',
+      deleteSuccess: 'Successfully deleted the meeting',
     },
     time: {
       date: 'Date',
@@ -116,6 +118,8 @@ const en = {
     },
     customers:{
       success: 'Successfully process the requests',
+      createSuccess: 'Successfully created a customer ({customer})',
+      deleteSuccess: 'Successfully deleted the customer',
     }
   },
 };
