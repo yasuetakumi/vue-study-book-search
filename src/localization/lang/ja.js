@@ -120,6 +120,7 @@ const ja = {
       success: 'リクエストを正常に処理する',
       createSuccess: '正常にお客様を作成しました ({customer})',
       deleteSuccess: 'お客様の削除に成功しました',
+      list: '顧客一覧',
     }
   },
 };

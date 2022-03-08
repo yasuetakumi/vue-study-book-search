@@ -120,6 +120,7 @@ const en = {
       success: 'Successfully process the requests',
       createSuccess: 'Successfully created a customer ({customer})',
       deleteSuccess: 'Successfully deleted the customer',
+      list: 'Customer List',
     }
   },
 };

@@ -294,6 +294,11 @@ export default {
           status: true,
         },
         {
+          text: this.$t('general.meeting.registrant'),
+          value: 'registrant.display_name',
+          status: true,
+        },
+        {
           text: this.$t('general.meeting.location'),
           value: 'location',
           status: true,
@@ -505,6 +510,9 @@ export default {
               break;
             case 'customer':
               temp.text = this.$t('general.customer');
+              break;
+            case 'registrant':
+              temp.text = this.$t('general.meeting.registrant');
               break;
             case 'attendee':
               temp.text = this.$t('general.attendee');
