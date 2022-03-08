@@ -126,6 +126,7 @@ const en = {
       deleteModal: {
         text: 'Once the item ({customer_name}) is deleted, we cannot get it back for you',
       },
+      list: 'Customer List',
     }
   },
 };

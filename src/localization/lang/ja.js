@@ -126,6 +126,7 @@ const ja = {
       deleteModal: {
         text: 'アイテム({customer_name})が削除されると、元に戻すことはできません。',
       },
+      list: '顧客一覧',
     }
   },
 };
