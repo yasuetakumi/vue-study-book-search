@@ -87,6 +87,8 @@ const ja = {
       list: '会議一覧',
       location: '場所',
       registrant: '登録者',
+      createSuccess: '正常に打ち合わせを作成しました ({customer}: {meeting})',
+      deleteSuccess: '打ち合わせの削除に成功しました',
     },
     time: {
       date: '日付',
@@ -116,6 +118,8 @@ const ja = {
     },
     customers:{
       success: 'リクエストを正常に処理する',
+      createSuccess: '正常にお客様を作成しました ({customer})',
+      deleteSuccess: 'お客様の削除に成功しました',
       list: '顧客一覧',
     }
   },

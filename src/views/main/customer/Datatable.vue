@@ -184,6 +184,7 @@ import FilterContainer from '@views/_components/datatable_filter/TableFilterCont
 
 import FilterText from '@views/_components/datatable_filter/TableFilterText';
 import { mapState } from 'vuex'
+import { pushNotif } from '@/helpers';
 
 export default {
     components: { 
@@ -380,6 +381,7 @@ export default {
                     const res = await destroy(url);
                     if (res) {
                         this.getAllCustomers();
+                        pushNotif(this.$t('general.customers.deleteSuccess'), 'success');
                     }
                 } catch (err) {
                     if (err.isHandled) {

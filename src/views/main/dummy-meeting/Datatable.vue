@@ -207,6 +207,8 @@ import FilterSelect from '@views/_components/datatable_filter/TableFilterSelect'
 import FilterRadio from '@views/_components/datatable_filter/TableFilterRadio';
 // import FilterRange from '@views/_components/datatable_filter/TableFilterSlotRange';
 
+import { pushNotif } from '@/helpers';
+
 /**
  * Simple note of separated filter with vue router
  * - code inside $route on watch will be executed when vue route query is changing
@@ -454,6 +456,7 @@ export default {
           const res = await destroy(url);
           if (res) {
             this.getAllMeetings();
+            pushNotif(this.$t('general.meeting.deleteSuccess'), 'success');
           }
         } catch (err) {
           if (err.isHandled) {
