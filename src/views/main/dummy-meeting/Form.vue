@@ -138,7 +138,7 @@ export default {
   },
   async created() {
     this.loadingComponent = true;
-    const form = await getForm(this.$route.path);
+    const form = await getForm('dummy-meetings/create');
     if (this.$route.meta.editPage) {
       this.editPage = true;
       let { formData, submitUrl, item } = form;
