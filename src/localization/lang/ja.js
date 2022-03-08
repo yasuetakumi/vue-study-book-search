@@ -89,6 +89,9 @@ const ja = {
       registrant: '登録者',
       createSuccess: '正常に打ち合わせを作成しました ({customer}: {meeting})',
       deleteSuccess: '打ち合わせの削除に成功しました',
+      deleteModal: {
+        text: 'アイテム({customer_name}: {meeting_date})が削除されると、元に戻すことはできません。',
+      },
     },
     time: {
       date: '日付',
@@ -120,6 +123,9 @@ const ja = {
       success: 'リクエストを正常に処理する',
       createSuccess: '正常にお客様を作成しました ({customer})',
       deleteSuccess: 'お客様の削除に成功しました',
+      deleteModal: {
+        text: 'アイテム({customer_name})が削除されると、元に戻すことはできません。',
+      },
       list: '顧客一覧',
     }
   },

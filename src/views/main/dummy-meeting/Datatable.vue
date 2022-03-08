@@ -179,6 +179,10 @@
             <v-icon>mdi-account-edit</v-icon>
           </v-btn>
           <g-action-button
+            :cardText="{
+              body:
+                $t('general.meeting.deleteModal.text', {customer_name: item.customer.name, meeting_date: item.meeting_date})
+            }"
             :disabled="loading"
             :onConfirm="deleteMeeting(item.id)"
             :btnClass="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"

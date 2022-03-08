@@ -162,6 +162,10 @@
                     <v-icon>mdi-account-edit</v-icon>
                 </v-btn>
                 <g-action-button
+                :cardText="{
+                    body: 
+                        $t('general.customers.deleteModal.text', {customer_name: item.name})
+                }"
                 :disabled="loading"
                 :onConfirm="deleteCustomer(item.id)"
                 :btnClass="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
