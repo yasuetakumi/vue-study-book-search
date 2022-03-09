@@ -42,8 +42,7 @@ const en = {
       fullName: 'Fullname',
       profPic: 'Profile Picture',
       deleteModal: {
-        openingText: 'Once the item (',
-        closingText: ') is deleted, we cannot get it back for you',
+        text: 'Delete {name}. Deleted data is irreversible. Is it OK ?'
       },
       deleteSuccess: 'Successfully deleted the user',
       createSuccess: 'Successfully created a user',
@@ -122,6 +121,8 @@ const en = {
       backToList: 'Back To List',
       csvDownload: 'Download CSV',
       search: 'Search',
+      filterColumn: 'Filter Column',
+      importUser: 'Import User'
     },
     customers:{
       success: 'Successfully process the requests',

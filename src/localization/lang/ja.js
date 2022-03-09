@@ -42,8 +42,7 @@ const ja = {
       fullName: '名前',
       profPic: 'プロフィール画像',
       deleteModal: {
-        openingText: 'アイテム(',
-        closingText: ')が削除されると、元に戻すことはできません。',
+        text: '{name}を削除します。削除されたデータは元に戻りません。よろしいですか？'
       },
       deleteSuccess: 'ユーザーの削除に成功しました',
       createSuccess: '正常にユーザーを作成しました',
@@ -122,6 +121,8 @@ const ja = {
       backToList: '一覧に戻る',
       csvDownload: 'CSVダウンロード',
       search: '捜索',
+      filterColumn: 'フィルターカラム',
+      importUser: 'ユーザーのインポート'
     },
     customers:{
       success: 'リクエストを正常に処理する',
