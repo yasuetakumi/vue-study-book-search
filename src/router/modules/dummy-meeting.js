@@ -3,7 +3,7 @@ import Datatable from '@views/main/dummy-meeting/Datatable';
 
 const dummyMeetingsRoutes = [
   {
-    path: 'dummy-meetings',
+    path: 'meetings',
     name: 'dummy_meetings',
     component: Datatable,
     meta: {
@@ -13,7 +13,7 @@ const dummyMeetingsRoutes = [
     },
   },
   {
-    path: 'dummy-meetings/create',
+    path: 'meetings/create',
     name: 'dummy_meetings.create',
     component: Form,
     meta: {
@@ -23,7 +23,7 @@ const dummyMeetingsRoutes = [
     },
   },
   {
-    path: 'dummy-meetings/:id/edit',
+    path: 'meetings/:id/edit',
     name: 'dummy_meetings.edit',
     component: Form,
     meta: {
