@@ -8,6 +8,7 @@
       :no-data-text="$t('general.noDataAvailable')"
       clearable
       outlined
+      dense
     ></v-autocomplete>
   </InputGroup>
 </template>
