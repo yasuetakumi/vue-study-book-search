@@ -182,6 +182,7 @@ export default {
         customer: item.customer,
         location: item.location,
         date: item.meeting_date,
+        registrant: item.registrant
       };
       if (item.location_image_url) {
         this.item.locImage.url = item.location_image_url;
