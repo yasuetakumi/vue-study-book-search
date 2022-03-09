@@ -92,6 +92,10 @@ const en = {
       deleteModal: {
         text: 'Once the item ({customer_name}: {meeting_date}) is deleted, we cannot get it back for you',
       },
+      selectLocation: {
+        internal: 'Internal',
+        external: 'External',
+      }
     },
     time: {
       date: 'Date',
@@ -127,7 +131,8 @@ const en = {
         text: 'Once the item ({customer_name}) is deleted, we cannot get it back for you',
       },
       list: 'Customer List',
-    }
+    },
+    noDataAvailable: 'No data available'
   },
 };
 

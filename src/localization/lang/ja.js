@@ -92,6 +92,10 @@ const ja = {
       deleteModal: {
         text: 'アイテム({customer_name}: {meeting_date})が削除されると、元に戻すことはできません。',
       },
+      selectLocation: {
+        internal: '社内',
+        external: '社外',
+      }
     },
     time: {
       date: '日付',
@@ -127,7 +131,8 @@ const ja = {
         text: 'アイテム({customer_name})が削除されると、元に戻すことはできません。',
       },
       list: '顧客一覧',
-    }
+    },
+    noDataAvailable: '利用可能なデータがありません '
   },
 };
 

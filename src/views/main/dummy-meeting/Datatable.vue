@@ -2,160 +2,168 @@
     <!-- Page container -->
     <PageInnerset :title="$t('general.meeting.list')">
       <v-form ref="dummyMeetingFilter" @submit.prevent="submit" lazy-validation class="px-10 mb-0">
-      <FilterReset  @click="resetFilter()"></FilterReset>
+        <FilterReset  @click="resetFilter()"></FilterReset>
 
-      <FilterContainer>
-        <template v-slot:left>
-          <FilterText
-            :title="$t('general.title')+ ': '"
-            :partial="true"
-            v-model="activeFilters.title"
-          />
+        <FilterContainer>
+          <template v-slot:left>
+            <FilterText
+              :title="$t('general.title')+ ': '"
+              :partial="true"
+              v-model="activeFilters.title"
+            />
 
-          <FilterDateRange
-            :title="$t('general.time.date')+'：'"
-            ref="datePicker"
-            
-            :dateStart.sync ="activeFilters.meeting_date_start"
-            :dateEnd.sync ="activeFilters.meeting_date_end"
-            
-            @startInput="(value) => activeFilters.meeting_date_start = value"
-            @endInput="(value) => activeFilters.meeting_date_end = value"
-          />
-        </template>
+            <FilterDateRange
+              :title="$t('general.time.date')+'：'"
+              ref="datePicker"
+              
+              :dateStart.sync ="activeFilters.meeting_date_start"
+              :dateEnd.sync ="activeFilters.meeting_date_end"
+              
+              @startInput="(value) => activeFilters.meeting_date_start = value"
+              @endInput="(value) => activeFilters.meeting_date_end = value"
+            />
 
-        <template v-slot:right>
-          <FilterSelect
-            :title="$t('general.customer')+': '"
-            v-model="activeFilters.customer"
-            :items="formData.customers"
-            :option="['id', 'name']"
-          />
+            <FilterSelectWithSearch
+              :title="$t('general.meeting.registrant')+': '"
+              v-model="activeFilters.registrant"
+              :items="formData.registrants"
+              :option="['display_name', 'display_name']"
+            />
+          </template>
 
-          <FilterRadio :title="$t('general.meeting.location') + ': '" v-model="activeFilters.location">
-            <v-radio
-              v-for="location in formData.locations"
-              :key="location.value"
-              :label="location.text"
-              :value="location.value"
-            ></v-radio>
-          </FilterRadio>
+          <template v-slot:right>
+            <FilterSelect
+              :title="$t('general.customer')+': '"
+              v-model="activeFilters.customer"
+              :items="formData.customers"
+              :option="['id', 'name']"
+            />
 
-          <!-- Input filter for from x to y filter (numeric)-->
-          <!-- <FilterRange title="title：">
-            <template v-slot:min>
-              <v-text-field
-                v-model.number="activeFilters.min_user_count"
-                outlined
-                dense
-                type="number"
-                min="0"
-                step="1"
-                @input="activeFilters.min_user_count = $event !== '' ? $event : null"
-                :rules="activeFilters.max_user_count && activeFilters.min_user_count ? rules.userCountMin.concat(rules.positiveInteger) : []"
-              ></v-text-field>
-            </template>
-            <template v-slot:max>
-              <v-text-field
-                v-model.number="activeFilters.max_user_count"
-                outlined
-                dense
-                type="number"
-                min="0"
-                step="1"
-                @input="activeFilters.max_user_count = $event !== '' ? $event : null"
-                :rules="activeFilters.min_user_count && activeFilters.max_user_count ? rules.userCountMax.concat(rules.positiveInteger) : []"
-              ></v-text-field>
-            </template>
-          </FilterRange> -->
+            <FilterRadio :title="$t('general.meeting.location') + ': '" v-model="activeFilters.location">
+              <v-radio
+                v-for="location in formData.locations"
+                :key="location.value"
+                :label="getMeetingLocationText(location.text)"
+                :value="location.value"
+              ></v-radio>
+            </FilterRadio>
 
-        </template>
-      </FilterContainer>
+            <!-- Input filter for from x to y filter (numeric)-->
+            <!-- <FilterRange title="title：">
+              <template v-slot:min>
+                <v-text-field
+                  v-model.number="activeFilters.min_user_count"
+                  outlined
+                  dense
+                  type="number"
+                  min="0"
+                  step="1"
+                  @input="activeFilters.min_user_count = $event !== '' ? $event : null"
+                  :rules="activeFilters.max_user_count && activeFilters.min_user_count ? rules.userCountMin.concat(rules.positiveInteger) : []"
+                ></v-text-field>
+              </template>
+              <template v-slot:max>
+                <v-text-field
+                  v-model.number="activeFilters.max_user_count"
+                  outlined
+                  dense
+                  type="number"
+                  min="0"
+                  step="1"
+                  @input="activeFilters.max_user_count = $event !== '' ? $event : null"
+                  :rules="activeFilters.min_user_count && activeFilters.max_user_count ? rules.userCountMax.concat(rules.positiveInteger) : []"
+                ></v-text-field>
+              </template>
+            </FilterRange> -->
 
-      <!--for filter column -->
-      <v-container fluid class="grey lighten-5 mb-6">
-        <v-row no-gutters justify="space-between">
-          <v-col xl="12" lg="12" md="12" sm="12">
-            <v-btn
-              depressed
-              color="primary"
-              @click.stop="dialogColumnFilter = true"
-              class="float-none float-sm-right"
-            >
-              Filter Column
-            </v-btn>
-            <v-dialog
-              v-model="dialogColumnFilter"
-              max-width="700"
-            >
-              <v-card>
-                <v-card-title class="text-h5">
-                  Column Fillter
-                </v-card-title>
-                <v-card-text>
-                  <v-container fluid>
-                    <v-row>
-                      <v-col sm="12" md="7" xl="7">
-                        <v-text-field
-                          label="Search Column Name . . ."
-                          v-model="searchNameColumn"
-                          solo
-                        ></v-text-field>
-                      </v-col>
-                      <v-col sm="12" md="5" xl="5" class="d-flex justify-space-between pt-4">
-                        <v-btn
-                          large
-                          color=""
-                          @click="displayColumn(true)"
+          </template>
+        </FilterContainer>
+
+        <!-- for filter column -->
+        <v-container fluid class="grey lighten-5 mb-6">
+          <v-row no-gutters justify="space-between">
+            <v-col xl="12" lg="12" md="12" sm="12">
+              <v-btn
+                depressed
+                color="primary"
+                @click.stop="dialogColumnFilter = true"
+                class="float-none float-sm-right"
+              >
+                Filter Column
+              </v-btn>
+              <v-dialog
+                v-model="dialogColumnFilter"
+                max-width="700"
+              >
+                <v-card>
+                  <v-card-title class="text-h5">
+                    Column Fillter
+                  </v-card-title>
+                  <v-card-text>
+                    <v-container fluid>
+                      <v-row>
+                        <v-col sm="12" md="7" xl="7">
+                          <v-text-field
+                            label="Search Column Name . . ."
+                            v-model="searchNameColumn"
+                            solo
+                          ></v-text-field>
+                        </v-col>
+                        <v-col sm="12" md="5" xl="5" class="d-flex justify-space-between pt-4">
+                          <v-btn
+                            large
+                            color=""
+                            @click="displayColumn(true)"
+                          >
+                            Show All
+                          </v-btn>
+                          <v-btn
+                            large
+                            color=""
+                            @click="displayColumn(false)"
+                          >
+                            Hide All
+                          </v-btn>
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col
+                          v-for="(header, index) in resultSearchNameColumn"
+                          :key="index"
+                          xl="4"
+                          lg="4"
+                          md="3"
                         >
-                          Show All
-                        </v-btn>
-                        <v-btn
-                          large
-                          color=""
-                          @click="displayColumn(false)"
-                        >
-                          Hide All
-                        </v-btn>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col
-                        v-for="(header, index) in resultSearchNameColumn"
-                        :key="index"
-                        xl="4"
-                        lg="4"
-                        md="3"
-                      >
-                        <v-btn
-                          class=""
-                          block
-                          :outlined="!header.status"
-                          color="cyan"
-                          dark
-                          @click="filterColumn(header)"
-                        >
-                          {{ header.text }}
-                        </v-btn>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
+                          <v-btn
+                            class=""
+                            block
+                            :outlined="!header.status"
+                            color="cyan"
+                            dark
+                            @click="filterColumn(header)"
+                          >
+                            {{ header.text }}
+                          </v-btn>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
 
-                  <v-btn
-                    color=""
-                    @click="dialogColumnFilter = false"
-                  >
-                    close
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-col>
-        </v-row>
-      </v-container>
+                    <v-btn
+                      color=""
+                      @click="dialogColumnFilter = false"
+                    >
+                      close
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-col>
+          </v-row>
+        </v-container>
+        <!-- for filter column -->
 
       </v-form>
 
@@ -189,6 +197,9 @@
             color="grey darken-2"
           ></g-action-button>
         </template>
+        <template v-slot:item.location="{ item }">
+          {{ getMeetingLocationText(item.location) }}
+        </template>
       </v-data-table>
 
     </PageInnerset>
@@ -210,6 +221,7 @@ import FilterDateRange from '@views/_components/datatable_filter/TableFilterDate
 import FilterSelect from '@views/_components/datatable_filter/TableFilterSelect';
 import FilterRadio from '@views/_components/datatable_filter/TableFilterRadio';
 // import FilterRange from '@views/_components/datatable_filter/TableFilterSlotRange';
+import FilterSelectWithSearch from '@views/_components/datatable_filter/TableFilterSelectWithSearch';
 
 import { pushNotif } from '@/helpers';
 
@@ -241,6 +253,7 @@ export default {
     FilterSelect,
     FilterRadio,
     // FilterRange,
+    FilterSelectWithSearch
   },
 
   data() {
@@ -269,6 +282,7 @@ export default {
         meeting_date_end: '',
         // min_user_count: '',
         // max_user_count: '',
+        registrant: ''
       },
       // rules: {
       //   userCountMin: [
@@ -540,6 +554,25 @@ export default {
       }
     },
     // --- END for filter column
+
+    // --- for change location text
+    // on radio input (filter section), based on language
+    getMeetingLocationText(value) {
+      let new_text = '';
+      switch (value) {
+        case 'Internal':
+          new_text = this.$t('general.meeting.selectLocation.internal');
+          break;
+        case 'External':
+          new_text = this.$t('general.meeting.selectLocation.external')
+          break;
+        default:
+          new_text = value;
+          break;
+      }
+      return new_text;
+    }
+    // --- END for change location text
 
   },
 };
