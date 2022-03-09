@@ -134,9 +134,14 @@ export default {
         let payload = new FormData();
         payload.append('title', this.item.title);
         payload.append('customer', this.item.customer);
-        payload.append('registrant', this.item.registrant);
+        if (this.item.registrant != null) {
+          payload.append('registrant', this.item.registrant);
+        }
         payload.append('location', this.item.location);
-        payload.append('meeting_date', this.item.date);
+        payload.append('meeting_date', this.item.date+' '+(this.item.time != null ? this.item.time : '00:00:00'));
+        payload.append('postcode', this.item.address.postcode);
+        payload.append('address', this.item.address.address);
+        payload.append('phone', this.item.address.phone);
         payload.append('location_image_modified', this.item.locImage.isModified ? 1 : 0);
         if (this.item.locImage.file) {
           payload.append('location_image', this.item.locImage.file);
@@ -176,12 +181,14 @@ export default {
     if (this.$route.meta.editPage) {
       this.editPage = true;
       let { formData, submitUrl, item } = form;
+      let meetingDate = new Date(item.meeting_date);
       this.item = {
         ...this.item,
         title: item.title,
         customer: item.customer,
         location: item.location,
-        date: item.meeting_date,
+        date: [meetingDate.getFullYear(), ("0" + (meetingDate.getMonth() + 1)).slice(-2), ("0" + (meetingDate.getDate())).slice(-2)].join("-"),
+        time: [("0" + (meetingDate.getHours())).slice(-2), ("0" + (meetingDate.getMinutes())).slice(-2)].join(":"),
         registrant: item.registrant
       };
       if (item.location_image_url) {
