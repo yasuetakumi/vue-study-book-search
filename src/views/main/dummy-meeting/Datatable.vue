@@ -418,7 +418,7 @@ export default {
 
     getAllMeetings: async function() {
       try {
-        let url = 'dummy-meetings';
+        let url = 'meetings';
         this.loading = true;
         const { itemsPerPage, page, sortBy, sortDesc } = this.options;
         const res = await getAll(url, {
@@ -445,7 +445,7 @@ export default {
       let cb = async function() {
         this.loading = true;
         try {
-          let url = `dummy-meetings/${id}`;
+          let url = `meetings/${id}`;
           const res = await destroy(url);
           if (res) {
             this.getAllMeetings();
