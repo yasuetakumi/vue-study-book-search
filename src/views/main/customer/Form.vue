@@ -95,7 +95,7 @@ export default {
                 : await store(this.submitUrl, payload, options);
                 if (res) {
                     // Notif Message when success store or updated data
-                    pushNotif(this.$t('general.customers.success'), 'success');
+                    pushNotif(this.$t('general.customers.createSuccess', {customer: this.item.name}), 'success');
                     this.$router.push({ name: 'customers' });
                 }
             }

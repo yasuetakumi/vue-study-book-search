@@ -42,8 +42,7 @@ const ja = {
       fullName: '名前',
       profPic: 'プロフィール画像',
       deleteModal: {
-        openingText: 'アイテム(',
-        closingText: ')が削除されると、元に戻すことはできません。',
+        text: '{name}を削除します。削除されたデータは元に戻りません。よろしいですか？'
       },
       deleteSuccess: 'ユーザーの削除に成功しました',
       createSuccess: '正常にユーザーを作成しました',
@@ -87,6 +86,15 @@ const ja = {
       list: '会議一覧',
       location: '場所',
       registrant: '登録者',
+      createSuccess: '正常に打ち合わせを作成しました ({customer}: {meeting})',
+      deleteSuccess: '打ち合わせの削除に成功しました',
+      deleteModal: {
+        text: 'アイテム({customer_name}: {meeting_date})が削除されると、元に戻すことはできません。',
+      },
+      selectLocation: {
+        internal: '社内',
+        external: '社外',
+      }
     },
     time: {
       date: '日付',
@@ -113,10 +121,19 @@ const ja = {
       backToList: '一覧に戻る',
       csvDownload: 'CSVダウンロード',
       search: '捜索',
+      filterColumn: 'フィルターカラム',
+      importUser: 'ユーザーのインポート'
     },
     customers:{
       success: 'リクエストを正常に処理する',
-    }
+      createSuccess: '正常にお客様を作成しました ({customer})',
+      deleteSuccess: 'お客様の削除に成功しました',
+      deleteModal: {
+        text: 'アイテム({customer_name})が削除されると、元に戻すことはできません。',
+      },
+      list: '顧客一覧',
+    },
+    noDataAvailable: '利用可能なデータがありません '
   },
 };
 

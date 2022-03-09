@@ -1,5 +1,5 @@
 <template>
-    <v-sheet>
+    <PageInnerset :title="$t('general.customers.list')">
         <v-form ref="customerFilter" @submit.prevent="submit" lazy-validation class="px-10 mb-0">
             <!-- Reset Button -->
             <FilterReset  @click="resetFilter()"></FilterReset>
@@ -162,6 +162,10 @@
                     <v-icon>mdi-account-edit</v-icon>
                 </v-btn>
                 <g-action-button
+                :cardText="{
+                    body: 
+                        $t('general.customers.deleteModal.text', {customer_name: item.name})
+                }"
                 :disabled="loading"
                 :onConfirm="deleteCustomer(item.id)"
                 :btnClass="[$vuetify.breakpoint.lgAndDown ? 'my-1' : '', 'mx-2 white--text']"
@@ -169,13 +173,14 @@
                 ></g-action-button>
             </template>
         </v-data-table>
-    </v-sheet>
+    </PageInnerset>
 </template>
 
 <script>
 import io from 'lodash';
 import { destroy, getAll } from '@services/crud';
 import { convArrToObj } from '@helpers';
+import PageInnerset from '../../_components/page/PageInnerset';
 import GActionButton from '../../_components/GActionButton.vue';
 
 import FilterReset from '@views/_components/datatable_filter/TableFilterReset';
@@ -183,9 +188,11 @@ import FilterContainer from '@views/_components/datatable_filter/TableFilterCont
 
 import FilterText from '@views/_components/datatable_filter/TableFilterText';
 import { mapState } from 'vuex'
+import { pushNotif } from '@/helpers';
 
 export default {
     components: { 
+        PageInnerset,
         GActionButton,
         FilterReset,
         FilterContainer,
@@ -378,6 +385,7 @@ export default {
                     const res = await destroy(url);
                     if (res) {
                         this.getAllCustomers();
+                        pushNotif(this.$t('general.customers.deleteSuccess'), 'success');
                     }
                 } catch (err) {
                     if (err.isHandled) {

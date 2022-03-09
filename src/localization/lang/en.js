@@ -42,8 +42,7 @@ const en = {
       fullName: 'Fullname',
       profPic: 'Profile Picture',
       deleteModal: {
-        openingText: 'Once the item (',
-        closingText: ') is deleted, we cannot get it back for you',
+        text: 'Delete {name}. Deleted data is irreversible. Is it OK ?'
       },
       deleteSuccess: 'Successfully deleted the user',
       createSuccess: 'Successfully created a user',
@@ -87,6 +86,15 @@ const en = {
       list: 'Meeting List',
       location: 'Location',
       registrant: 'Registrant',
+      createSuccess: 'Successfully created a meeting ({customer}: {meeting})',
+      deleteSuccess: 'Successfully deleted the meeting',
+      deleteModal: {
+        text: 'Once the item ({customer_name}: {meeting_date}) is deleted, we cannot get it back for you',
+      },
+      selectLocation: {
+        internal: 'Internal',
+        external: 'External',
+      }
     },
     time: {
       date: 'Date',
@@ -113,10 +121,19 @@ const en = {
       backToList: 'Back To List',
       csvDownload: 'Download CSV',
       search: 'Search',
+      filterColumn: 'Filter Column',
+      importUser: 'Import User'
     },
     customers:{
       success: 'Successfully process the requests',
-    }
+      createSuccess: 'Successfully created a customer ({customer})',
+      deleteSuccess: 'Successfully deleted the customer',
+      deleteModal: {
+        text: 'Once the item ({customer_name}) is deleted, we cannot get it back for you',
+      },
+      list: 'Customer List',
+    },
+    noDataAvailable: 'No data available'
   },
 };
 

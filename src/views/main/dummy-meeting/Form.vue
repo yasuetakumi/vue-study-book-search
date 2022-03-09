@@ -3,7 +3,7 @@
     <v-skeleton-loader v-if="loadingComponent" type="card-avatar, article, actions"> </v-skeleton-loader>
     <v-sheet v-if="!loadingComponent" elevation="1" min-height="70vh" width="100%" :rounded="'sm'">
       <GBackButton :targetRoute="{ name: 'dummy_meetings' }"> </GBackButton>
-      <v-container class="pr-10 pl-10 pl-lg-0">
+      <v-container class="pr-10 pl-10 pt-10 pb-10">
         <v-row>
           <v-col cols="12" lg="10">
             <v-form ref="meetingForm" @submit.prevent="submit">
@@ -18,7 +18,7 @@
                   <v-radio
                     v-for="location in formData.locations"
                     :key="location.value"
-                    :label="location.text"
+                    :label="getMeetingLocationText(location.text)"
                     :value="location.value"
                   >
                   </v-radio>
@@ -50,6 +50,17 @@
                     <v-text-field outlined v-model="item.address.phone"></v-text-field>
                   </g-input-group>
                 </form-modal>
+              </g-input-group>
+              <g-input-group optional :title="$t('general.meeting.registrant')">
+                <v-autocomplete
+                  v-model="item.registrant"
+                  :items="formData.registrants"
+                  item-text="display_name" 
+                  item-value="id"
+                  :no-data-text="$t('general.noDataAvailable')"
+                  clearable
+                  outlined
+                ></v-autocomplete>
               </g-input-group>
 
               <div class="mt-4" v-if="item.address.postcode!==''">
@@ -85,6 +96,7 @@ import GTimePicker from '../../_components/form_input/GTimePicker.vue';
 import GImageInput, { imageInitial } from '../../_components/form_input/GImageInput.vue';
 import GBackButton from '@components/GBackButton.vue';
 import FormModal from '../../_components/FormModal.vue';
+import { pushNotif } from '@/helpers';
 export default {
   data() {
     return {
@@ -103,6 +115,7 @@ export default {
           postcode: '',
           phone: '',
         },
+        registrant: ''
       },
       formData: {},
       editPage: false,
@@ -121,6 +134,7 @@ export default {
         let payload = new FormData();
         payload.append('title', this.item.title);
         payload.append('customer', this.item.customer);
+        payload.append('registrant', this.item.registrant);
         payload.append('location', this.item.location);
         payload.append('meeting_date', this.item.date);
         payload.append('location_image_modified', this.item.locImage.isModified ? 1 : 0);
@@ -131,10 +145,30 @@ export default {
           ? await update(this.submitUrl, payload, options)
           : await store(this.submitUrl, payload, options);
         if (res) {
+          let customer_name = this.formData.customers.find(customer => customer.id == this.item.customer);
+          pushNotif(this.$t('general.meeting.createSuccess', {customer: customer_name.name, meeting: this.item.title}), 'success');
           this.$router.push({ name: 'dummy_meetings' });
         }
       }
     },
+    // --- for change location text
+    // on radio input (filter section), based on language
+    getMeetingLocationText(value) {
+      let new_text = '';
+      switch (value) {
+        case 'Internal':
+          new_text = this.$t('general.meeting.selectLocation.internal');
+          break;
+        case 'External':
+          new_text = this.$t('general.meeting.selectLocation.external')
+          break;
+        default:
+          new_text = value;
+          break;
+      }
+      return new_text;
+    }
+    // --- END for change location text
   },
   async created() {
     this.loadingComponent = true;
