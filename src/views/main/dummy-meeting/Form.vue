@@ -41,7 +41,13 @@
                 Please use/modify as needed, or create your own per your need -->
                 <form-modal>
                   <g-input-group optional :title="$t('general.postcode')">
-                    <v-text-field outlined v-model="item.address.postcode"></v-text-field>
+                    <v-text-field outlined hide-details v-model="item.address.postcode">
+                      <template v-slot:append-outer>
+                        <v-btn elevation="2" large style="top: -12px;" @click="getAddress()">
+                          <v-icon>mdi-magnify</v-icon>
+                        </v-btn>
+                      </template>
+                    </v-text-field>
                   </g-input-group>
                   <g-input-group optional :title="$t('general.address')">
                     <v-text-field outlined v-model="item.address.address"></v-text-field>
@@ -172,8 +178,14 @@ export default {
           break;
       }
       return new_text;
-    }
+    },
     // --- END for change location text
+
+    // --- for get addres from postcode
+    getAddress() {
+      console.log(this.item.address.postcode)
+    }
+    // --- END for get addres from postcode
   },
   async created() {
     this.loadingComponent = true;
