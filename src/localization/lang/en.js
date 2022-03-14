@@ -30,6 +30,7 @@ const en = {
     form: {
       reset: 'Reset Form',
       search: 'Search',
+      searchHistory: 'Search History',
     },
     hint: {
       partial: 'Partial matching search',

@@ -30,6 +30,7 @@ const ja = {
     form: {
       reset: '検索フォームをリセットする',
       search: '検索する',
+      searchHistory: '検索履歴',
     },
     hint: {
       partial: '※部分一致検索',

@@ -4,6 +4,48 @@
       <v-form ref="dummyMeetingFilter" @submit.prevent="submit" lazy-validation class="px-10 mb-0">
         <FilterReset  @click="resetFilter()"></FilterReset>
 
+        <v-btn large @click.stop="dialogSearchHistory = true" color="" class="ml-5">{{ $t('general.form.searchHistory') }}</v-btn>
+        <v-dialog
+          v-model="dialogSearchHistory"
+          max-width="700"
+        >
+          <v-card>
+            <v-card-title class="text-h5">{{ $t('general.form.searchHistory') }}</v-card-title>
+            <v-card-text>
+              <v-container fluid>
+                <v-row v-for="(item, index) in displayedSearchHistory" :key="index">
+                  <v-col  xl="8" lg="12" md="12" sm="12">
+                    <p class="mb-0">{{ $t('general.title') }}: {{ item.title }}</p>
+                    <p class="mb-0">{{ $t('general.time.date') }}: {{ item.meeting_date_start }} - {{ item.meeting_date_end }}</p>
+                    <p class="mb-0">{{ $t('general.meeting.registrant') }}: {{item.registrant }}</p>
+                    <p class="mb-0">{{ $t('general.customer') }}: {{ item.customer }}</p>
+                  </v-col>
+                  <v-col  xl="4" lg="12" md="12" sm="12">
+                  <v-btn
+                    color=""
+                    @click="setFilter(item)"
+                  >
+                    {{ $t('general.form.search') }}
+                  </v-btn>
+                  </v-col>
+                </v-row>
+                
+                
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+
+              <v-btn
+                color=""
+                @click="dialogSearchHistory = false"
+              >
+                close
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
         <FilterContainer>
           <template v-slot:left>
             <FilterText
@@ -78,6 +120,16 @@
 
           </template>
         </FilterContainer>
+
+         <!-- search button -->
+          <v-container class="mb-6">
+            <v-row>
+              <v-col xl="12" lg="12" md="12" sm="12">
+                <v-btn large @click="searchFilter()" color="">{{ $t('general.form.search') }}</v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+          <!-- search button -->
 
         <!-- for filter column -->
         <v-container fluid class="grey lighten-5 mb-6">
@@ -335,6 +387,8 @@ export default {
       ],
       selectedHeaders: [],
       // --- END for filter column
+      dialogSearchHistory: false,
+      searchHistory: [],
     };
   },
 
@@ -355,7 +409,7 @@ export default {
 
     activeFilters: {
       handler() {
-        this.updateFilters();
+        // this.updateFilters();
       },
       deep: true,
     },
@@ -395,6 +449,11 @@ export default {
         location: meeting.location == null ? '-' : this.keyedFormData.locations[meeting.location].text,
       }));
     },
+
+    displayedSearchHistory() {
+      //limit the displayed history to 5
+      return this.searchHistory.slice(0, 5);
+    },
     
     keyedFormData() {
       let obj = {};
@@ -425,6 +484,8 @@ export default {
     if(query.location) query.location = Number(query.location);
 
     this.activeFilters = io.assign({}, this.defaultFilters, query );
+
+    this.searchHistory = JSON.parse(localStorage.getItem("searchHistory") || '[]');
   },
 
   methods: {
@@ -494,10 +555,45 @@ export default {
     resetFilter: function() {
       this.$refs.dummyMeetingFilter.reset;
       this.activeFilters = io.cloneDeep( this.defaultFilters );;
+      this.updateFilters();
       
       // make date on input empty
       this.$refs.datePicker.minDate = '';
       this.$refs.datePicker.maxDate = '';
+    },
+
+    searchFilter: function() {
+      this.updateFilters();
+
+      //check if filters empty
+      if (this.isFilterEmpty(io.cloneDeep( this.activeFilters )) == false) {
+        //set local storage
+        this.searchHistory.unshift(io.cloneDeep( this.activeFilters ));
+        
+        //delete the oldest searchHistory if it's more than 5
+        if (this.searchHistory.length > 5) {
+          this.searchHistory.pop();
+        }
+        localStorage.setItem("searchHistory", JSON.stringify(this.searchHistory));
+
+        console.log(this.searchHistory);
+      }
+    },
+
+    setFilter: function(filter) {
+      this.activeFilters = io.cloneDeep( filter );
+      this.dialogSearchHistory = false;
+      console.log(filter);
+    },
+
+    isFilterEmpty: function(filter) {
+      Object.values(filter).every(value => {
+        if (value === null || value === '') {
+          return true; 
+        }
+
+        return false;
+      });
     },
 
     // --- for filter column
