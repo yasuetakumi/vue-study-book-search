@@ -11,26 +11,32 @@
         >
           <v-card>
             <v-card-title class="text-h5">{{ $t('general.form.searchHistory') }}</v-card-title>
+            <hr class="w-100">
             <v-card-text>
               <v-container fluid>
                 <v-row v-for="(item, index) in displayedSearchHistory" :key="index">
-                  <v-col  xl="8" lg="12" md="12" sm="12">
-                    <p class="mb-0">{{ $t('general.title') }}: {{ item.title }}</p>
-                    <p class="mb-0">{{ $t('general.time.date') }}: {{ item.meeting_date_start }} - {{ item.meeting_date_end }}</p>
-                    <p class="mb-0">{{ $t('general.meeting.registrant') }}: {{item.registrant }}</p>
-                    <p class="mb-0">{{ $t('general.customer') }}: {{ item.customer }}</p>
+                  <v-col cols="12" lg="8">
+                    <p v-if="item.title" class="mb-0">{{ $t('general.title') }}: {{ item.title }}</p>
+                    <p v-if="item.meeting_date_start || item.meeting_date_end" class="mb-0">{{ $t('general.time.date') }}: {{ item.meeting_date_start }} <span v-if="item.meeting_date_start && item.meeting_date_end">-</span> {{ item.meeting_date_end }}</p>
+                    <p v-if="item.registrant" class="mb-0">{{ $t('general.meeting.registrant') }}: {{item.registrant }}</p>
+                    <p v-if="item.customer" class="mb-0">{{ $t('general.customer') }}: {{ item.customer_text }}</p>
+                    <p v-if="item.location_text" class="mb-0">{{ $t('general.meeting.location') }}: {{ getMeetingLocationText(item.location_text) }}</p>
+                    
                   </v-col>
-                  <v-col  xl="4" lg="12" md="12" sm="12">
+                  <v-col  cols="12" lg="4" class="d-flex flex-column justify-center">
                   <v-btn
                     color=""
-                    @click="setFilter(item)"
+                    @click="setFilter(item.object)"
                   >
                     {{ $t('general.form.search') }}
                   </v-btn>
                   </v-col>
+                  <hr class="w-100">
                 </v-row>
-                
-                
+
+                <v-row v-if="displayedSearchHistory.length < 1">
+                  <v-col cols="12">{{ $t('general.noDataAvailable') }}</v-col>
+                </v-row>
               </v-container>
             </v-card-text>
             <v-card-actions>
@@ -451,8 +457,16 @@ export default {
     },
 
     displayedSearchHistory() {
-      //limit the displayed history to 5
-      return this.searchHistory.slice(0, 5);
+      if (this.keyedFormData.locations != undefined) {
+        return this.searchHistory.map(history => ({
+          ...history,
+          customer_text: history.customer === '' ? '' : this.formData.customers.find(obj => {return obj.id == history.customer}).name,
+          location_text: (history.location === '') ? '' : this.keyedFormData.locations[history.location].text,
+          object: history,
+        }));
+      }
+
+      return false;
     },
     
     keyedFormData() {
@@ -566,7 +580,7 @@ export default {
       this.updateFilters();
 
       //check if filters empty
-      if (this.isFilterEmpty(io.cloneDeep( this.activeFilters )) == false) {
+      if (!Object.values(io.cloneDeep( this.activeFilters )).every(o => (o === null || o == ""))) {
         //set local storage
         this.searchHistory.unshift(io.cloneDeep( this.activeFilters ));
         
@@ -574,26 +588,21 @@ export default {
         if (this.searchHistory.length > 5) {
           this.searchHistory.pop();
         }
-        localStorage.setItem("searchHistory", JSON.stringify(this.searchHistory));
 
-        console.log(this.searchHistory);
+        localStorage.setItem("searchHistory", JSON.stringify(this.searchHistory));
       }
     },
 
     setFilter: function(filter) {
       this.activeFilters = io.cloneDeep( filter );
+      
+      // update date input
+      this.$refs.datePicker.minDate = filter.meeting_date_start;
+      this.$refs.datePicker.maxDate = filter.meeting_date_end;
+
+      // this.updateFilters();
+      this.searchFilter();
       this.dialogSearchHistory = false;
-      console.log(filter);
-    },
-
-    isFilterEmpty: function(filter) {
-      Object.values(filter).every(value => {
-        if (value === null || value === '') {
-          return true; 
-        }
-
-        return false;
-      });
     },
 
     // --- for filter column
@@ -699,6 +708,10 @@ export default {
     margin-bottom: 10px;
     text-align: left;
   }
+}
+
+hr.w-100{
+  width: 100%;
 }
 // -------------------------------------------------------------------------
 </style>
