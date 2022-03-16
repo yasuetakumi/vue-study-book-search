@@ -39,15 +39,24 @@
                 <!-- This is just example for modal form
                 In general, the use case will be project dependent
                 Please use/modify as needed, or create your own per your need -->
-                <form-modal>
+                <form-modal :accept="{
+                    text: $t('general.apply'),
+                    cb: () => applyAddressForm()
+                }">
                   <g-input-group optional :title="$t('general.postcode')">
-                    <v-text-field outlined v-model="item.address.postcode"></v-text-field>
+                    <v-text-field outlined hide-details v-model="addressModalForm.postcode">
+                      <template v-slot:append-outer>
+                        <v-btn elevation="2" large style="top: -12px;" @click.prevent="getAddress()">
+                          <v-icon>mdi-magnify</v-icon>
+                        </v-btn>
+                      </template>
+                    </v-text-field>
                   </g-input-group>
                   <g-input-group optional :title="$t('general.address')">
-                    <v-text-field outlined v-model="item.address.address"></v-text-field>
+                    <v-text-field outlined v-model="addressModalForm.address"></v-text-field>
                   </g-input-group>
                   <g-input-group optional :title="$t('general.phone_number')">
-                    <v-text-field outlined v-model="item.address.phone"></v-text-field>
+                    <v-text-field outlined v-model="addressModalForm.phone"></v-text-field>
                   </g-input-group>
                 </form-modal>
               </g-input-group>
@@ -63,7 +72,7 @@
                 ></v-autocomplete>
               </g-input-group>
 
-              <div class="mt-4" v-if="item.address.postcode!==''">
+              <div class="mt-4" v-if="checkAddressShow()">
                 <g-input-group optional :title="$t('general.postcode')">
                   <v-text-field outlined v-model="item.address.postcode" readonly></v-text-field>
                 </g-input-group>
@@ -89,7 +98,7 @@
   </div>
 </template>
 <script>
-import { store, getForm, update } from '@services/crud';
+import { store, getForm, update, getPostcode } from '@services/crud';
 import GInputGroup from '@components/form_input/GInputGroup.vue';
 import GDatePicker from '../../_components/form_input/GDatePicker.vue';
 import GTimePicker from '../../_components/form_input/GTimePicker.vue';
@@ -121,6 +130,11 @@ export default {
       editPage: false,
       submitUrl: '',
       loadingComponent: false,
+      addressModalForm: {
+        address: '',
+        postcode: '',
+        phone: '',
+      },
     };
   },
   methods: {
@@ -134,9 +148,14 @@ export default {
         let payload = new FormData();
         payload.append('title', this.item.title);
         payload.append('customer', this.item.customer);
-        payload.append('registrant', this.item.registrant);
+        if (this.item.registrant != null) {
+          payload.append('registrant', this.item.registrant);
+        }
         payload.append('location', this.item.location);
-        payload.append('meeting_date', this.item.date);
+        payload.append('meeting_date', this.item.date+' '+(this.item.time != null ? this.item.time : '00:00:00'));
+        payload.append('postcode', this.item.address.postcode);
+        payload.append('address', this.item.address.address);
+        payload.append('phone', this.item.address.phone);
         payload.append('location_image_modified', this.item.locImage.isModified ? 1 : 0);
         if (this.item.locImage.file) {
           payload.append('location_image', this.item.locImage.file);
@@ -167,8 +186,47 @@ export default {
           break;
       }
       return new_text;
-    }
+    },
     // --- END for change location text
+
+    // --- for get addres from postcode
+    async getAddress() {
+      if (this.addressModalForm.postcode != null && this.addressModalForm.postcode != '') {
+        const res = await getPostcode('/postcode/'+this.addressModalForm.postcode);
+        if (res.data.status == 200) {
+          this.addressModalForm.address = res.data.address;
+        }
+        else {
+          pushNotif(this.$t('general.meeting.postcodeNotFound', {postcode: this.addressModalForm.postcode}), 'error');
+          this.addressModalForm.postcode = '';
+          this.addressModalForm.address = '';
+        }
+      }
+    },
+    // --- END for get addres from postcode
+
+    // --- function for apply addres (on modal address)
+    applyAddressForm() {
+      this.item.address.address = this.addressModalForm.address;
+      this.item.address.postcode = this.addressModalForm.postcode;
+      this.item.address.phone = this.addressModalForm.phone;
+    },
+    // --- END function for apply addres (on modal address)
+
+    // --- for check condition address form
+    checkAddressShow() {
+      if ( [
+        this.item.address.address,
+        this.item.address.postcode,
+        this.item.address.phone
+      ].some(el => (el != null) && (el != '')) ) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    // --- END for check condition address form
   },
   async created() {
     this.loadingComponent = true;
@@ -176,13 +234,25 @@ export default {
     if (this.$route.meta.editPage) {
       this.editPage = true;
       let { formData, submitUrl, item } = form;
+      let meetingDate = new Date(item.meeting_date);
       this.item = {
         ...this.item,
         title: item.title,
         customer: item.customer,
         location: item.location,
-        date: item.meeting_date,
-        registrant: item.registrant
+        date: [meetingDate.getFullYear(), ("0" + (meetingDate.getMonth() + 1)).slice(-2), ("0" + (meetingDate.getDate())).slice(-2)].join("-"),
+        time: [("0" + (meetingDate.getHours())).slice(-2), ("0" + (meetingDate.getMinutes())).slice(-2)].join(":"),
+        registrant: item.registrant,        
+        address: {
+          address: item.address,
+          postcode: item.postcode,
+          phone: item.phone,
+        }
+      };
+      this.addressModalForm = {
+        address: item.address,
+        postcode: item.postcode,
+        phone: item.phone,
       };
       if (item.location_image_url) {
         this.item.locImage.url = item.location_image_url;
