@@ -126,3 +126,13 @@ export const importCsv = async function(url, payload) {
     // throw handleApiError(err, false);
   }
 };
+
+export const getPostcode = async function(url) {
+  try {
+    const res = await Vue.axios.get(url);
+    return res;
+  } catch (err) {
+    // throw handleApiError(err, true);
+    console.log(err)
+  }
+};

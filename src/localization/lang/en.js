@@ -95,7 +95,8 @@ const en = {
       selectLocation: {
         internal: 'Internal',
         external: 'External',
-      }
+      },
+      postcodeNotFound: 'Postcode {postcode} not found'
     },
     time: {
       date: 'Date',
@@ -134,7 +135,8 @@ const en = {
       },
       list: 'Customer List',
     },
-    noDataAvailable: 'No data available'
+    noDataAvailable: 'No data available',
+    apply: 'Apply'
   },
 };
 

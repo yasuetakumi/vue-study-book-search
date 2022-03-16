@@ -95,7 +95,8 @@ const ja = {
       selectLocation: {
         internal: '社内',
         external: '社外',
-      }
+      },
+      postcodeNotFound: 'ポストコード{postcode}が見つかりません'
     },
     time: {
       date: '日付',
@@ -134,7 +135,8 @@ const ja = {
       },
       list: '顧客一覧',
     },
-    noDataAvailable: '利用可能なデータがありません '
+    noDataAvailable: '利用可能なデータがありません ',
+    apply: '適用する'
   },
 };
 

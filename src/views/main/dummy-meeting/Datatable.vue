@@ -256,6 +256,9 @@
         <template v-slot:item.location="{ item }">
           {{ getMeetingLocationText(item.location) }}
         </template>
+        <template v-slot:item.meeting_date="{ item }">
+          {{ convertMeetingDate(item.meeting_date, 'date') }}
+        </template>
       </v-data-table>
 
     </PageInnerset>
@@ -674,9 +677,25 @@ export default {
           break;
       }
       return new_text;
-    }
+    },
     // --- END for change location text
 
+    // --- for change format meet_date
+    convertMeetingDate(value, type) {
+      let meetingDate = new Date(value);
+      if (type == 'date') {
+        let meeting_month = ("0" + (meetingDate.getMonth() + 1)).slice(-2);
+        let meeting_date = ("0" + (meetingDate.getDate())).slice(-2);
+        return [meetingDate.getFullYear(), meeting_month, meeting_date].join("-");
+      }
+      else if(type == 'time') {
+        return [meetingDate.getHours(), meetingDate.getMinutes()].join(":")
+      }
+      else {
+        return value;
+      }
+    }
+    // --- END for change format meet_date
   },
 };
 </script>
