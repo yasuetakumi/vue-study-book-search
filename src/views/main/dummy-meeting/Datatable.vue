@@ -531,8 +531,8 @@ export default {
           sortDesc,
           ...this.activeFilters,
         });
-        this.meetings = res.meetings.data;
-        this.totalMeetings = res.meetings.total;
+        this.meetings = this.options.itemsPerPage > 0 ? res.meetings.data : res.meetings;
+        this.totalMeetings = this.options.itemsPerPage > 0 ? res.meetings.total : res.meetings.length;
         this.formData = res.formData;
         console.log(this.meetings);
       } catch (err) {
