@@ -4,6 +4,54 @@
       <v-form ref="dummyMeetingFilter" @submit.prevent="submit" lazy-validation class="px-10 mb-0">
         <FilterReset  @click="resetFilter()"></FilterReset>
 
+        <v-btn large @click.stop="dialogSearchHistory = true" color="" class="ml-5">{{ $t('general.form.searchHistory') }}</v-btn>
+        <v-dialog
+          v-model="dialogSearchHistory"
+          max-width="700"
+        >
+          <v-card>
+            <v-card-title class="text-h5">{{ $t('general.form.searchHistory') }}</v-card-title>
+            <hr class="w-100">
+            <v-card-text>
+              <v-container fluid>
+                <v-row v-for="(item, index) in displayedSearchHistory" :key="index">
+                  <v-col cols="12" lg="8">
+                    <p v-if="item.title" class="mb-0">{{ $t('general.title') }}: {{ item.title }}</p>
+                    <p v-if="item.meeting_date_start || item.meeting_date_end" class="mb-0">{{ $t('general.time.date') }}: {{ item.meeting_date_start }} <span v-if="item.meeting_date_start && item.meeting_date_end">-</span> {{ item.meeting_date_end }}</p>
+                    <p v-if="item.registrant" class="mb-0">{{ $t('general.meeting.registrant') }}: {{item.registrant }}</p>
+                    <p v-if="item.customer" class="mb-0">{{ $t('general.customer') }}: {{ item.customer_text }}</p>
+                    <p v-if="item.location_text" class="mb-0">{{ $t('general.meeting.location') }}: {{ getMeetingLocationText(item.location_text) }}</p>
+                    
+                  </v-col>
+                  <v-col  cols="12" lg="4" class="d-flex flex-column justify-center">
+                  <v-btn
+                    color=""
+                    @click="setFilter(item.object)"
+                  >
+                    {{ $t('general.form.search') }}
+                  </v-btn>
+                  </v-col>
+                  <hr class="w-100">
+                </v-row>
+
+                <v-row v-if="displayedSearchHistory.length < 1">
+                  <v-col cols="12">{{ $t('general.noDataAvailable') }}</v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+
+              <v-btn
+                color=""
+                @click="dialogSearchHistory = false"
+              >
+                close
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
         <FilterContainer>
           <template v-slot:left>
             <FilterText
@@ -78,6 +126,16 @@
 
           </template>
         </FilterContainer>
+
+         <!-- search button -->
+          <v-container class="mb-6">
+            <v-row>
+              <v-col xl="12" lg="12" md="12" sm="12">
+                <v-btn large @click="searchFilter()" color="">{{ $t('general.form.search') }}</v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+          <!-- search button -->
 
         <!-- for filter column -->
         <v-container fluid class="grey lighten-5 mb-6">
@@ -338,6 +396,8 @@ export default {
       ],
       selectedHeaders: [],
       // --- END for filter column
+      dialogSearchHistory: false,
+      searchHistory: [],
     };
   },
 
@@ -358,7 +418,7 @@ export default {
 
     activeFilters: {
       handler() {
-        this.updateFilters();
+        // this.updateFilters();
       },
       deep: true,
     },
@@ -398,6 +458,19 @@ export default {
         location: meeting.location == null ? '-' : this.keyedFormData.locations[meeting.location].text,
       }));
     },
+
+    displayedSearchHistory() {
+      if (this.keyedFormData.locations != undefined) {
+        return this.searchHistory.map(history => ({
+          ...history,
+          customer_text: history.customer === '' ? '' : this.formData.customers.find(obj => {return obj.id == history.customer}).name,
+          location_text: (history.location === '') ? '' : this.keyedFormData.locations[history.location].text,
+          object: history,
+        }));
+      }
+
+      return false;
+    },
     
     keyedFormData() {
       let obj = {};
@@ -428,6 +501,8 @@ export default {
     if(query.location) query.location = Number(query.location);
 
     this.activeFilters = io.assign({}, this.defaultFilters, query );
+
+    this.searchHistory = JSON.parse(localStorage.getItem("searchHistory") || '[]');
   },
 
   methods: {
@@ -497,10 +572,40 @@ export default {
     resetFilter: function() {
       this.$refs.dummyMeetingFilter.reset;
       this.activeFilters = io.cloneDeep( this.defaultFilters );;
+      this.updateFilters();
       
       // make date on input empty
       this.$refs.datePicker.minDate = '';
       this.$refs.datePicker.maxDate = '';
+    },
+
+    searchFilter: function() {
+      this.updateFilters();
+
+      //check if filters empty
+      if (!Object.values(io.cloneDeep( this.activeFilters )).every(o => (o === null || o == ""))) {
+        //set local storage
+        this.searchHistory.unshift(io.cloneDeep( this.activeFilters ));
+        
+        //delete the oldest searchHistory if it's more than 5
+        if (this.searchHistory.length > 5) {
+          this.searchHistory.pop();
+        }
+
+        localStorage.setItem("searchHistory", JSON.stringify(this.searchHistory));
+      }
+    },
+
+    setFilter: function(filter) {
+      this.activeFilters = io.cloneDeep( filter );
+      
+      // update date input
+      this.$refs.datePicker.minDate = filter.meeting_date_start;
+      this.$refs.datePicker.maxDate = filter.meeting_date_end;
+
+      // this.updateFilters();
+      this.searchFilter();
+      this.dialogSearchHistory = false;
     },
 
     // --- for filter column
@@ -622,6 +727,10 @@ export default {
     margin-bottom: 10px;
     text-align: left;
   }
+}
+
+hr.w-100{
+  width: 100%;
 }
 // -------------------------------------------------------------------------
 </style>
