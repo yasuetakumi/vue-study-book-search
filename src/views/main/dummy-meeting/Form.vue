@@ -244,15 +244,15 @@ export default {
         time: [("0" + (meetingDate.getHours())).slice(-2), ("0" + (meetingDate.getMinutes())).slice(-2)].join(":"),
         registrant: item.registrant,        
         address: {
-          address: item.address,
-          postcode: item.postcode,
-          phone: item.phone,
+          address: item.address == null ? '' : item.address,
+          postcode: item.postcode == null ? '' : item.postcode,
+          phone: item.phone == null ? '' : item.phone,
         }
       };
       this.addressModalForm = {
-        address: item.address,
-        postcode: item.postcode,
-        phone: item.phone,
+        address: item.address == null ? '' : item.address,
+        postcode: item.postcode == null ? '' : item.postcode,
+        phone: item.phone == null ? '' : item.phone,
       };
       if (item.location_image_url) {
         this.item.locImage.url = item.location_image_url;
