@@ -28,7 +28,7 @@
                     color=""
                     @click="setFilter(item.object)"
                   >
-                    {{ $t('general.form.search') }}
+                    {{ $t('general.crud.search') }}
                   </v-btn>
                   </v-col>
                   <hr class="w-100">
@@ -128,13 +128,11 @@
         </FilterContainer>
 
          <!-- search button -->
-          <v-container class="mb-6">
-            <v-row>
-              <v-col xl="12" lg="12" md="12" sm="12">
-                <v-btn large @click="searchFilter()" color="">{{ $t('general.form.search') }}</v-btn>
-              </v-col>
-            </v-row>
-          </v-container>
+          <v-row class="mb-6">
+            <v-col xl="12" lg="12" md="12" sm="12">
+              <v-btn large @click="searchFilter()" color="">{{ $t('general.crud.search') }}</v-btn>
+            </v-col>
+          </v-row>
           <!-- search button -->
 
         <!-- for filter column -->
