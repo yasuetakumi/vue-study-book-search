@@ -43,7 +43,7 @@ const en = {
       fullName: 'Fullname',
       profPic: 'Profile Picture',
       deleteModal: {
-        text: 'Delete {name}. Deleted data is irreversible. Is it OK ?'
+        text: 'Once the item ({name}) is deleted, we cannot get it back for you.'
       },
       deleteSuccess: 'Successfully deleted the user',
       createSuccess: 'Successfully created a user',
