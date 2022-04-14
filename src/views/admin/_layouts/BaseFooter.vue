@@ -3,12 +3,14 @@
     <v-col class="text-center" cols="12">
       <!-- for PC -->
       <span class="footer-content-pc">
-        <strong>Copyright {{ new Date().getFullYear() }} Grune.</strong> All rights reserved.
+        Copyright © Grune All Rights Reserved
+        <!-- <strong>Copyright {{ new Date().getFullYear() }} Grune.</strong> All rights reserved. -->
       </span>
       <!-- END for PC -->
       <!-- for SP -->
       <span class="footer-content-sp">
-        <strong>Copyright {{ new Date().getFullYear() }} Grune.</strong> All rights reserved.
+        Copyright © Grune All Rights Reserved
+        <!-- <strong>Copyright {{ new Date().getFullYear() }} Grune.</strong> All rights reserved. -->
       </span>
       <!-- END for SP -->
       <span class="float-none float-sm-right d-none d-sm-inline">
