@@ -141,4 +141,4 @@ pipelines:
             - git config git-ftp.url $FTP_HOST_PATH_DEMO
             - git config git-ftp.syncroot dist/ # .git-ftp-include file is necessary because dist directory is ignored by .gitignore
             - ls dist
-            - git ftp init -s deploy_to_xserver
+            - git ftp push -s deploy_to_xserver
