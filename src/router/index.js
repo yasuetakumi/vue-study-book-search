@@ -23,52 +23,52 @@ Vue.use(VueRouter);
  * This contain child routes. Please refer other modules.
  */
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: AppBase,
-    meta: {
-      requiresAuth: true,
-      guard: '',
-      main: true,
-    },
-    children: [
-      {
-        path: 'dashboard',
-        name: 'dashboard',
-        component: Dashboard,
-      },
-      ...usersRoutes,
-      ...dummyMeetingsRoutes,
-      ...customersRoutes,
-      ...dummyFilterColumnRoutes,
-      ...dummyImportUserRoutes,
-    ],
-  },
-  {
-    path: '/admin',
-    name: 'admin_home',
-    component: AdminAppBase,
-    meta: {
-      requiresAuth: true,
-      guard: 'admin',
-      main: true,
-    },
-    children: [
-      {
-        path: 'dashboard',
-        name: 'admin.dashboard',
-        component: AdminDashboard,
-      },
-    ],
-  },
+  // {
+  //   path: '/',
+  //   name: 'home',
+  //   component: AppBase,
+  //   meta: {
+  //     requiresAuth: true,
+  //     guard: '',
+  //     main: true,
+  //   },
+  //   children: [
+  //     {
+  //       path: 'dashboard',
+  //       name: 'dashboard',
+  //       component: Dashboard,
+  //     },
+  //     ...usersRoutes,
+  //     ...dummyMeetingsRoutes,
+  //     ...customersRoutes,
+  //     ...dummyFilterColumnRoutes,
+  //     ...dummyImportUserRoutes,
+  //   ],
+  // },
+  // {
+  //   path: '/admin',
+  //   name: 'admin_home',
+  //   component: AdminAppBase,
+  //   meta: {
+  //     requiresAuth: true,
+  //     guard: 'admin',
+  //     main: true,
+  //   },
+  //   children: [
+  //     {
+  //       path: 'dashboard',
+  //       name: 'admin.dashboard',
+  //       component: AdminDashboard,
+  //     },
+  //   ],
+  // },
   ...auth,
-  ...errors,
-  {
-    name: 'catch_all',
-    path: '*',
-    redirect: { name: 'home' },
-  },
+  // ...errors,
+  // {
+  //   name: 'catch_all',
+  //   path: '*',
+  //   redirect: { name: 'home' },
+  // },
 ];
 
 const router = new VueRouter({
@@ -122,5 +122,5 @@ router.beforeEach(async (to, from, next) => {
     next();
   }
 });
-
+　
 export default router;
