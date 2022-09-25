@@ -15,4 +15,7 @@ module.exports = {
     },
     devtool: 'source-map', // for debug on web browser
   },
+  outputDir: 'docs',
+  assetsDir: './',
+  publicPath: './',
 };
